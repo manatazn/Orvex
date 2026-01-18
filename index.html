@@ -1664,8 +1664,8 @@
                             
                             if (adCount >= MAX_ADS) {
                                 setTimeout(() => {
-                                    showNotification("🏆 You Have Reached Your Daily Limit!", 2000, 'success');
-                                    btnText.textContent = 'Daily Limit! 🎉';
+                                    showNotification("🏆 Daily goal achieved!", 2000, 'success');
+                                    btnText.textContent = 'Goal Achieved! 🎉';
                                 }, 1000);
                             }
                             
@@ -1785,7 +1785,7 @@
         function checkMilestoneUnlocks() {
             Object.keys(milestoneRewards).forEach(lvl => {
                 if (upgradeLevel >= parseInt(lvl) && !milestones[lvl]) {
-                    showNotification(`🏆 One task completed: Level ${lvl}!`, 2000);
+                    showNotification(`🏆 One Task Completed: Level ${lvl}!`, 2000);
                 }
             });
         }
