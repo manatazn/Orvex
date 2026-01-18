@@ -21,11 +21,10 @@
             -moz-user-select: none;    /* Firefox */
             -ms-user-select: none;     /* IE/Edge */
             user-select: none;         /* Standard */
-            -webkit-touch-callout: none; /* iOS Safari - menyu çıxmasının qarşısını alır */
-            -webkit-tap-highlight-color: transparent; /* Kliklənəndə mavi fonu ləğv edir */
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Inputs (əgər gələcəkdə lazım olarsa yazı yazmaq üçün açıq qalır) */
         input, textarea {
             -webkit-user-select: text;
             user-select: text;
@@ -87,7 +86,7 @@
             overflow-x: hidden;
             position: relative;
             transition: all 0.5s ease;
-            cursor: default; /* Standart kursor */
+            cursor: default;
         }
 
         /* Cosmic Background Animation */
@@ -143,7 +142,7 @@
             z-index: 1;
         } 
 
-        /* Header with Status Bar */
+        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -285,7 +284,7 @@
             to { filter: drop-shadow(0 0 20px var(--accent-glow)); }
         }
 
-        /* Main Ad Card - Ultra Premium */
+        /* Main Cards */
         .main-card {
             background: var(--card-bg);
             backdrop-filter: blur(20px);
@@ -363,7 +362,7 @@
             box-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
         }
 
-        /* Stats Grid - Enhanced */
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -416,7 +415,7 @@
             letter-spacing: 1px;
         }
 
-        /* Ultra Premium Button */
+        /* Premium Buttons */
         .premium-btn {
             width: 100%;
             height: 60px;
@@ -489,7 +488,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Advanced Progress Bar */
+        /* Progress Bar */
         .progress-container {
             height: 10px;
             background: var(--progress-bg);
@@ -533,7 +532,7 @@
             z-index: 2;
         }
 
-        /* City Development Section */
+        /* City Section */
         .city-section {
             text-align: center;
             margin-bottom: 25px;
@@ -632,7 +631,7 @@
             font-family: 'Orbitron', monospace;
         }
 
-        /* Tasks Section - Global Quality */
+        /* Tasks Section */
         .tasks-header {
             font-family: 'Orbitron', monospace;
             font-size: 20px;
@@ -737,7 +736,6 @@
             transform: scale(0.98); 
         }
 
-        /* COMPLETED STATE - GREEN */
         .task-action-btn.completed { 
             background: var(--btn-success) !important; 
             cursor: default; 
@@ -832,7 +830,7 @@
             color: var(--text-secondary);
         }
 
-        /* Navigation - Global Style */
+        /* Navigation */
         .navigation {
             position: fixed;
             bottom: 15px;
@@ -912,7 +910,7 @@
             transform: scale(1.1);
         }
 
-        /* Enhanced Notifications */
+        /* Notification */
         #notification {
             position: fixed;
             top: 60px; /* Moved down to avoid header clash */
@@ -948,7 +946,7 @@
             opacity: 0;
         }
 
-        /* Enhanced Reward Popup */
+        /* Reward Popup */
         .reward-popup {
             position: fixed;
             top: 50%; 
@@ -1020,7 +1018,7 @@
             100% { opacity: 0; transform: translateX(-50%) translateY(30px) scale(0) rotate(360deg); }
         }
 
-        /* Splash Screen - Epic */
+        /* Splash Screen */
         #splashScreen {
             position: fixed; 
             inset: 0; 
@@ -1130,7 +1128,7 @@
 
         /* Responsive Design */
         @media (max-width: 480px) {
-            .container { padding: 50px 8px 100px 8px; } /* Increased top padding */
+            .container { padding: 50px 8px 100px 8px; }
             .navigation { width: 95%; bottom: 10px; padding: 8px; }
             .splash-title { font-size: 40px; letter-spacing: 2px; }
             .stats-grid { gap: 12px; }
@@ -1371,12 +1369,10 @@
 
     <script>
         // --- SECURITY & ANTI-COPY SYSTEM ---
-        // Sağ klik, sürüşdürmə və seçimi bloklayır
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('selectstart', event => event.preventDefault());
         document.addEventListener('dragstart', event => event.preventDefault());
         
-        // Qısayol tuşlarını (Ctrl+C, Ctrl+U) bloklayır
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 'c' || e.key === 'C')) {
                 e.preventDefault();
@@ -1431,7 +1427,6 @@
         let channelJoined = safeGet('channelJoined', false);
         let isInitialized = false;
 
-        // Advanced Milestone System
         let milestones = {
             5: safeGet('level5Claimed', false),
             10: safeGet('level10Claimed', false),
@@ -1440,13 +1435,12 @@
             100: safeGet('level100Claimed', false)
         };
 
-        // Game Constants - Global Scale
         const BASE_REWARD = 100;
         const CHANNEL_REWARD = 5000;
         const MAX_ADS = 100;
         const MAX_LEVEL = 100;
-        const BOOST_PER_LEVEL = 0.05; // 5% per level
-        const MAX_BOOST = 5.0; // Up to 5x
+        const BOOST_PER_LEVEL = 0.05; 
+        const MAX_BOOST = 5.0; 
 
         // --- ADVANCED CALCULATION FUNCTIONS ---
         function getBoost() { 
@@ -1470,7 +1464,6 @@
             icon.textContent = isDark ? '🌙' : '☀️';
             safeSet('theme', isDark ? 'dark' : 'light');
             
-            // Animate theme change
             document.body.style.transition = 'all 0.6s ease';
             setTimeout(() => {
                 document.body.style.transition = '';
@@ -1479,7 +1472,6 @@
             showNotification(isDark ? '🌙 Dark Mode Activated' : '☀️ Light Mode Activated');
         }
 
-        // Load saved theme
         (function() {
             const savedTheme = safeGet('theme', 'light');
             if (savedTheme === 'dark') {
@@ -1492,7 +1484,6 @@
             const currentBoost = getBoost();
             const rewardPerAd = Math.floor(BASE_REWARD * currentBoost);
 
-            // Update all balance displays
             const balanceElements = ['balance', 'balanceCity', 'balanceTasks', 'balanceListing'];
             balanceElements.forEach(id => {
                 const element = document.getElementById(id);
@@ -1501,7 +1492,6 @@
                 }
             });
 
-            // Home Page Updates
             const adsCountEl = document.getElementById('adsCount');
             const progressEl = document.getElementById('progress');
             const rewardEl = document.getElementById('currentAdReward');
@@ -1514,7 +1504,6 @@
             }
             if (rewardEl) rewardEl.textContent = formatNumber(rewardPerAd);
 
-            // City Page Updates
             const levelEl = document.getElementById('levelDisplay');
             const boostEl = document.getElementById('boostDisplay');
             const costEl = document.getElementById('upgradeCostDisplay');
@@ -1523,16 +1512,13 @@
             if (boostEl) boostEl.textContent = currentBoost.toFixed(2) + 'x';
             if (costEl) costEl.textContent = formatNumber(getNextCost()) + ' ORVEX';
 
-            // Update Task Buttons
             updateTaskButtons();
 
-            // Auto-save state
             safeSet('coins', coins);
             safeSet('adCount', adCount);
             safeSet('upgradeLevel', upgradeLevel);
             safeSet('channelJoined', channelJoined);
             
-            // Save milestones
             Object.keys(milestones).forEach(lvl => {
                 safeSet(`level${lvl}Claimed`, milestones[lvl]);
             });
@@ -1544,14 +1530,12 @@
             const joinBtn = document.getElementById('joinChannelBtn');
             if (joinBtn) {
                 if (channelJoined) {
-                    // Task Completed State - Matches other buttons (Green)
                     joinBtn.textContent = 'Claimed ✓';
                     joinBtn.classList.add('completed');
                     joinBtn.disabled = true;
                 }
             }
 
-            // Update milestone buttons
             const milestoneRewards = {5: 2500, 10: 5000, 25: 10000, 50: 25000, 100: 50000};
             Object.keys(milestoneRewards).forEach(lvl => {
                 const btn = document.getElementById(`claimLevel${lvl}Btn`);
@@ -1559,7 +1543,7 @@
 
                 if (milestones[lvl]) {
                     btn.textContent = 'Claimed ✓';
-                    btn.classList.add('completed'); // Adds Green Color
+                    btn.classList.add('completed'); 
                     btn.disabled = true;
                 } else if (upgradeLevel >= parseInt(lvl)) {
                     btn.textContent = 'Claim Now';
@@ -1573,35 +1557,31 @@
             });
         }
 
-        // --- PREMIUM NOTIFICATION SYSTEM (FIXED DURATION) ---
+        // --- NOTIFICATION SYSTEM (Used only for errors/alerts now) ---
         function showNotification(msg, duration = 2000, type = 'info') { 
             const notificationEl = document.getElementById('notification');
             const textEl = document.getElementById('notificationText');
             
             if (!notificationEl || !textEl) return;
 
-            // Clear existing notifications
             if (window.notificationTimeout) {
                 clearTimeout(window.notificationTimeout);
                 window.notificationTimeout = null;
             }
 
-            // Set content and type
             textEl.textContent = msg;
             notificationEl.style.background = type === 'success' ? 'var(--notification-success)' : 'var(--notification-info)';
             
-            // Show notification
             notificationEl.classList.remove('notification-hide');
             notificationEl.classList.add('notification-show');
 
-            // Auto-hide after exactly 2 seconds (or specified duration)
             window.notificationTimeout = setTimeout(() => {
                 notificationEl.classList.remove('notification-show');
                 notificationEl.classList.add('notification-hide');
             }, duration);
         }
 
-        // --- ENHANCED REWARD SYSTEM ---
+        // --- ENHANCED REWARD SYSTEM (CENTER POPUP) ---
         function showRewardPopup(amount) {
             const popupEl = document.getElementById('rewardMsg');
             if (!popupEl) return;
@@ -1609,7 +1589,6 @@
             const formattedAmount = formatNumber(amount);
             popupEl.textContent = `+${formattedAmount} ORVEX`;
 
-            // Clear existing timeout
             if (window.rewardTimeout) {
                 clearTimeout(window.rewardTimeout);
             }
@@ -1620,7 +1599,6 @@
                 popupEl.classList.remove('show');
             }, 2000); 
 
-            // Play success sound (if supported)
             if (window.Notification && Notification.permission === 'granted') {
                 new Notification('ORVEX Reward', {
                     body: `You earned ${formattedAmount} ORVEX!`,
@@ -1629,7 +1607,7 @@
             }
         }
 
-        // --- MONETAG SDK INTEGRATION (UPDATED) ---
+        // --- MONETAG SDK INTEGRATION ---
         let isWatchingAd = false;
         
         function showMonetagAd() {
@@ -1648,7 +1626,7 @@
             });
         }
 
-        // --- PREMIUM AD WATCHING SYSTEM (UPDATED) ---
+        // --- PREMIUM AD WATCHING SYSTEM ---
         document.addEventListener('DOMContentLoaded', function() {
             const adBtn = document.getElementById('adBtn');
             if (adBtn) {
@@ -1656,7 +1634,6 @@
                     const btn = this;
                     const btnText = document.getElementById('adBtnText');
                     
-                    // Validation checks
                     if (adCount >= MAX_ADS) {
                         showNotification("🎯 Daily limit reached! Check back tomorrow.", 2000);
                         btnText.textContent = 'Daily Limit';
@@ -1665,30 +1642,24 @@
                     
                     if (isWatchingAd) return;
 
-                    // Start ad session
                     try {
                         isWatchingAd = true;
                         
                         btnText.textContent = 'Watching...';
                         btn.disabled = true; 
 
-                        // Show the ad using SDK
                         const adCompleted = await showMonetagAd();
                         
                         if (adCompleted) {
-                            // Calculate and award reward
                             const reward = Math.floor(BASE_REWARD * getBoost());
                             coins += reward;
                             adCount = Math.min(adCount + 1, MAX_ADS);
                             
-                            // Update everything
                             updateUI();
                             
-                            // Show celebrations
+                            // *** DEYİŞİKLİK: Yuxarı bildiriş ləğv edildi, sadəcə Popup qaldı ***
                             showRewardPopup(reward);
-                            showNotification(`🎉 +${formatNumber(reward)} ORVEX!`, 2000, 'success');
                             
-                            // Check for daily completion
                             if (adCount >= MAX_ADS) {
                                 setTimeout(() => {
                                     showNotification("🏆 Daily goal achieved!", 2000, 'success');
@@ -1696,11 +1667,8 @@
                                 }, 1000);
                             }
                             
-                            // Check for milestone unlocks
                             checkMilestoneUnlocks();
                             
-                        } else {
-                            // If ad failed (silent), just reset button
                         }
                         
                     } catch (error) {
@@ -1733,18 +1701,15 @@
                         return;
                     }
                     
-                    // Process upgrade
                     coins -= cost;
                     upgradeLevel = Math.min(upgradeLevel + 1, MAX_LEVEL);
                     
-                    // Visual feedback
                     const upgradeBox = document.getElementById('upgradeBox');
                     if (upgradeBox) {
                         upgradeBox.classList.add('upgraded');
                         setTimeout(() => upgradeBox.classList.remove('upgraded'), 1000);
                     }
                     
-                    // Update UI and show success
                     updateUI();
                     
                     if (statusMsg) {
@@ -1758,7 +1723,6 @@
                     
                     showNotification(`🏙️ City upgraded to Level ${upgradeLevel}!`, 2000, 'success');
                     
-                    // Check for milestone unlocks
                     checkMilestoneUnlocks();
                 };
             }
@@ -1775,23 +1739,18 @@
                     btn.textContent = 'Joining Community...';
                     btn.disabled = true;
                     
-                    // Open Telegram
                     window.open('https://t.me/orvexapp', '_blank');
                     
-                    // Simulate verification with enhanced delay
                     setTimeout(() => {
-                        // Award reward
                         coins += CHANNEL_REWARD;
                         channelJoined = true;
                         
-                        // Update everything
                         updateUI();
                         
-                        // Enhanced celebration & Text Change to CLAIMED (GREEN MATCHING OTHERS)
                         btn.textContent = 'Claimed ✓';
                         btn.classList.add('completed');
                         
-                        showNotification("🎊 Welcome to the Community! +5,000 ORVEX awarded!", 2000, 'success');
+                        // *** DEYİŞİKLİK: Yuxarı bildiriş ləğv edildi ***
                         showRewardPopup(CHANNEL_REWARD);
                         
                     }, 5000); 
@@ -1817,15 +1776,13 @@
                         coins += reward;
                         milestones[lvl] = true;
                         
-                        // Update UI
                         updateUI();
                         
-                        // Enhanced celebration
                         this.textContent = 'Claimed ✓';
                         this.classList.add('completed');
                         this.disabled = true;
                         
-                        showNotification(`🎉 Level ${level} unlocked! +${formatNumber(reward)} ORVEX`, 2000, 'success');
+                        // *** DEYİŞİKLİK: Yuxarı bildiriş ləğv edildi ***
                         showRewardPopup(reward);
                     };
                 }
@@ -1842,14 +1799,12 @@
 
         // --- PREMIUM NAVIGATION SYSTEM ---
         function showPage(pageId, btnElement) {
-            // Hide any active notifications when switching pages
             const notification = document.getElementById('notification');
             if (notification && notification.classList.contains('notification-show')) {
                 notification.classList.remove('notification-show');
                 notification.classList.add('notification-hide');
             }
             
-            // Update page visibility
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
@@ -1858,18 +1813,15 @@
                 nav.classList.remove('active');
             });
             
-            // Show selected page
             const targetPage = document.getElementById(pageId);
             if (targetPage) {
                 targetPage.classList.add('active');
             }
             
-            // Activate navigation button
             if (btnElement) {
                 btnElement.classList.add('active');
             }
             
-            // Page-specific actions
             if (pageId === 'homePage') {
                 updateUI();
             } else if (pageId === 'tasksPage') {
@@ -1879,16 +1831,11 @@
 
         // --- INITIALIZATION & LIFE CYCLE ---
         function initializeApp() {
-            // Initialize daily reset
             resetDaily();
-            
-            // Initial UI update
             updateUI();
-            
             console.log('🌟 ORVEX Global App Initialized Successfully');
         }
 
-        // Epic splash screen sequence
         setTimeout(() => {
             const splashScreen = document.getElementById('splashScreen');
             if (splashScreen) {
@@ -1896,17 +1843,11 @@
                 splashScreen.style.transform = 'scale(0.8)';
                 setTimeout(() => {
                     splashScreen.style.display = 'none';
-                    
-                    // No welcome message
                     initializeApp();
-                    
                 }, 800);
             }
         }, 4000);
 
-        // --- BACKGROUND SYSTEMS ---
-        
-        // Auto-save every 30 seconds
         setInterval(() => {
             if (isInitialized) {
                 safeSet('coins', coins);
@@ -1916,7 +1857,6 @@
             }
         }, 30000);
 
-        // Visibility change handler for pause/resume
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden && isInitialized) {
                 resetDaily();
@@ -1924,14 +1864,11 @@
             }
         });
 
-        // Error handling for global stability
         window.addEventListener('error', function(e) {
             console.error('Global error:', e.error);
         });
 
-        // Prevent accidental page unload
         window.addEventListener('beforeunload', function(e) {
-            // Save state immediately
             safeSet('coins', coins);
             safeSet('adCount', adCount);
             safeSet('upgradeLevel', upgradeLevel);
