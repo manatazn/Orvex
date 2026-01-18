@@ -10,6 +10,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
+        /* --- COPY PROTECTION & GLOBAL STYLES --- */
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            
+            /* Anti-Copy / Anti-Select Styles */
+            -webkit-user-select: none; /* Safari/Chrome */
+            -moz-user-select: none;    /* Firefox */
+            -ms-user-select: none;     /* IE/Edge */
+            user-select: none;         /* Standard */
+            -webkit-touch-callout: none; /* iOS Safari - menyu çıxmasının qarşısını alır */
+            -webkit-tap-highlight-color: transparent; /* Kliklənəndə mavi fonu ləğv edir */
+        }
+
+        /* Inputs (əgər gələcəkdə lazım olarsa yazı yazmaq üçün açıq qalır) */
+        input, textarea {
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
         /* --- ADVANCED COSMIC GALAXY THEME --- */
         :root {
             --primary-bg: linear-gradient(135deg, #0c0c2e 0%, #1a1a3d 50%, #2d2d5f 100%);
@@ -58,14 +79,6 @@
             --shadow-glow: 0 0 20px rgba(255, 107, 107, 0.3);
         }
 
-        /* --- GLOBAL STYLES --- */
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            -webkit-tap-highlight-color: transparent;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
             background: var(--primary-bg);
@@ -74,6 +87,7 @@
             overflow-x: hidden;
             position: relative;
             transition: all 0.5s ease;
+            cursor: default; /* Standart kursor */
         }
 
         /* Cosmic Background Animation */
@@ -95,6 +109,7 @@
             animation: stars 20s linear infinite;
             z-index: -2;
             opacity: 0.8;
+            pointer-events: none;
         }
 
         @keyframes stars {
@@ -112,6 +127,7 @@
             background: var(--nebula-color);
             animation: nebula 30s ease-in-out infinite;
             z-index: -1;
+            pointer-events: none;
         }
 
         @keyframes nebula {
@@ -122,7 +138,6 @@
         .container { 
             max-width: 420px; 
             margin: auto; 
-            /* FIXED: Padded top to avoid Telegram close button overlap */
             padding: 50px 10px 100px 10px; 
             position: relative;
             z-index: 1;
@@ -133,7 +148,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            /* Added margin bottom for spacing */
             margin-bottom: 20px;
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -228,6 +242,7 @@
             height: 200%;
             background: radial-gradient(circle, rgba(0, 212, 255, 0.05) 0%, transparent 70%);
             animation: orbit 8s linear infinite;
+            pointer-events: none;
         }
 
         @keyframes orbit {
@@ -722,11 +737,13 @@
             transform: scale(0.98); 
         }
 
+        /* COMPLETED STATE - GREEN */
         .task-action-btn.completed { 
-            background: var(--btn-success); 
+            background: var(--btn-success) !important; 
             cursor: default; 
             transform: none;
             box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+            color: white !important;
         }
 
         .task-action-btn.completed:hover { 
@@ -1353,6 +1370,19 @@
     </div>
 
     <script>
+        // --- SECURITY & ANTI-COPY SYSTEM ---
+        // Sağ klik, sürüşdürmə və seçimi bloklayır
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.addEventListener('selectstart', event => event.preventDefault());
+        document.addEventListener('dragstart', event => event.preventDefault());
+        
+        // Qısayol tuşlarını (Ctrl+C, Ctrl+U) bloklayır
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 'c' || e.key === 'C')) {
+                e.preventDefault();
+            }
+        });
+
         // --- ADVANCED DATA STORAGE ---
         function safeGet(k, d = 0) { 
             try { 
@@ -1514,7 +1544,7 @@
             const joinBtn = document.getElementById('joinChannelBtn');
             if (joinBtn) {
                 if (channelJoined) {
-                    // CHANGED: Now says Claimed instead of Completed
+                    // Task Completed State - Matches other buttons (Green)
                     joinBtn.textContent = 'Claimed ✓';
                     joinBtn.classList.add('completed');
                     joinBtn.disabled = true;
@@ -1529,7 +1559,7 @@
 
                 if (milestones[lvl]) {
                     btn.textContent = 'Claimed ✓';
-                    btn.classList.add('completed');
+                    btn.classList.add('completed'); // Adds Green Color
                     btn.disabled = true;
                 } else if (upgradeLevel >= parseInt(lvl)) {
                     btn.textContent = 'Claim Now';
@@ -1757,7 +1787,7 @@
                         // Update everything
                         updateUI();
                         
-                        // Enhanced celebration & Text Change to CLAIMED
+                        // Enhanced celebration & Text Change to CLAIMED (GREEN MATCHING OTHERS)
                         btn.textContent = 'Claimed ✓';
                         btn.classList.add('completed');
                         
