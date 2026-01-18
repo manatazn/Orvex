@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Orvex - Global Tap to Earn Adventure</title>
     
     <script src='//libtl.com/sdk.js' data-zone='10476542' data-sdk='show_10476542'></script>
@@ -12,45 +12,30 @@
     <style>
         /* --- ADVANCED COSMIC GALAXY THEME --- */
         :root {
-            /* Primary Colors - Cosmic Blue */
             --primary-bg: linear-gradient(135deg, #0c0c2e 0%, #1a1a3d 50%, #2d2d5f 100%);
             --secondary-bg: linear-gradient(135deg, #1e1e3f 0%, #2a2a5a 100%);
             --accent-primary: #00d4ff;
             --accent-secondary: #7c3aed;
             --accent-glow: #00d4ff;
-            
-            /* Card & UI Elements */
             --card-bg: rgba(255, 255, 255, 0.05);
             --card-border: rgba(0, 212, 255, 0.2);
             --glass-bg: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
-            
-            /* Text Colors */
             --text-primary: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.8);
             --text-muted: rgba(255, 255, 255, 0.6);
             --text-accent: #00d4ff;
-            
-            /* Button Gradients */
             --btn-primary: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
             --btn-secondary: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
             --btn-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
             --btn-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            
-            /* Shadows & Glows */
             --shadow-primary: 0 20px 40px rgba(0, 212, 255, 0.1);
             --shadow-glow: 0 0 20px rgba(0, 212, 255, 0.3);
             --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.3);
-            
-            /* Progress & Status */
             --progress-bg: rgba(255, 255, 255, 0.1);
             --progress-fill: linear-gradient(90deg, #00d4ff, #7c3aed);
-            
-            /* Notification */
             --notification-success: linear-gradient(135deg, #10b981, #059669);
             --notification-info: linear-gradient(135deg, #00d4ff, #0099cc);
-            
-            /* Cosmic Elements */
             --star-color: rgba(255, 255, 255, 0.8);
             --nebula-color: rgba(124, 58, 237, 0.1);
         }
@@ -78,6 +63,7 @@
             box-sizing: border-box; 
             margin: 0; 
             padding: 0; 
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -136,9 +122,8 @@
         .container { 
             max-width: 420px; 
             margin: auto; 
-            padding: 10px; 
-            /* SCROLL FIX: Added ample bottom padding so content isn't hidden behind nav */
-            padding-bottom: 100px; 
+            /* FIXED: Padded top to avoid Telegram close button overlap */
+            padding: 50px 10px 100px 10px; 
             position: relative;
             z-index: 1;
         } 
@@ -148,8 +133,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            margin-bottom: 15px;
+            /* Added margin bottom for spacing */
+            margin-bottom: 20px;
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border-radius: 20px;
@@ -913,7 +898,7 @@
         /* Enhanced Notifications */
         #notification {
             position: fixed;
-            top: 15px; 
+            top: 60px; /* Moved down to avoid header clash */
             left: 50%; 
             transform: translateX(-50%) translateY(-100px);
             background: var(--notification-info);
@@ -1128,7 +1113,7 @@
 
         /* Responsive Design */
         @media (max-width: 480px) {
-            .container { padding: 8px; padding-bottom: 100px; }
+            .container { padding: 50px 8px 100px 8px; } /* Increased top padding */
             .navigation { width: 95%; bottom: 10px; padding: 8px; }
             .splash-title { font-size: 40px; letter-spacing: 2px; }
             .stats-grid { gap: 12px; }
@@ -1529,7 +1514,8 @@
             const joinBtn = document.getElementById('joinChannelBtn');
             if (joinBtn) {
                 if (channelJoined) {
-                    joinBtn.textContent = 'Completed ✓';
+                    // CHANGED: Now says Claimed instead of Completed
+                    joinBtn.textContent = 'Claimed ✓';
                     joinBtn.classList.add('completed');
                     joinBtn.disabled = true;
                 }
@@ -1618,19 +1604,11 @@
         
         function showMonetagAd() {
             return new Promise((resolve) => {
-                // Check if SDK function exists
                 if (typeof show_10476542 === 'function') {
                     show_10476542().then(() => {
-                        resolve(true); // Ad watched successfully
+                        resolve(true); 
                     }).catch(e => {
                         console.error('Ad Error (Silent):', e);
-                        // Even if it catches an error, we resolve true IF the promise flow allows it, 
-                        // but usually catch means failed.
-                        // User asked "Sdk xəta mesajı falan olmasın... puanı gelsin"
-                        // So if the SDK throws a fit but runs, we try to handle gracefully.
-                        // For strict SDK compliance, usually we resolve false here, but to ensure "puan gelir", 
-                        // we can fallback to true or just resolve false and let user retry.
-                        // I'll set false here to be safe against loops, but swallow the alert.
                         resolve(false); 
                     });
                 } else {
@@ -1661,9 +1639,8 @@
                     try {
                         isWatchingAd = true;
                         
-                        // CHANGE: Text to "Watching..."
                         btnText.textContent = 'Watching...';
-                        btn.disabled = true; // Disable clicks
+                        btn.disabled = true; 
 
                         // Show the ad using SDK
                         const adCompleted = await showMonetagAd();
@@ -1679,8 +1656,6 @@
                             
                             // Show celebrations
                             showRewardPopup(reward);
-                            
-                            // CHANGE: Notification text shows ONLY amount (no "Global Boost..." text)
                             showNotification(`🎉 +${formatNumber(reward)} ORVEX!`, 2000, 'success');
                             
                             // Check for daily completion
@@ -1696,14 +1671,12 @@
                             
                         } else {
                             // If ad failed (silent), just reset button
-                            // No alert shown
                         }
                         
                     } catch (error) {
                         console.error('Ad session error:', error);
                     } finally {
                         isWatchingAd = false;
-                        // CHANGE: Reset text to "Watch Ad"
                         if (adCount < MAX_ADS) {
                             btnText.textContent = 'Watch Ad';
                             btn.disabled = false;
@@ -1784,14 +1757,14 @@
                         // Update everything
                         updateUI();
                         
-                        // Enhanced celebration
-                        btn.textContent = 'Joined ✓';
+                        // Enhanced celebration & Text Change to CLAIMED
+                        btn.textContent = 'Claimed ✓';
                         btn.classList.add('completed');
                         
                         showNotification("🎊 Welcome to the Community! +5,000 ORVEX awarded!", 2000, 'success');
                         showRewardPopup(CHANNEL_REWARD);
                         
-                    }, 5000); // Longer delay for realism
+                    }, 5000); 
                 };
             }
         });
