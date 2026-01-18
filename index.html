@@ -1225,7 +1225,7 @@
 
             <div class="main-card">
                 <div class="city-section">
-                    <h2 class="city-title">🏙️ Global City Hub</h2>
+                    <h2 class="city-title">🏙️ City Upgrade</h2>
                     <p class="city-description">Build your empire and boost earnings up to 5x globally. New levels coming soon! Levels and ad watches are crucial for airdrop rewards.</p>
                     
                     <div class="upgrade-container">
@@ -1664,8 +1664,8 @@
                             
                             if (adCount >= MAX_ADS) {
                                 setTimeout(() => {
-                                    showNotification("🏆 Daily goal achieved!", 2000, 'success');
-                                    btnText.textContent = 'Goal Achieved! 🎉';
+                                    showNotification("🏆 You Have Reached Your Daily Limit!", 2000, 'success');
+                                    btnText.textContent = 'Daily Limit! 🎉';
                                 }, 1000);
                             }
                             
@@ -1785,7 +1785,7 @@
         function checkMilestoneUnlocks() {
             Object.keys(milestoneRewards).forEach(lvl => {
                 if (upgradeLevel >= parseInt(lvl) && !milestones[lvl]) {
-                    showNotification(`🏆 New milestone available: Level ${lvl}!`, 2000);
+                    showNotification(`🏆 One task completed: Level ${lvl}!`, 2000);
                 }
             });
         }
