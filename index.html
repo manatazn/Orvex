@@ -736,16 +736,18 @@
             transform: scale(0.98); 
         }
 
+        /* COMPLETED STATE - Applied strictly to overrides */
         .task-action-btn.completed { 
             background: var(--btn-success) !important; 
-            cursor: default; 
-            transform: none;
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+            cursor: default !important; 
+            transform: none !important;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3) !important;
             color: white !important;
+            opacity: 1 !important;
         }
 
         .task-action-btn.completed:hover { 
-            transform: none; 
+            transform: none !important; 
         }
 
         .task-action-btn.disabled { 
@@ -1186,7 +1188,7 @@
 
         <div id="homePage" class="page active">
             <div class="balance-card">
-                <h3>Total Wallet</h3>
+                <h3>Total Balance</h3>
                 <div class="amount"><span id="balance">0</span> ORVEX</div>
             </div>
             
@@ -1217,7 +1219,7 @@
 
         <div id="cityPage" class="page">
             <div class="balance-card">
-                <h3>Development Fund</h3>
+                <h3>Total Balance</h3>
                 <div class="amount"><span id="balanceCity">0</span> ORVEX</div>
             </div>
 
@@ -1253,7 +1255,7 @@
 
         <div id="tasksPage" class="page">
             <div class="balance-card">
-                <h3>Mission Rewards</h3>
+                <h3>Total Balance</h3>
                 <div class="amount"><span id="balanceTasks">0</span> ORVEX</div>
             </div>
 
@@ -1314,7 +1316,7 @@
 
         <div id="listingPage" class="page">
             <div class="balance-card">
-                <h3>Launch Rewards</h3>
+                <h3>Total Balance</h3>
                 <div class="amount"><span id="balanceListing">0</span> ORVEX</div>
             </div>
             
@@ -1484,6 +1486,7 @@
             const currentBoost = getBoost();
             const rewardPerAd = Math.floor(BASE_REWARD * currentBoost);
 
+            // Update all balance displays uniformly
             const balanceElements = ['balance', 'balanceCity', 'balanceTasks', 'balanceListing'];
             balanceElements.forEach(id => {
                 const element = document.getElementById(id);
@@ -1531,7 +1534,7 @@
             if (joinBtn) {
                 if (channelJoined) {
                     joinBtn.textContent = 'Claimed ✓';
-                    joinBtn.classList.add('completed');
+                    joinBtn.className = 'task-action-btn completed'; // Reset classes to ensure consistency
                     joinBtn.disabled = true;
                 }
             }
@@ -1543,15 +1546,15 @@
 
                 if (milestones[lvl]) {
                     btn.textContent = 'Claimed ✓';
-                    btn.classList.add('completed'); 
+                    btn.className = 'task-action-btn completed'; // Ensure identical class string
                     btn.disabled = true;
                 } else if (upgradeLevel >= parseInt(lvl)) {
                     btn.textContent = 'Claim Now';
-                    btn.classList.remove('disabled');
+                    btn.className = 'task-action-btn'; // Clean class for active state
                     btn.disabled = false;
                 } else {
                     btn.textContent = 'Level ' + lvl + ' Required';
-                    btn.classList.add('disabled');
+                    btn.className = 'task-action-btn disabled';
                     btn.disabled = true;
                 }
             });
@@ -1657,7 +1660,6 @@
                             
                             updateUI();
                             
-                            // *** DEYİŞİKLİK: Yuxarı bildiriş ləğv edildi, sadəcə Popup qaldı ***
                             showRewardPopup(reward);
                             
                             if (adCount >= MAX_ADS) {
@@ -1745,12 +1747,8 @@
                         coins += CHANNEL_REWARD;
                         channelJoined = true;
                         
-                        updateUI();
+                        updateUI(); // This calls updateTaskButtons which handles the class change
                         
-                        btn.textContent = 'Claimed ✓';
-                        btn.classList.add('completed');
-                        
-                        // *** DEYİŞİKLİK: Yuxarı bildiriş ləğv edildi ***
                         showRewardPopup(CHANNEL_REWARD);
                         
                     }, 5000); 
@@ -1776,13 +1774,8 @@
                         coins += reward;
                         milestones[lvl] = true;
                         
-                        updateUI();
+                        updateUI(); // This handles the visual update
                         
-                        this.textContent = 'Claimed ✓';
-                        this.classList.add('completed');
-                        this.disabled = true;
-                        
-                        // *** DEYİŞİKLİK: Yuxarı bildiriş ləğv edildi ***
                         showRewardPopup(reward);
                     };
                 }
