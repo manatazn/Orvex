@@ -1194,7 +1194,7 @@
             
             <div class="main-card">
                 <h2><i class="fas fa-play-circle"></i>Daily Earnings</h2>
-                <div class="reward-badge">+<span id="currentAdReward">100</span> ORVEX per Ad</div>
+                <div class="reward-badge">+<span id="currentAdReward">105</span> ORVEX per Ad</div>
                 
                 <div class="stats-grid">
                     <div class="stat-item">
@@ -1238,8 +1238,8 @@
                             <label>Level</label>
                         </div>
                         <div class="stat-item">
-                            <span id="boostDisplay">1.0x</span>
-                            <label>Global Boost</label>
+                            <span id="boostDisplay">1.05x</span>
+                            <label>Boost</label>
                         </div>
                     </div>
 
@@ -1474,7 +1474,7 @@
 
         // --- ADVANCED CALCULATION FUNCTIONS ---
         function getBoost() { 
-            return Math.min(1 + ((upgradeLevel - 1) * BOOST_PER_LEVEL), MAX_BOOST); 
+            return Math.min(1 + (upgradeLevel * BOOST_PER_LEVEL), MAX_BOOST); 
         }
 
         function getNextCost() { 
