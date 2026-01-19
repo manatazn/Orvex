@@ -1193,7 +1193,7 @@
             </div>
             
             <div class="main-card">
-                <h2><i class="fas fa-play-circle"></i> Global Earnings</h2>
+                <h2><i class="fas fa-play-circle"></i> Daily Earnings</h2>
                 <div class="reward-badge">+<span id="currentAdReward">100</span> ORVEX per Ad</div>
                 
                 <div class="stats-grid">
@@ -1225,11 +1225,11 @@
 
             <div class="main-card">
                 <div class="city-section">
-                    <h2 class="city-title">🏙️ City Upgrade</h2>
+                    <h2 class="city-title"><span id="cityNameDisplay">Village</span></h2>
                     <p class="city-description">Build your empire and boost earnings up to 5x globally. New levels coming soon! Levels and ad watches are crucial for airdrop rewards.</p>
                     
                     <div class="upgrade-container">
-                        <div class="upgrade-box" id="upgradeBox">🏙️</div>
+                        <div class="upgrade-box" id="upgradeBox"><span id="cityEmojiDisplay">🏘️</span></div>
                     </div>
                     
                     <div class="stats-grid">
@@ -1264,6 +1264,14 @@
             </h2>
             
             <div class="task-list">
+                <div class="task-card">
+                    <div class="task-info">
+                        <h3><i class="fas fa-gift"></i> Daily Bonus</h3>
+                        <div class="reward"><i class="fas fa-coins"></i> +2,000 ORVEX</div>
+                    </div>
+                    <button id="claimDailyBtn" class="task-action-btn">Claim Now</button>
+                </div>
+
                 <div class="task-card">
                     <div class="task-info">
                         <h3><i class="fab fa-telegram"></i> Join Global Community</h3>
@@ -1428,6 +1436,7 @@
         let upgradeLevel = Math.max(1, parseInt(safeGet('upgradeLevel', 1)) || 1);
         let channelJoined = safeGet('channelJoined', false);
         let isInitialized = false;
+        let dailyClaimed = safeGet('dailyClaimed', false);
 
         let milestones = {
             5: safeGet('level5Claimed', false),
@@ -1439,10 +1448,29 @@
 
         const BASE_REWARD = 100;
         const CHANNEL_REWARD = 5000;
+        const DAILY_REWARD = 2000;
         const MAX_ADS = 100;
         const MAX_LEVEL = 100;
         const BOOST_PER_LEVEL = 0.05; 
         const MAX_BOOST = 5.0; 
+
+        // --- LEVEL NAMING AND EMOJI SYSTEM ---
+        const levelCategories = [
+            { min: 1, max: 10, name: 'Village', emoji: '🏘️' },
+            { min: 11, max: 20, name: 'District', emoji: '🏙️' },
+            { min: 21, max: 30, name: 'Town', emoji: '🌆' },
+            { min: 31, max: 40, name: 'Metro', emoji: '🌇' },
+            { min: 41, max: 50, name: 'City', emoji: '🏢' },
+            { min: 51, max: 60, name: 'Capital', emoji: '🏛️' },
+            { min: 61, max: 70, name: 'Megacity', emoji: '🏗️' },
+            { min: 71, max: 80, name: 'Empire', emoji: '🏰' },
+            { min: 81, max: 90, name: 'Titan City', emoji: '🏯' },
+            { min: 91, max: 100, name: 'Global Hub', emoji: '🏦' }
+        ];
+
+        function getLevelCategory(level) {
+            return levelCategories.find(cat => level >= cat.min && level <= cat.max) || levelCategories[0];
+        }
 
         // --- ADVANCED CALCULATION FUNCTIONS ---
         function getBoost() { 
@@ -1510,10 +1538,17 @@
             const levelEl = document.getElementById('levelDisplay');
             const boostEl = document.getElementById('boostDisplay');
             const costEl = document.getElementById('upgradeCostDisplay');
+            const cityNameEl = document.getElementById('cityNameDisplay');
+            const cityEmojiEl = document.getElementById('cityEmojiDisplay');
             
             if (levelEl) levelEl.textContent = upgradeLevel;
             if (boostEl) boostEl.textContent = currentBoost.toFixed(2) + 'x';
             if (costEl) costEl.textContent = formatNumber(getNextCost()) + ' ORVEX';
+            if (cityNameEl && cityEmojiEl) {
+                const category = getLevelCategory(upgradeLevel);
+                cityNameEl.textContent = category.name;
+                cityEmojiEl.textContent = category.emoji;
+            }
 
             updateTaskButtons();
 
@@ -1521,6 +1556,7 @@
             safeSet('adCount', adCount);
             safeSet('upgradeLevel', upgradeLevel);
             safeSet('channelJoined', channelJoined);
+            safeSet('dailyClaimed', dailyClaimed);
             
             Object.keys(milestones).forEach(lvl => {
                 safeSet(`level${lvl}Claimed`, milestones[lvl]);
@@ -1536,6 +1572,19 @@
                     joinBtn.textContent = 'Claimed ✓';
                     joinBtn.className = 'task-action-btn completed'; // Reset classes to ensure consistency
                     joinBtn.disabled = true;
+                }
+            }
+
+            const claimDailyBtn = document.getElementById('claimDailyBtn');
+            if (claimDailyBtn) {
+                if (dailyClaimed) {
+                    claimDailyBtn.textContent = 'Claimed ✓';
+                    claimDailyBtn.className = 'task-action-btn completed';
+                    claimDailyBtn.disabled = true;
+                } else {
+                    claimDailyBtn.textContent = 'Claim Now';
+                    claimDailyBtn.className = 'task-action-btn';
+                    claimDailyBtn.disabled = false;
                 }
             }
 
@@ -1738,7 +1787,7 @@
                     if (channelJoined) return;
                     
                     const btn = this;
-                    btn.textContent = 'Joining Community...';
+                    btn.textContent = 'Verifying...';
                     btn.disabled = true;
                     
                     window.open('https://t.me/orvexapp', '_blank');
@@ -1755,6 +1804,45 @@
                 };
             }
         });
+
+        // --- DAILY BONUS SYSTEM ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const claimDailyBtn = document.getElementById('claimDailyBtn');
+            if (claimDailyBtn) {
+                claimDailyBtn.onclick = function() {
+                    if (dailyClaimed) return;
+
+                    const currentKey = getDayKey();
+                    const lastDailyKey = safeGet('lastDailyClaimKey', -1);
+
+                    if (currentKey === lastDailyKey) {
+                        showNotification("❌ Already claimed today!", 2000);
+                        return;
+                    }
+
+                    coins += DAILY_REWARD;
+                    dailyClaimed = true;
+                    safeSet('dailyClaimed', true);
+                    safeSet('lastDailyClaimKey', currentKey);
+
+                    updateUI();
+                    showRewardPopup(DAILY_REWARD);
+                    showNotification("🎁 Daily bonus claimed!", 2000, 'success');
+                };
+            }
+        });
+
+        function resetDailyBonus() {
+            const currentKey = getDayKey();
+            const lastDailyKey = safeGet('lastDailyClaimKey', -1);
+            if (currentKey > lastDailyKey) {
+                dailyClaimed = false;
+                safeSet('dailyClaimed', false);
+                showNotification("🌟 Daily bonus reset at 21:00 UTC!", 2000);
+                updateUI();
+            }
+            setTimeout(resetDailyBonus, 60000); // Check every minute
+        }
 
         // --- ADVANCED MILESTONE SYSTEM ---
         const milestoneRewards = {5: 2500, 10: 5000, 25: 10000, 50: 25000, 100: 50000};
@@ -1825,6 +1913,7 @@
         // --- INITIALIZATION & LIFE CYCLE ---
         function initializeApp() {
             resetDaily();
+            resetDailyBonus();
             updateUI();
             console.log('🌟 ORVEX Global App Initialized Successfully');
         }
@@ -1847,12 +1936,14 @@
                 safeSet('adCount', adCount);
                 safeSet('upgradeLevel', upgradeLevel);
                 safeSet('channelJoined', channelJoined);
+                safeSet('dailyClaimed', dailyClaimed);
             }
         }, 30000);
 
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden && isInitialized) {
                 resetDaily();
+                resetDailyBonus();
                 updateUI();
             }
         });
