@@ -1226,7 +1226,7 @@
             <div class="main-card">
                 <div class="city-section">
                     <h2 class="city-title"><span id="cityNameDisplay">Village</span></h2>
-                    <p class="city-description">Build your empire and boost earnings up to 5x globally. New levels coming soon! Levels and ad watches are crucial for airdrop rewards.</p>
+                    <p class="city-description">Build your empire and boost earnings up to 6x globally. New levels coming soon! Levels and ad watches are crucial for airdrop rewards.</p>
                     
                     <div class="upgrade-container">
                         <div class="upgrade-box" id="upgradeBox"><span id="cityEmojiDisplay">🏘️</span></div>
@@ -1452,7 +1452,7 @@
         const MAX_ADS = 100;
         const MAX_LEVEL = 100;
         const BOOST_PER_LEVEL = 0.05; 
-        const MAX_BOOST = 5.0; 
+        const MAX_BOOST = 6.0; 
 
         // --- LEVEL NAMING AND EMOJI SYSTEM ---
         const levelCategories = [
@@ -1474,7 +1474,7 @@
 
         // --- ADVANCED CALCULATION FUNCTIONS ---
         function getBoost() { 
-            return Math.min(1 + (upgradeLevel * BOOST_PER_LEVEL), MAX_BOOST); 
+            return Math.min(1 + ((upgradeLevel - 1) * BOOST_PER_LEVEL), MAX_BOOST); 
         }
 
         function getNextCost() { 
