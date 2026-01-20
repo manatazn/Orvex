@@ -1030,7 +1030,7 @@
             flex-direction: column; 
             align-items: center; 
             justify-content: center;
-            transition: opacity 0.8s ease;
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
         .splash-title { 
@@ -1156,6 +1156,12 @@
 
         ::-webkit-scrollbar-thumb:hover {
             background: var(--accent-secondary);
+        }
+
+        /* Improved Splash Transition */
+        #splashScreen.fade-out {
+            opacity: 0;
+            transform: scale(1.05);
         }
     </style>
 </head>
@@ -1501,13 +1507,6 @@
             
             showNotification(isDark ? '🌙 Dark Mode Activated' : '☀️ Light Mode Activated');
         }
-
-        (function() {
-            const savedTheme = safeGet('theme', 'light');
-            if (savedTheme === 'dark') {
-                toggleTheme();
-            }
-        })();
 
         // --- ENHANCED UI UPDATE SYSTEM ---
         function updateUI() {
@@ -1917,14 +1916,25 @@
             console.log('🌟 ORVEX Global App Initialized Successfully');
         }
 
+        document.addEventListener('DOMContentLoaded', function() {
+            // Preload data and UI immediately after DOM loads
+            const savedTheme = safeGet('theme', 'light');
+            if (savedTheme === 'dark') {
+                toggleTheme();
+            }
+            resetDaily();
+            resetDailyBonus();
+            updateUI(); // Update UI early so values are set before splash hides
+        });
+
+        // Improved splash screen handling
         setTimeout(() => {
             const splashScreen = document.getElementById('splashScreen');
             if (splashScreen) {
-                splashScreen.style.opacity = '0';
-                splashScreen.style.transform = 'scale(0.8)';
+                splashScreen.classList.add('fade-out');
                 setTimeout(() => {
                     splashScreen.style.display = 'none';
-                    initializeApp();
+                    // No need to call initializeApp here since UI is already updated
                 }, 800);
             }
         }, 4000);
