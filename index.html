@@ -1438,7 +1438,6 @@
                 adCount = 0;
                 safeSet('adCount', 0);
                 safeSet('lastDayKey', currentKey);
-                showNotification("🌟 Daily ad limit reset at 21:00 UTC!", 2000);
                 updateUI();
             }
             setTimeout(resetDaily, 60000); // Check every minute
@@ -1732,7 +1731,10 @@
                             
                             if (adCount >= MAX_ADS) {
                                 setTimeout(() => {
-                                    showNotification("🏆 Daily goal achieved!", 2000, 'success');
+                                    showNotification("🏆 Daily goal achieved!", 3000, 'success');
+                                    setTimeout(() => {
+                                        showNotification("⭐ Daily ad limit reset at 21:00 UTC!", 3000);
+                                    }, 3500);
                                     btnText.textContent = 'Goal Achieved! 🎉';
                                 }, 1000);
                             }
@@ -1982,7 +1984,7 @@
                 splashScreen.classList.add('fade-out');
                 setTimeout(() => {
                     splashScreen.style.display = 'none';
-                    // No need to call initializeApp here since UI is already updated
+                    showNotification("⭐ Daily ad limit reset at 21:00 UTC!", 2000);
                 }, 800);
             }
         }, 4000);
