@@ -1356,14 +1356,6 @@
 
                 <div class="task-card">
                     <div class="task-info">
-                        <h3><i class="fab fa-twitter"></i> Follow Twitter</h3>
-                        <div class="reward"><i class="fas fa-coins"></i> +10,000 ORVEX</div>
-                    </div>
-                    <button id="followTwitterBtn" class="task-action-btn">Start</button>
-                </div>
-
-                <div class="task-card">
-                    <div class="task-info">
                         <h3><i class="fab fa-telegram"></i> Join Community</h3>
                         <div class="reward"><i class="fas fa-coins"></i> +5,000 ORVEX</div>
                     </div>
@@ -1535,7 +1527,6 @@
         let adCount = parseInt(safeGet('adCount', 0)) || 0;
         let upgradeLevel = Math.max(1, parseInt(safeGet('upgradeLevel', 1)) || 1);
         let channelJoined = safeGet('channelJoined', false);
-        let twitterFollowed = safeGet('twitterFollowed', false);
         let isInitialized = false;
         let dailyClaimed = safeGet('dailyClaimed', false);
 
@@ -1549,7 +1540,6 @@
 
         const BASE_REWARD = 100;
         const CHANNEL_REWARD = 5000;
-        const TWITTER_REWARD = 10000;
         const DAILY_REWARD = 2000;
         const MAX_ADS = 100;
         const MAX_LEVEL = 100;
@@ -1651,7 +1641,6 @@
             safeSet('adCount', adCount);
             safeSet('upgradeLevel', upgradeLevel);
             safeSet('channelJoined', channelJoined);
-            safeSet('twitterFollowed', twitterFollowed);
             safeSet('dailyClaimed', dailyClaimed);
             
             Object.keys(milestones).forEach(lvl => {
@@ -1668,15 +1657,6 @@
                     joinBtn.textContent = 'Claimed ✓';
                     joinBtn.className = 'task-action-btn completed'; // Reset classes to ensure consistency
                     joinBtn.disabled = true;
-                }
-            }
-
-            const followTwitterBtn = document.getElementById('followTwitterBtn');
-            if (followTwitterBtn) {
-                if (twitterFollowed) {
-                    followTwitterBtn.textContent = 'Claimed ✓';
-                    followTwitterBtn.className = 'task-action-btn completed'; // Reset classes to ensure consistency
-                    followTwitterBtn.disabled = true;
                 }
             }
 
@@ -1913,34 +1893,6 @@
             }
         });
 
-        // --- FOLLOW TWITTER TASK ---
-        document.addEventListener('DOMContentLoaded', function() {
-            const followTwitterBtn = document.getElementById('followTwitterBtn');
-            if (followTwitterBtn) {
-                followTwitterBtn.onclick = function() {
-                    if (twitterFollowed) return;
-                    
-                    const btn = this;
-                    btn.textContent = 'Verifying...';
-                    btn.disabled = true;
-                    
-                    window.open('https://x.com/orvexcity', '_blank');
-                    
-                    setTimeout(() => {
-                        coins += TWITTER_REWARD;
-                        twitterFollowed = true;
-                        
-                        safeSet('twitterFollowed', true);
-                        
-                        updateUI(); // This calls updateTaskButtons which handles the class change
-                        
-                        showRewardPopup(TWITTER_REWARD);
-                        
-                    }, 5000); 
-                };
-            }
-        });
-
         // --- DAILY BONUS SYSTEM ---
         document.addEventListener('DOMContentLoaded', function() {
             const claimDailyBtn = document.getElementById('claimDailyBtn');
@@ -2097,7 +2049,6 @@
                 safeSet('adCount', adCount);
                 safeSet('upgradeLevel', upgradeLevel);
                 safeSet('channelJoined', channelJoined);
-                safeSet('twitterFollowed', twitterFollowed);
                 safeSet('dailyClaimed', dailyClaimed);
             }
         }, 30000);
