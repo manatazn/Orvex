@@ -168,7 +168,14 @@
             box-shadow: var(--shadow-glow);
         }
 
-        .theme-toggle-btn {
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-toggle-btn,
+        .info-btn {
             width: 40px; 
             height: 40px; 
             border-radius: 50%;
@@ -184,10 +191,15 @@
             box-shadow: var(--shadow-card);
         }
 
-        .theme-toggle-btn:hover { 
+        .theme-toggle-btn:hover,
+        .info-btn:hover { 
             transform: scale(1.1) rotate(180deg); 
             box-shadow: var(--shadow-glow);
             border-color: var(--accent-primary);
+        }
+
+        .info-btn i {
+            color: var(--text-primary);
         }
 
         /* Page Transitions */
@@ -832,6 +844,65 @@
             color: var(--text-secondary);
         }
 
+        /* Info Section */
+        .info-header {
+            font-family: 'Orbitron', monospace;
+            font-size: 20px;
+            font-weight: 900;
+            margin: 0 0 20px 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .info-list {
+            list-style-type: decimal;
+            padding-left: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-list li {
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .info-list li strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .back-btn {
+            width: 100%;
+            height: 60px;
+            font-size: 18px;
+            font-weight: 800;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            background: var(--btn-secondary);
+            cursor: pointer;
+            box-shadow: var(--shadow-primary);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Orbitron', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 1;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px) scale(1.02); 
+            box-shadow: 0 25px 50px rgba(124, 58, 237, 0.3);
+        }
+
+        .back-btn:active { 
+            transform: scale(0.98); 
+        }
+
         /* Navigation */
         .navigation {
             position: fixed;
@@ -1187,9 +1258,14 @@
                 <i class="fas fa-signal"></i>
                 <span>Online</span>
             </div>
-            <button class="theme-toggle-btn" onclick="toggleTheme()">
-                <span id="themeIcon">🌙</span>
-            </button>
+            <div class="header-right">
+                <button class="theme-toggle-btn" onclick="toggleTheme()">
+                    <span id="themeIcon">🌙</span>
+                </button>
+                <button class="info-btn" onclick="showInfoPage()">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+            </div>
         </div>
 
         <div id="homePage" class="page active">
@@ -1365,6 +1441,22 @@
                 <p>Mobile app launch, NFT marketplace integration, and metaverse city development. Community governance and DAO implementation.</p>
             </div>
         </div>
+
+        <div id="infoPage" class="page">
+            <h2 class="info-header"><i class="fas fa-info-circle"></i> Important Disclaimers</h2>
+            
+            <ol class="info-list">
+                <li><strong>No Real-World Value</strong><br>The in-game currency and items are entirely virtual and have no real-world monetary value. All in-game items, rewards, and achievements are provided solely for entertainment purposes.</li>
+                <li><strong>No Guarantee of Earnings</strong><br>This game is intended purely for entertainment and simulation purposes. Any references to “earnings,” “income,” or similar terms are entirely fictional. There is no guarantee of financial gain or payment of any kind. Any rewards implied to be derived from company revenues are strictly for in-game enjoyment and progression only.</li>
+                <li><strong>Skill-Based Progression</strong><br>Progression and achievements within the game are based on player skill and in-game activities. Advancing levels or achieving success in the game does not provide any real-world monetary reward or benefit.</li>
+                <li><strong>Not Legal or Financial Advice</strong><br>This game and its content do not constitute legal, financial, or investment advice. All terms used within the game are fictional and should not be interpreted as financial guidance or encouragement to earn money in the real world.</li>
+                <li><strong>Age Restriction</strong><br>This game is intended for users aged 18 and over. By playing the game, you confirm that you meet the minimum age requirement and agree to the game’s terms and conditions.</li>
+                <li><strong>Non-Transferability of Accounts and Assets</strong><br>User accounts, in-game currencies, and items are non-transferable and may not be sold, traded, or exchanged. The sale, transfer, or exchange of accounts or in-game items for real-world value is strictly prohibited and may result in account suspension or termination.</li>
+                <li><strong>Risk of Game Changes</strong><br>This game may be updated or modified at the discretion of the developers. Gameplay, rules, and in-game assets may be changed without prior notice, and such changes may affect your in-game progress or assets.</li>
+            </ol>
+
+            <button class="back-btn" onclick="goBack()">Back</button>
+        </div>
     </div>
 
     <div class="navigation">
@@ -1518,7 +1610,7 @@
             const rewardPerAd = Math.floor(BASE_REWARD * currentBoost);
 
             // Update all balance displays uniformly
-            const balanceElements = ['balance', 'balanceCity', 'balanceTasks', 'balanceListing'];
+            const balanceElements = ['balance', 'balanceCity', 'balanceTasks'];
             balanceElements.forEach(id => {
                 const element = document.getElementById(id);
                 if (element) {
@@ -1922,6 +2014,7 @@
         }
 
         // --- PREMIUM NAVIGATION SYSTEM ---
+        let previousPage = 'homePage';
         function showPage(pageId, btnElement) {
             const notification = document.getElementById('notification');
             if (notification && notification.classList.contains('notification-show')) {
@@ -1929,6 +2022,11 @@
                 notification.classList.add('notification-hide');
             }
             
+            const currentActivePage = document.querySelector('.page.active');
+            if (currentActivePage) {
+                previousPage = currentActivePage.id;
+            }
+
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
@@ -1951,6 +2049,15 @@
             } else if (pageId === 'tasksPage') {
                 updateTaskButtons();
             }
+        }
+
+        function showInfoPage() {
+            showPage('infoPage', null);
+        }
+
+        function goBack() {
+            const navItem = document.querySelector(`.nav-item[onclick*="\'${previousPage}\'"]`);
+            showPage(previousPage, navItem);
         }
 
         // --- INITIALIZATION & LIFE CYCLE ---
