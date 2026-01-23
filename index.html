@@ -61,25 +61,21 @@
         }
 
         body.dark-theme {
-            --primary-bg: linear-gradient(135deg, #05051a 0%, #0d0d26 50%, #15153d 100%);
-            --secondary-bg: linear-gradient(135deg, #0a0a1f 0%, #15153a 100%);
-            --accent-primary: #00b8e6;
-            --accent-secondary: #6d28d9;
-            --accent-glow: #00b8e6;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --card-border: rgba(0, 184, 230, 0.15);
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --primary-bg: linear-gradient(135deg, #000000 0%, #1a0000 50%, #2d0000 100%);
+            --secondary-bg: linear-gradient(135deg, #0a0000 0%, #1a0000 100%);
+            --accent-primary: #ff6b6b;
+            --accent-secondary: #ffd93d;
+            --accent-glow: #ff6b6b;
+            --card-bg: rgba(0, 0, 0, 0.7);
+            --glass-bg: rgba(0, 0, 0, 0.5);
             --text-primary: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.7);
             --text-muted: rgba(255, 255, 255, 0.4);
-            --text-accent: #00b8e6;
-            --btn-primary: linear-gradient(135deg, #00b8e6 0%, #008bb3 100%);
-            --btn-secondary: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%);
-            --shadow-primary: 0 20px 40px rgba(0, 184, 230, 0.1);
-            --shadow-glow: 0 0 20px rgba(0, 184, 230, 0.3);
-            --star-color: rgba(255, 255, 255, 0.6);
-            --nebula-color: rgba(109, 40, 217, 0.08);
+            --text-accent: #ff6b6b;
+            --btn-primary: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            --btn-secondary: linear-gradient(135deg, #ffd93d 0%, #fbbf24 100%);
+            --shadow-primary: 0 20px 40px rgba(255, 107, 107, 0.1);
+            --shadow-glow: 0 0 20px rgba(255, 107, 107, 0.3);
         }
 
         body {
@@ -1192,7 +1188,7 @@
                 <span>Online</span>
             </div>
             <button class="theme-toggle-btn" onclick="toggleTheme()">
-                <span id="themeIcon">🔆</span>
+                <span id="themeIcon">🌙</span>
             </button>
         </div>
 
@@ -1341,7 +1337,6 @@
         </div>
 
         <div id="listingPage" class="page">
-            
             <h2 class="roadmap-header">
                 <i class="fas fa-rocket"></i> Orvex Roadmap
             </h2>
@@ -1506,7 +1501,7 @@
         function toggleTheme() {
             const isDark = document.body.classList.toggle('dark-theme');
             const icon = document.getElementById('themeIcon');
-            icon.textContent = isDark ? '🌙' : '🔆';
+            icon.textContent = isDark ? '🔆' : '🌙';
             safeSet('theme', isDark ? 'dark' : 'light');
             
             document.body.style.transition = 'all 0.6s ease';
@@ -1514,7 +1509,7 @@
                 document.body.style.transition = '';
             }, 600);
             
-            showNotification(isDark ? '🌙 Dark Mode Activated' : '☀️ Light Mode Activated');
+            showNotification(isDark ? '🔆 Light Mode Activated' : '🌙 Dark Mode Activated');
         }
 
         // --- ENHANCED UI UPDATE SYSTEM ---
@@ -1620,7 +1615,7 @@
                     btn.className = 'task-action-btn'; // Clean class for active state
                     btn.disabled = false;
                 } else {
-                    btn.textContent = 'Locked';
+                    btn.textContent = 'LOCKED';
                     btn.className = 'task-action-btn disabled';
                     btn.disabled = true;
                 }
