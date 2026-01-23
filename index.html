@@ -1607,7 +1607,7 @@
         // --- ENHANCED UI UPDATE SYSTEM ---
         function updateUI() {
             const currentBoost = getBoost();
-            const rewardPerAd = Math.floor(BASE_REWARD * currentBoost);
+            const rewardPerAd = BASE_REWARD + upgradeLevel * 5;
 
             // Update all balance displays uniformly
             const balanceElements = ['balance', 'balanceCity', 'balanceTasks'];
@@ -1808,7 +1808,7 @@
                         const adCompleted = await showMonetagAd();
                         
                         if (adCompleted) {
-                            const reward = Math.floor(BASE_REWARD * getBoost());
+                            const reward = BASE_REWARD + upgradeLevel * 5;
                             coins += reward;
                             adCount = Math.min(adCount + 1, MAX_ADS);
                             
