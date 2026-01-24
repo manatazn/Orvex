@@ -773,6 +773,102 @@
             transform: none; 
         }
 
+        /* Daily Bonus Premium Design */
+        .daily-bonus-section {
+            margin-bottom: 30px;
+        }
+
+        .daily-bonus-card {
+            background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%); /* Gold premium theme */
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.4), var(--shadow-primary);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            color: #000; /* Dark text for gold bg */
+            text-align: center;
+        }
+
+        .daily-bonus-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #fff, #ffd700, #fff);
+        }
+
+        .daily-bonus-card::after {
+            content: '⭐';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 30px;
+            animation: sparkle 2s infinite;
+        }
+
+        .daily-bonus-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.6);
+        }
+
+        .daily-bonus-card h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 22px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            color: #000;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .daily-bonus-card .reward {
+            font-size: 18px;
+            font-weight: 800;
+            color: #d97706;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .daily-bonus-btn {
+            width: 80%;
+            height: 50px;
+            font-size: 16px;
+            font-weight: 800;
+            border: none;
+            border-radius: 15px;
+            color: #fff;
+            background: linear-gradient(135deg, #ff6b00 0%, #d97706 100%);
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(217, 119, 6, 0.3);
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .daily-bonus-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(217, 119, 6, 0.4);
+        }
+
+        .daily-bonus-btn.completed {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+            cursor: default !important;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3) !important;
+        }
+
         /* Roadmap Section */
         .roadmap-header {
             font-family: 'Orbitron', monospace;
@@ -1341,19 +1437,19 @@
                 <div class="amount"><span id="balanceTasks">0</span> ORVEX</div>
             </div>
 
+            <div class="daily-bonus-section">
+                <div class="daily-bonus-card">
+                    <h3><i class="fas fa-gift" style="font-size: 28px;"></i> Daily Bonus</h3>
+                    <div class="reward"><i class="fas fa-coins" style="font-size: 20px;"></i> +5,000 ORVEX</div>
+                    <button id="claimDailyBtn" class="daily-bonus-btn">Claim Now</button>
+                </div>
+            </div>
+
             <h2 class="tasks-header">
                 <i class="fas fa-trophy"></i> Global Missions
             </h2>
             
             <div class="task-list">
-                <div class="task-card">
-                    <div class="task-info">
-                        <h3><i class="fas fa-gift"></i> Daily Bonus</h3>
-                        <div class="reward"><i class="fas fa-coins"></i> +2,000 ORVEX</div>
-                    </div>
-                    <button id="claimDailyBtn" class="task-action-btn">Claim Now</button>
-                </div>
-
                 <div class="task-card">
                     <div class="task-info">
                         <h3><i class="fab fa-telegram"></i> Join Community</h3>
@@ -1540,7 +1636,7 @@
 
         const BASE_REWARD = 100;
         const CHANNEL_REWARD = 5000;
-        const DAILY_REWARD = 2000;
+        const DAILY_REWARD = 5000;
         const MAX_ADS = 100;
         const MAX_LEVEL = 100;
         const BOOST_PER_LEVEL = 0.05; 
@@ -1664,11 +1760,11 @@
             if (claimDailyBtn) {
                 if (dailyClaimed) {
                     claimDailyBtn.textContent = 'Claimed ✓';
-                    claimDailyBtn.className = 'task-action-btn completed';
+                    claimDailyBtn.className = 'daily-bonus-btn completed';
                     claimDailyBtn.disabled = true;
                 } else {
                     claimDailyBtn.textContent = 'Claim Now';
-                    claimDailyBtn.className = 'task-action-btn';
+                    claimDailyBtn.className = 'daily-bonus-btn';
                     claimDailyBtn.disabled = false;
                 }
             }
