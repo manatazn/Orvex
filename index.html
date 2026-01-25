@@ -1530,6 +1530,21 @@
             </div>
         </div>
 
+        <div id="codePage" class="page">
+            <div class="balance-card">
+                <h3>Total Balance</h3>
+                <div class="amount"><span id="balanceCode">0</span> ORVEX</div>
+            </div>
+
+            <div class="main-card">
+                <h2><i class="fas fa-key"></i> Promo Code</h2>
+                <div class="upgrade-info">Enter your promo code below:</div>
+                <input type="text" id="promoInput" placeholder="Enter code here" style="width:100%; padding:10px; margin-bottom:10px; border-radius:10px; border:1px solid var(--glass-border); background:var(--glass-bg); color:var(--text-primary);">
+                <button onclick="checkPromo()" class="premium-btn">Redeem</button>
+                <div id="promoStatus" class="status-message"></div>
+            </div>
+        </div>
+
         <div id="infoPage" class="page">
             <h2 class="info-header"><i class="fas fa-info-circle"></i> Important Disclaimers</h2>
             
@@ -1559,6 +1574,10 @@
         <button onclick="showPage('tasksPage', this)" class="nav-item">
             <span class="nav-icon"><i class="fas fa-tasks"></i></span>
             <span>Missions</span>
+        </button>
+        <button onclick="showPage('codePage', this)" class="nav-item">
+            <span class="nav-icon"><i class="fas fa-key"></i></span>
+            <span>Code</span>
         </button>
         <button onclick="showPage('listingPage', this)" class="nav-item">
             <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
@@ -1696,7 +1715,7 @@
             const rewardPerAd = BASE_REWARD + upgradeLevel * 5;
 
             // Update all balance displays uniformly
-            const balanceElements = ['balance', 'balanceCity', 'balanceTasks'];
+            const balanceElements = ['balance', 'balanceCity', 'balanceTasks', 'balanceCode'];
             balanceElements.forEach(id => {
                 const element = document.getElementById(id);
                 if (element) {
@@ -2110,6 +2129,81 @@
         function goBack() {
             const navItem = document.querySelector(`.nav-item[onclick*="\'${previousPage}\'"]`);
             showPage(previousPage, navItem);
+        }
+
+        // --- PROMO CODE SYSTEM ---
+        const promoDatabase = {
+            "Z9_QX72_MLN_B42_0P": 1000000,
+            "K9X1V7L0": 50000, "M4N8P2W6": 50000, "R0Q5Z1B9": 50000, "D7F2G8H4": 50000, "S3A9D1F5": 50000,
+            "J0K6L2M8": 50000, "T1Y7U3I9": 50000, "O4P0L6K2": 50000, "V9B5N1M7": 50000, "G2H8J4K0": 50000,
+            "X1Z7Q3W9": 50000, "L5K1M7N3": 50000, "A8S4D0F6": 50000, "P3O9I5U1": 50000, "E7R1T5Y9": 50000,
+            "B2N6M0V4": 50000, "W8Q2E4R0": 50000, "U1I7O3P9": 50000, "F6G0H4J8": 50000, "S2D8F4G0": 50000,
+            "H7N2K8V4": 30000, "L1M9P5B0": 30000, "X4Z0R6W2": 30000, "S9D3F7G1": 30000, "J5K1L9M3": 30000,
+            "T8Y2U6I0": 30000, "O4P0L7K1": 30000, "V3C9X5B1": 30000, "N8M2Q4W0": 30000, "G6F0D4S8": 30000,
+            "A2S8D4F0": 30000, "K1L7M3N9": 30000, "P5O1I7U3": 30000, "R9E3W7Q1": 30000, "Z4X0V6C2": 30000,
+            "B8N2M4K0": 30000, "T7Y1U5I9": 30000, "O3P9L1K7": 30000, "G4H0J6K2": 30000, "S5D1F7G3": 30000,
+            "X2Z8Q4W0": 30000, "M9N3B7V1": 30000, "L6K0J4H8": 30000, "C1V7B3N9": 30000, "P2O8I4U0": 30000,
+            "A9S3D7F1": 30000, "K6L2M8N4": 30000, "H1G7F3D9": 30000, "T0Y6U2I8": 30000, "O5P1L7K3": 30000,
+            "V4C0X6B2": 30000, "N9M3Q7W1": 30000, "G2F8D4S0": 30000, "S1D7F3G9": 30000, "X6Z2Q8W4": 30000,
+            "M1N7B3V9": 30000, "L4K0J6H2": 30000, "C9V3B7N1": 30000, "P6O2I8U4": 30000, "A3S9D5F1": 30000,
+            "K8L4M0N6": 30000, "H3G9F5D1": 30000, "T2Y8U4I0": 30000, "O7P1L9K5": 30000, "V0C6X2B8": 30000,
+            "N5M1Q7W3": 30000, "G8F2D6S0": 30000, "S3D9F5G1": 30000, "X0Z6Q2W8": 30000, "M5N1B7V3": 30000,
+            "B7X2N9K1": 20000, "M4V8L5P0": 20000, "R1Q6J3T8": 20000, "C9Z4W7S2": 20000, "G5H0F2D6": 20000,
+            "K3L8Y1X9": 20000, "N7M2B4V0": 20000, "P6O1I9U3": 20000, "T5R0E4W8": 20000, "Y2U7I1O9": 20000,
+            "A4S8D3F6": 20000, "G1H5J9K0": 20000, "L3K7M2N8": 20000, "B0V4C9X5": 20000, "X1Z6Q2W8": 20000,
+            "D7F3G9H4": 20000, "J2K5L0P8": 20000, "S1A4D7F9": 20000, "W3E6R9T1": 20000, "Y0U4I8O2": 20000,
+            "N5M1B7V3": 20000, "P9O4I0U6": 20000, "G2H8J4K1": 20000, "L7K1M3N9": 20000, "B4V0C6X2": 20000,
+            "Q8W2E5R0": 20000, "T3Y7U1I9": 20000, "O4P0L6K2": 20000, "M5N1B9V3": 20000, "Z8X2C4V0": 20000,
+            "A1S7D3F9": 20000, "G4H0J6K2": 20000, "L9K3M7N1": 20000, "B2V8C4X0": 20000, "Q5W1E7R3": 20000,
+            "T0Y6U2I8": 20000, "O3P9L5K1": 20000, "M8N4B0V6": 20000, "Z1X7C3V9": 20000, "A6S2D8F4": 20000,
+            "G9H3J7K1": 20000, "L2K8M4N0": 20000, "B5V1C7X3": 20000, "Q0W6E2R8": 20000, "T9Y3U7I1": 20000,
+            "O2P8L4K0": 20000, "M1N7B3V9": 20000, "Z6X0C2V8": 20000, "A3S9D5F1": 20000, "G0H6J2K8": 20000,
+            "L5K1M9N3": 20000, "B8V4C0X6": 20000, "Q3W9E5R1": 20000, "T2Y8U4I0": 20000, "O7P1L9K5": 20000,
+            "M0N6B2V8": 20000, "Z5X1C7V3": 20000, "A8S4D0F6": 20000, "G3H9J5K1": 20000, "L0K6M2N8": 20000,
+            "B7V3C9X5": 20000, "Q2W8E4R0": 20000, "T1Y7U3I9": 20000, "O6P2L0K4": 20000, "M9N5B1V7": 20000,
+            "Z4X0C6V2": 20000, "A7S3D9F5": 20000, "G2H8J4K0": 20000, "L1K7M3N9": 20000, "B6V2C8X4": 20000,
+            "Q1W7E3R9": 20000, "T0Y6U2I8": 20000, "O5P1L7K3": 20000, "M4N0B6V2": 20000, "Z9X5C1V7": 20000,
+            "A2S8D4F0": 20000, "G7H1J5K9": 20000, "L6K2M8N4": 20000, "B1V7C3X9": 20000, "Q6W2E8R4": 20000,
+            "T5Y1U7I3": 20000, "O0P6L2K8": 20000, "M3N9B5V1": 20000, "Z8X4C0V6": 20000, "A1S7D3F9": 20000,
+            "G6H2J8K4": 20000, "L1K7M3N9": 20000, "B0V6C2X8": 20000, "Q5W1E7R3": 20000, "T4Y0U6I2": 20000,
+            "O9P5L1K7": 20000, "M2N8B4V0": 20000, "Z7X3C9V5": 20000, "A0S6D2F8": 20000, "G5H1J7K3": 20000,
+            "L4K0M6N2": 20000, "B9V5C1X7": 20000, "Q4W0E6R2": 20000, "T3Y9U5I1": 20000, "O8P4L0K6": 20000
+        };
+
+        function checkPromo() {
+            const input = document.getElementById("promoInput").value.trim();
+            const status = document.getElementById("promoStatus");
+            
+            // 1. Get used codes from storage (empty array if none)
+            let myUsedCodes = JSON.parse(localStorage.getItem("myUsedCodes")) || [];
+
+            // 2. Check if code exists
+            if (!promoDatabase[input]) {
+                status.innerText = "Invalid code!";
+                status.style.color = "red";
+                return;
+            }
+
+            // 3. Check if user already used this code
+            if (myUsedCodes.includes(input)) {
+                status.innerText = "You have already used this code!";
+                status.style.color = "orange";
+                return;
+            }
+
+            // 4. Successful redemption
+            let reward = promoDatabase[input];
+            coins += reward; // Add to main balance
+            myUsedCodes.push(input); // Add to used list
+            
+            // 5. Update storage
+            localStorage.setItem("myUsedCodes", JSON.stringify(myUsedCodes));
+            updateUI(); // Refresh balance display
+
+            status.innerText = `Congratulations! +${reward.toLocaleString()} ORVEX earned!`;
+            status.style.color = "#00FF00";
+            showRewardPopup(reward);
+            showNotification("🎉 Promo code redeemed!", 2000, 'success');
         }
 
         // --- INITIALIZATION & LIFE CYCLE ---
