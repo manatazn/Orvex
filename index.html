@@ -232,7 +232,7 @@
             border: 1px solid var(--card-border);
             position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: none;
         }
 
         .balance-card::before {
@@ -262,8 +262,8 @@
         }
 
         .balance-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-primary);
+            transform: none;
+            box-shadow: var(--shadow-card);
         }
 
         .balance-card h3 { 
@@ -308,7 +308,7 @@
             position: relative;
             overflow: hidden;
             margin-bottom: 20px;
-            transition: all 0.4s ease;
+            transition: none;
         }
 
         .main-card::before {
@@ -332,8 +332,8 @@
         }
 
         .main-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-primary);
+            transform: none;
+            box-shadow: var(--shadow-card);
         }
 
         .main-card h2 { 
@@ -360,7 +360,7 @@
             position: relative;
             z-index: 1;
             font-size: 14px;
-            transition: all 0.3s ease;
+            transition: none;
         }
 
         .reward-badge::before {
@@ -370,8 +370,8 @@
         }
 
         .reward-badge:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
+            transform: none;
+            box-shadow: var(--shadow-glow);
         }
 
         /* Stats Grid */
@@ -388,7 +388,7 @@
             padding: 15px 10px;
             border-radius: 15px;
             border: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
+            transition: none;
             position: relative;
             overflow: hidden;
         }
@@ -404,9 +404,9 @@
         }
 
         .stat-item:hover { 
-            transform: translateY(-5px) scale(1.02); 
-            box-shadow: var(--shadow-primary);
-            border-color: var(--accent-primary);
+            transform: none;
+            box-shadow: var(--shadow-card);
+            border-color: var(--glass-border);
         }
 
         .stat-item span { 
@@ -610,9 +610,9 @@
         }
 
         .upgrade-box:hover { 
-            transform: scale(1.1) rotateY(360deg); 
-            box-shadow: 0 0 40px rgba(0, 212, 255, 0.5);
-            border-color: var(--accent-secondary);
+            transform: none;
+            box-shadow: var(--shadow-glow), inset 0 0 20px rgba(255,255,255,0.1);
+            border-color: var(--accent-primary);
         }
 
         .upgrade-box.upgraded { 
@@ -673,7 +673,7 @@
             align-items: center;
             justify-content: space-between;
             border: 1px solid var(--card-border);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: none;
             position: relative;
             overflow: hidden;
         }
@@ -690,9 +690,9 @@
         }
 
         .task-card:hover { 
-            transform: translateX(10px) scale(1.02); 
-            box-shadow: var(--shadow-primary);
-            border-color: var(--accent-primary);
+            transform: none;
+            box-shadow: var(--shadow-card);
+            border-color: var(--card-border);
         }
 
         .task-info { 
@@ -788,7 +788,7 @@
             align-items: center;
             border: 2px solid rgba(255, 215, 0, 0.5);
             box-shadow: 0 0 40px rgba(255, 215, 0, 0.4), var(--shadow-primary);
-            transition: all 0.4s ease;
+            transition: none;
             position: relative;
             overflow: hidden;
             color: #000; /* Dark text for gold bg */
@@ -815,8 +815,8 @@
         }
 
         .daily-bonus-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 60px rgba(255, 215, 0, 0.6);
+            transform: none;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.4), var(--shadow-primary);
         }
 
         .daily-bonus-card h3 {
@@ -888,7 +888,7 @@
             border-radius: 15px;
             margin-bottom: 15px;
             border-left: 5px solid var(--accent-primary);
-            transition: all 0.4s ease;
+            transition: none;
             position: relative;
             overflow: hidden;
             border: 1px solid var(--card-border);
@@ -906,13 +906,13 @@
         }
 
         .roadmap-item:hover::before {
-            width: 100%;
+            width: 0;
         }
 
         .roadmap-item:hover { 
-            transform: translateY(-8px); 
-            box-shadow: var(--shadow-primary);
-            border-left-color: var(--accent-secondary);
+            transform: none;
+            box-shadow: var(--shadow-card);
+            border-left-color: var(--accent-primary);
         }
 
         .roadmap-date {
