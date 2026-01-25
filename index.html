@@ -1485,7 +1485,7 @@
                 <div class="task-card">
                     <div class="task-info">
                         <h3><i class="fas fa-building"></i> City Level 50</h3>
-                        <div class="reward"><i class="fas fa-gem"></i> +25,000 ORVEX</div>
+                        <div class="reward"><i class="fas fa-gem"></i> +100,000 ORVEX</div>
                     </div>
                     <button id="claimLevel50Btn" class="task-action-btn disabled">Locked</button>
                 </div>
@@ -1493,10 +1493,25 @@
                 <div class="task-card">
                     <div class="task-info">
                         <h3><i class="fas fa-building"></i> City Level 100</h3>
-                        <div class="reward"><i class="fas fa-gem"></i> +50,000 ORVEX</div>
+                        <div class="reward"><i class="fas fa-gem"></i> +1,000,000 ORVEX</div>
                     </div>
                     <button id="claimLevel100Btn" class="task-action-btn disabled">Locked</button>
                 </div>
+            </div>
+        </div>
+
+        <div id="codePage" class="page">
+            <div class="balance-card">
+                <h3>Total Balance</h3>
+                <div class="amount"><span id="balanceCode">0</span> ORVEX</div>
+            </div>
+
+            <div class="main-card">
+                <h2><i class="fas fa-key"></i> Promo Code</h2>
+                <div class="upgrade-info">Enter your promo code below:</div>
+                <input type="text" id="promoInput" placeholder="Enter code here" style="width:100%; padding:10px; margin-bottom:10px; border-radius:10px; border:1px solid var(--glass-border); background:var(--glass-bg); color:var(--text-primary);">
+                <button onclick="checkPromo()" class="premium-btn">Redeem</button>
+                <div id="promoStatus" class="status-message"></div>
             </div>
         </div>
 
@@ -1527,21 +1542,6 @@
                 </div>
                 <h3>🌍 Expansion</h3>
                 <p>Mobile app launch, NFT marketplace integration, and metaverse city development. Community governance and DAO implementation.</p>
-            </div>
-        </div>
-
-        <div id="codePage" class="page">
-            <div class="balance-card">
-                <h3>Total Balance</h3>
-                <div class="amount"><span id="balanceCode">0</span> ORVEX</div>
-            </div>
-
-            <div class="main-card">
-                <h2><i class="fas fa-key"></i> Promo Code</h2>
-                <div class="upgrade-info">Enter your promo code below:</div>
-                <input type="text" id="promoInput" placeholder="Enter code here" style="width:100%; padding:10px; margin-bottom:10px; border-radius:10px; border:1px solid var(--glass-border); background:var(--glass-bg); color:var(--text-primary);">
-                <button onclick="checkPromo()" class="premium-btn">Redeem</button>
-                <div id="promoStatus" class="status-message"></div>
             </div>
         </div>
 
@@ -1740,14 +1740,43 @@
             const costEl = document.getElementById('upgradeCostDisplay');
             const cityNameEl = document.getElementById('cityNameDisplay');
             const cityEmojiEl = document.getElementById('cityEmojiDisplay');
+            const upgradeBtn = document.getElementById('upgradeBtn');
+            const upgradeInfo = document.querySelector('#cityPage .upgrade-info');
+            const upgradeStatusMessage = document.getElementById('upgradeStatusMessage');
             
             if (levelEl) levelEl.textContent = upgradeLevel;
             if (boostEl) boostEl.textContent = currentBoost.toFixed(2) + 'x';
-            if (costEl) costEl.textContent = formatNumber(getNextCost()) + ' ORVEX';
             if (cityNameEl && cityEmojiEl) {
                 const category = getLevelCategory(upgradeLevel);
                 cityNameEl.textContent = category.name;
                 cityEmojiEl.textContent = category.emoji;
+            }
+
+            if (upgradeLevel >= MAX_LEVEL) {
+                if (upgradeBtn) {
+                    upgradeBtn.disabled = true;
+                    upgradeBtn.textContent = "Congratulations! Max Level";
+                }
+                if (upgradeInfo) {
+                    upgradeInfo.style.display = 'none';
+                }
+                if (upgradeStatusMessage) {
+                    upgradeStatusMessage.textContent = "You have reached the maximum level for your city.";
+                    upgradeStatusMessage.className = 'status-message success';
+                }
+            } else {
+                if (upgradeBtn) {
+                    upgradeBtn.disabled = false;
+                    upgradeBtn.textContent = "Build City";
+                }
+                if (upgradeInfo) {
+                    upgradeInfo.style.display = 'block';
+                    costEl.textContent = formatNumber(getNextCost()) + ' ORVEX';
+                }
+                if (upgradeStatusMessage) {
+                    upgradeStatusMessage.textContent = "";
+                    upgradeStatusMessage.className = "";
+                }
             }
 
             updateTaskButtons();
@@ -1788,7 +1817,7 @@
                 }
             }
 
-            const milestoneRewards = {5: 2500, 10: 5000, 25: 10000, 50: 25000, 100: 50000};
+            const milestoneRewards = {5: 2500, 10: 5000, 25: 10000, 50: 100000, 100: 1000000};
             Object.keys(milestoneRewards).forEach(lvl => {
                 const btn = document.getElementById(`claimLevel${lvl}Btn`);
                 if (!btn) return;
@@ -1943,6 +1972,8 @@
             const upgradeBtn = document.getElementById('upgradeBtn');
             if (upgradeBtn) {
                 upgradeBtn.onclick = function() {
+                    if (upgradeLevel >= MAX_LEVEL) return;
+
                     const cost = getNextCost();
                     const statusMsg = document.getElementById('upgradeStatusMessage');
                     
@@ -2047,7 +2078,7 @@
         }
 
         // --- ADVANCED MILESTONE SYSTEM ---
-        const milestoneRewards = {5: 2500, 10: 5000, 25: 10000, 50: 25000, 100: 50000};
+        const milestoneRewards = {5: 2500, 10: 5000, 25: 10000, 50: 100000, 100: 1000000};
         
         document.addEventListener('DOMContentLoaded', function() {
             Object.keys(milestoneRewards).forEach(lvl => {
@@ -2080,60 +2111,8 @@
             });
         }
 
-        // --- PREMIUM NAVIGATION SYSTEM ---
-        let previousPage = 'homePage';
-        function showPage(pageId, btnElement) {
-            const notification = document.getElementById('notification');
-            if (notification && notification.classList.contains('notification-show')) {
-                notification.classList.remove('notification-show');
-                notification.classList.add('notification-hide');
-            }
-            
-            const currentActivePage = document.querySelector('.page.active');
-            if (currentActivePage && currentActivePage.id === pageId) {
-                return;
-            }
-            
-            if (currentActivePage) {
-                previousPage = currentActivePage.id;
-            }
-
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            document.querySelectorAll('.nav-item').forEach(nav => {
-                nav.classList.remove('active');
-            });
-            
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
-            
-            if (btnElement) {
-                btnElement.classList.add('active');
-            }
-            
-            if (pageId === 'homePage') {
-                updateUI();
-            } else if (pageId === 'tasksPage') {
-                updateTaskButtons();
-            }
-        }
-
-        function showInfoPage() {
-            showPage('infoPage', null);
-        }
-
-        function goBack() {
-            const navItem = document.querySelector(`.nav-item[onclick*="\'${previousPage}\'"]`);
-            showPage(previousPage, navItem);
-        }
-
         // --- PROMO CODE SYSTEM ---
         const promoDatabase = {
-            "Z9_QX72_MLN_B42_0P": 1000000,
             "K9X1V7L0": 50000, "M4N8P2W6": 50000, "R0Q5Z1B9": 50000, "D7F2G8H4": 50000, "S3A9D1F5": 50000,
             "J0K6L2M8": 50000, "T1Y7U3I9": 50000, "O4P0L6K2": 50000, "V9B5N1M7": 50000, "G2H8J4K0": 50000,
             "X1Z7Q3W9": 50000, "L5K1M7N3": 50000, "A8S4D0F6": 50000, "P3O9I5U1": 50000, "E7R1T5Y9": 50000,
@@ -2201,9 +2180,60 @@
             updateUI(); // Refresh balance display
 
             status.innerText = `Congratulations! +${reward.toLocaleString()} ORVEX earned!`;
-            status.style.color = "#00FF00";
+            status.style.color = "green";
             showRewardPopup(reward);
             showNotification("🎉 Promo code redeemed!", 2000, 'success');
+        }
+
+        // --- PREMIUM NAVIGATION SYSTEM ---
+        let previousPage = 'homePage';
+        function showPage(pageId, btnElement) {
+            const notification = document.getElementById('notification');
+            if (notification && notification.classList.contains('notification-show')) {
+                notification.classList.remove('notification-show');
+                notification.classList.add('notification-hide');
+            }
+            
+            const currentActivePage = document.querySelector('.page.active');
+            if (currentActivePage && currentActivePage.id === pageId) {
+                return;
+            }
+            
+            if (currentActivePage) {
+                previousPage = currentActivePage.id;
+            }
+
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.nav-item').forEach(nav => {
+                nav.classList.remove('active');
+            });
+            
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+            
+            if (btnElement) {
+                btnElement.classList.add('active');
+            }
+            
+            if (pageId === 'homePage') {
+                updateUI();
+            } else if (pageId === 'tasksPage') {
+                updateTaskButtons();
+            }
+        }
+
+        function showInfoPage() {
+            showPage('infoPage', null);
+        }
+
+        function goBack() {
+            const navItem = document.querySelector(`.nav-item[onclick*="\'${previousPage}\'"]`);
+            showPage(previousPage, navItem);
         }
 
         // --- INITIALIZATION & LIFE CYCLE ---
@@ -2223,6 +2253,13 @@
             resetDaily();
             resetDailyBonus();
             updateUI(); // Update UI early so values are set before splash hides
+
+            const promoInput = document.getElementById('promoInput');
+            if (promoInput) {
+                promoInput.addEventListener('focus', () => {
+                    setTimeout(() => window.scrollTo(0, 0), 100);
+                });
+            }
         });
 
         // Improved splash screen handling
