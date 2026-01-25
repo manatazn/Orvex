@@ -87,10 +87,6 @@
             position: relative;
             transition: all 0.5s ease;
             cursor: default;
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
         }
 
         /* Cosmic Background Animation */
@@ -144,8 +140,6 @@
             padding: 50px 10px 100px 10px; 
             position: relative;
             z-index: 1;
-            overflow-y: auto;
-            height: calc(100% - 100px);
         } 
 
         /* Header */
@@ -1336,39 +1330,6 @@
             opacity: 0;
             transform: scale(1.05);
         }
-
-        /* Promo Code Section */
-        .promo-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 25px 20px;
-            border: 1px solid var(--card-border);
-            box-shadow: var(--shadow-card);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 20px;
-            transition: none;
-        }
-
-        .promo-input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 10px;
-            border: 1px solid var(--glass-border);
-            background: var(--glass-bg);
-            color: var(--text-primary);
-            font-size: 16px;
-            text-align: center;
-        }
-
-        .promo-status {
-            margin-top: 10px;
-            font-size: 14px;
-            font-weight: 600;
-        }
     </style>
 </head>
 <body id="body">
@@ -1539,6 +1500,21 @@
             </div>
         </div>
 
+        <div id="codePage" class="page">
+            <div class="balance-card">
+                <h3>Total Balance</h3>
+                <div class="amount"><span id="balanceCode">0</span> ORVEX</div>
+            </div>
+
+            <div class="main-card">
+                <h2><i class="fas fa-key"></i> Promo Code</h2>
+                <div class="upgrade-info">Enter your promo code below:</div>
+                <input type="text" id="promoInput" placeholder="Enter code here" style="width:100%; padding:10px; margin-bottom:10px; border-radius:10px; border:1px solid var(--glass-border); background:var(--glass-bg); color:var(--text-primary);">
+                <button onclick="checkPromo()" class="premium-btn">Redeem</button>
+                <div id="promoStatus" class="status-message"></div>
+            </div>
+        </div>
+
         <div id="listingPage" class="page">
             <h2 class="roadmap-header">
                 <i class="fas fa-rocket"></i> Orvex Roadmap
@@ -1566,20 +1542,6 @@
                 </div>
                 <h3>🌍 Expansion</h3>
                 <p>Mobile app launch, NFT marketplace integration, and metaverse city development. Community governance and DAO implementation.</p>
-            </div>
-        </div>
-
-        <div id="promoPage" class="page">
-            <div class="balance-card">
-                <h3>Total Balance</h3>
-                <div class="amount"><span id="balancePromo">0</span> ORVEX</div>
-            </div>
-
-            <div class="promo-card">
-                <h2><i class="fas fa-gift"></i> Promo Code</h2>
-                <input type="text" id="promoInput" class="promo-input" placeholder="Enter promo code">
-                <button id="redeemPromoBtn" class="premium-btn">Redeem</button>
-                <div id="promoStatus" class="promo-status"></div>
             </div>
         </div>
 
@@ -1613,7 +1575,7 @@
             <span class="nav-icon"><i class="fas fa-tasks"></i></span>
             <span>Missions</span>
         </button>
-        <button onclick="showPage('promoPage', this)" class="nav-item">
+        <button onclick="showPage('codePage', this)" class="nav-item">
             <span class="nav-icon"><i class="fas fa-key"></i></span>
             <span>Code</span>
         </button>
@@ -1753,7 +1715,7 @@
             const rewardPerAd = BASE_REWARD + upgradeLevel * 5;
 
             // Update all balance displays uniformly
-            const balanceElements = ['balance', 'balanceCity', 'balanceTasks', 'balancePromo'];
+            const balanceElements = ['balance', 'balanceCity', 'balanceTasks', 'balanceCode'];
             balanceElements.forEach(id => {
                 const element = document.getElementById(id);
                 if (element) {
@@ -1778,26 +1740,42 @@
             const costEl = document.getElementById('upgradeCostDisplay');
             const cityNameEl = document.getElementById('cityNameDisplay');
             const cityEmojiEl = document.getElementById('cityEmojiDisplay');
+            const upgradeBtn = document.getElementById('upgradeBtn');
+            const upgradeInfo = document.querySelector('#cityPage .upgrade-info');
+            const upgradeStatusMessage = document.getElementById('upgradeStatusMessage');
             
             if (levelEl) levelEl.textContent = upgradeLevel;
             if (boostEl) boostEl.textContent = currentBoost.toFixed(2) + 'x';
-            if (costEl) costEl.textContent = formatNumber(getNextCost()) + ' ORVEX';
             if (cityNameEl && cityEmojiEl) {
                 const category = getLevelCategory(upgradeLevel);
                 cityNameEl.textContent = category.name;
                 cityEmojiEl.textContent = category.emoji;
             }
 
-            const upgradeBtn = document.getElementById('upgradeBtn');
-            if (upgradeBtn) {
-                if (upgradeLevel >= MAX_LEVEL) {
-                    upgradeBtn.textContent = 'Max Level';
+            if (upgradeLevel >= MAX_LEVEL) {
+                if (upgradeBtn) {
                     upgradeBtn.disabled = true;
-                    upgradeBtn.classList.add('disabled');
-                } else {
-                    upgradeBtn.textContent = 'Build City';
+                    upgradeBtn.textContent = "Congratulations! Max Level";
+                }
+                if (upgradeInfo) {
+                    upgradeInfo.style.display = 'none';
+                }
+                if (upgradeStatusMessage) {
+                    upgradeStatusMessage.textContent = "You have reached the maximum level for your city.";
+                    upgradeStatusMessage.className = 'status-message success';
+                }
+            } else {
+                if (upgradeBtn) {
                     upgradeBtn.disabled = false;
-                    upgradeBtn.classList.remove('disabled');
+                    upgradeBtn.textContent = "Build City";
+                }
+                if (upgradeInfo) {
+                    upgradeInfo.style.display = 'block';
+                    costEl.textContent = formatNumber(getNextCost()) + ' ORVEX';
+                }
+                if (upgradeStatusMessage) {
+                    upgradeStatusMessage.textContent = "";
+                    upgradeStatusMessage.className = "";
                 }
             }
 
@@ -2135,13 +2113,10 @@
 
         // --- PROMO CODE SYSTEM ---
         const promoDatabase = {
-            // 50,000 Orvex (20 codes)
             "K9X1V7L0": 50000, "M4N8P2W6": 50000, "R0Q5Z1B9": 50000, "D7F2G8H4": 50000, "S3A9D1F5": 50000,
             "J0K6L2M8": 50000, "T1Y7U3I9": 50000, "O4P0L6K2": 50000, "V9B5N1M7": 50000, "G2H8J4K0": 50000,
             "X1Z7Q3W9": 50000, "L5K1M7N3": 50000, "A8S4D0F6": 50000, "P3O9I5U1": 50000, "E7R1T5Y9": 50000,
             "B2N6M0V4": 50000, "W8Q2E4R0": 50000, "U1I7O3P9": 50000, "F6G0H4J8": 50000, "S2D8F4G0": 50000,
-
-            // 30,000 Orvex (50 codes)
             "H7N2K8V4": 30000, "L1M9P5B0": 30000, "X4Z0R6W2": 30000, "S9D3F7G1": 30000, "J5K1L9M3": 30000,
             "T8Y2U6I0": 30000, "O4P0L7K1": 30000, "V3C9X5B1": 30000, "N8M2Q4W0": 30000, "G6F0D4S8": 30000,
             "A2S8D4F0": 30000, "K1L7M3N9": 30000, "P5O1I7U3": 30000, "R9E3W7Q1": 30000, "Z4X0V6C2": 30000,
@@ -2152,8 +2127,6 @@
             "M1N7B3V9": 30000, "L4K0J6H2": 30000, "C9V3B7N1": 30000, "P6O2I8U4": 30000, "A3S9D5F1": 30000,
             "K8L4M0N6": 30000, "H3G9F5D1": 30000, "T2Y8U4I0": 30000, "O7P1L9K5": 30000, "V0C6X2B8": 30000,
             "N5M1Q7W3": 30000, "G8F2D6S0": 30000, "S3D9F5G1": 30000, "X0Z6Q2W8": 30000, "M5N1B7V3": 30000,
-
-            // 20,000 Orvex (100 codes)
             "B7X2N9K1": 20000, "M4V8L5P0": 20000, "R1Q6J3T8": 20000, "C9Z4W7S2": 20000, "G5H0F2D6": 20000,
             "K3L8Y1X9": 20000, "N7M2B4V0": 20000, "P6O1I9U3": 20000, "T5R0E4W8": 20000, "Y2U7I1O9": 20000,
             "A4S8D3F6": 20000, "G1H5J9K0": 20000, "L3K7M2N8": 20000, "B0V4C9X5": 20000, "X1Z6Q2W8": 20000,
@@ -2177,46 +2150,40 @@
         };
 
         function checkPromo() {
-            const input = document.getElementById("promoInput").value.trim().toUpperCase();
+            const input = document.getElementById("promoInput").value.trim();
             const status = document.getElementById("promoStatus");
             
             // 1. Get used codes from storage (empty array if none)
-            let usedCodes = safeGet("usedCodes", []);
+            let myUsedCodes = JSON.parse(localStorage.getItem("myUsedCodes")) || [];
 
             // 2. Check if code exists
             if (!promoDatabase[input]) {
-                status.textContent = "Invalid code!";
+                status.innerText = "Invalid code!";
                 status.style.color = "red";
                 return;
             }
 
-            // 3. Check if already used
-            if (usedCodes.includes(input)) {
-                status.textContent = "You have already used this code!";
+            // 3. Check if user already used this code
+            if (myUsedCodes.includes(input)) {
+                status.innerText = "You have already used this code!";
                 status.style.color = "orange";
                 return;
             }
 
             // 4. Successful redemption
-            const reward = promoDatabase[input];
-            coins += reward;
-            usedCodes.push(input);
+            let reward = promoDatabase[input];
+            coins += reward; // Add to main balance
+            myUsedCodes.push(input); // Add to used list
             
-            // 5. Save updates
-            safeSet("usedCodes", usedCodes);
-            updateUI();
+            // 5. Update storage
+            localStorage.setItem("myUsedCodes", JSON.stringify(myUsedCodes));
+            updateUI(); // Refresh balance display
 
-            status.textContent = `Congratulations! +${formatNumber(reward)} Orvex earned!`;
-            status.style.color = "#00FF00";
+            status.innerText = `Congratulations! +${reward.toLocaleString()} ORVEX earned!`;
+            status.style.color = "green";
             showRewardPopup(reward);
+            showNotification("🎉 Promo code redeemed!", 2000, 'success');
         }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const redeemBtn = document.getElementById('redeemPromoBtn');
-            if (redeemBtn) {
-                redeemBtn.onclick = checkPromo;
-            }
-        });
 
         // --- PREMIUM NAVIGATION SYSTEM ---
         let previousPage = 'homePage';
@@ -2286,6 +2253,13 @@
             resetDaily();
             resetDailyBonus();
             updateUI(); // Update UI early so values are set before splash hides
+
+            const promoInput = document.getElementById('promoInput');
+            if (promoInput) {
+                promoInput.addEventListener('focus', () => {
+                    setTimeout(() => window.scrollTo(0, 0), 100);
+                });
+            }
         });
 
         // Improved splash screen handling
