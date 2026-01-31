@@ -2359,11 +2359,7 @@
             updateUI(); // Update UI early so values are set before splash hides
 
             const promoInput = document.getElementById('promoInput');
-            if (promoInput) {
-                promoInput.addEventListener('focus', () => {
-                    setTimeout(() => window.scrollTo(0, 0), 100);
-                });
-            }
+            // Removed the focus event listener to prevent jumping
         });
 
         // Improved splash screen handling
