@@ -1497,6 +1497,30 @@
                     </div>
                     <button id="claimLevel100Btn" class="task-action-btn disabled">Locked</button>
                 </div>
+
+                <div class="task-card">
+                    <div class="task-info">
+                        <h3><i class="fas fa-eye"></i> Watch 100 Ads</h3>
+                        <div class="reward"><i class="fas fa-gem"></i> +20,000 ORVEX</div>
+                    </div>
+                    <button id="claimAds100Btn" class="task-action-btn disabled">Locked</button>
+                </div>
+
+                <div class="task-card">
+                    <div class="task-info">
+                        <h3><i class="fas fa-eye"></i> Watch 500 Ads</h3>
+                        <div class="reward"><i class="fas fa-gem"></i> +100,000 ORVEX</div>
+                    </div>
+                    <button id="claimAds500Btn" class="task-action-btn disabled">Locked</button>
+                </div>
+
+                <div class="task-card">
+                    <div class="task-info">
+                        <h3><i class="fas fa-eye"></i> Watch 1000 Ads</h3>
+                        <div class="reward"><i class="fas fa-gem"></i> +250,000 ORVEX</div>
+                    </div>
+                    <button id="claimAds1000Btn" class="task-action-btn disabled">Locked</button>
+                </div>
             </div>
         </div>
 
@@ -1640,6 +1664,7 @@
         // --- GLOBAL GAME STATE ---
         let coins = parseFloat(safeGet('coins', 0)) || 0;
         let adCount = parseInt(safeGet('adCount', 0)) || 0;
+        let totalAdsWatched = parseInt(safeGet('totalAdsWatched', 0)) || 0;
         let upgradeLevel = Math.max(1, parseInt(safeGet('upgradeLevel', 1)) || 1);
         let channelJoined = safeGet('channelJoined', false);
         let isInitialized = false;
@@ -1651,6 +1676,12 @@
             25: safeGet('level25Claimed', false),
             50: safeGet('level50Claimed', false),
             100: safeGet('level100Claimed', false)
+        };
+
+        let adsMilestones = {
+            100: safeGet('ads100Claimed', false),
+            500: safeGet('ads500Claimed', false),
+            1000: safeGet('ads1000Claimed', false)
         };
 
         const BASE_REWARD = 100;
@@ -1783,12 +1814,17 @@
 
             safeSet('coins', coins);
             safeSet('adCount', adCount);
+            safeSet('totalAdsWatched', totalAdsWatched);
             safeSet('upgradeLevel', upgradeLevel);
             safeSet('channelJoined', channelJoined);
             safeSet('dailyClaimed', dailyClaimed);
             
             Object.keys(milestones).forEach(lvl => {
                 safeSet(`level${lvl}Claimed`, milestones[lvl]);
+            });
+
+            Object.keys(adsMilestones).forEach(lvl => {
+                safeSet(`ads${lvl}Claimed`, adsMilestones[lvl]);
             });
 
             isInitialized = true;
@@ -1829,6 +1865,26 @@
                 } else if (upgradeLevel >= parseInt(lvl)) {
                     btn.textContent = 'Claim Now';
                     btn.className = 'task-action-btn'; // Clean class for active state
+                    btn.disabled = false;
+                } else {
+                    btn.textContent = 'LOCKED';
+                    btn.className = 'task-action-btn disabled';
+                    btn.disabled = true;
+                }
+            });
+
+            const adsRewards = {100: 20000, 500: 100000, 1000: 250000};
+            Object.keys(adsRewards).forEach(lvl => {
+                const btn = document.getElementById(`claimAds${lvl}Btn`);
+                if (!btn) return;
+
+                if (adsMilestones[lvl]) {
+                    btn.textContent = 'Claimed ✓';
+                    btn.className = 'task-action-btn completed';
+                    btn.disabled = true;
+                } else if (totalAdsWatched >= parseInt(lvl)) {
+                    btn.textContent = 'Claim Now';
+                    btn.className = 'task-action-btn';
                     btn.disabled = false;
                 } else {
                     btn.textContent = 'LOCKED';
@@ -1935,6 +1991,8 @@
                             const reward = BASE_REWARD + upgradeLevel * 5;
                             coins += reward;
                             adCount = Math.min(adCount + 1, MAX_ADS);
+                            totalAdsWatched++;
+                            safeSet('totalAdsWatched', totalAdsWatched);
                             
                             updateUI();
                             
@@ -1951,6 +2009,7 @@
                             }
                             
                             checkMilestoneUnlocks();
+                            checkAdsMilestones();
                             
                         }
                         
@@ -2101,12 +2160,43 @@
                     };
                 }
             });
+
+            const adsRewards = {100: 20000, 500: 100000, 1000: 250000};
+            Object.keys(adsRewards).forEach(lvl => {
+                const btn = document.getElementById(`claimAds${lvl}Btn`);
+                if (btn) {
+                    btn.onclick = function() {
+                        const level = parseInt(lvl);
+                        if (adsMilestones[lvl] || totalAdsWatched < level) {
+                            showNotification("❌ Milestone not yet available.", 2000);
+                            return;
+                        }
+                        
+                        const reward = adsRewards[lvl];
+                        coins += reward;
+                        adsMilestones[lvl] = true;
+                        
+                        updateUI();
+                        
+                        showRewardPopup(reward);
+                    };
+                }
+            });
         });
 
         function checkMilestoneUnlocks() {
             Object.keys(milestoneRewards).forEach(lvl => {
                 if (upgradeLevel >= parseInt(lvl) && !milestones[lvl]) {
                     showNotification(`🏆 One Task Completed: Level ${lvl}!`, 2000);
+                }
+            });
+        }
+
+        function checkAdsMilestones() {
+            const adsRewards = {100: 20000, 500: 100000, 1000: 250000};
+            Object.keys(adsRewards).forEach(lvl => {
+                if (totalAdsWatched >= parseInt(lvl) && !adsMilestones[lvl]) {
+                    showNotification(`🏆 One Task Completed: Watch ${lvl} Ads!`, 2000);
                 }
             });
         }
@@ -2293,8 +2383,6 @@
                 safeSet('coins', coins);
                 safeSet('adCount', adCount);
                 safeSet('upgradeLevel', upgradeLevel);
-                safeSet('channelJoined', channelJoined);
-                safeSet('dailyClaimed', dailyClaimed);
             }
         }, 30000);
 
