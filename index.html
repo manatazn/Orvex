@@ -2123,8 +2123,8 @@
             "B8N2M4K0": 30000, "T7Y1U5I9": 30000, "O3P9L1K7": 30000, "G4H0J6K2": 30000, "S5D1F7G3": 30000,
             "X2Z8Q4W0": 30000, "M9N3B7V1": 30000, "L6K0J4H8": 30000, "C1V7B3N9": 30000, "P2O8I4U0": 30000,
             "A9S3D7F1": 30000, "K6L2M8N4": 30000, "H1G7F3D9": 30000, "T0Y6U2I8": 30000, "O5P1L7K3": 30000,
-            "V4C0X6B2": 30000, "N9M3Q7W1": 30000, "G2F8D4S0": 30000, "S1D7F3G9": 30000, "X6Z2Q8W4": 30000,
-            "M1N7B3V9": 30000, "L4K0J6H2": 30000, "C9V3B7N1": 30000, "P6O2I8U4": 30000, "A3S9D5F1": 30000,
+            "V4C0X6B2": 30000, "N9M3Q7W1": 30000, "G2F8D4S0": 30000, "S3D9F5G1": 30000, "X0Z6Q2W8": 30000,
+            "M5N1B7V3": 30000, "L4K0J6H2": 30000, "C9V3B7N1": 30000, "P6O2I8U4": 30000, "A3S9D5F1": 30000,
             "K8L4M0N6": 30000, "H3G9F5D1": 30000, "T2Y8U4I0": 30000, "O7P1L9K5": 30000, "V0C6X2B8": 30000,
             "N5M1Q7W3": 30000, "G8F2D6S0": 30000, "S3D9F5G1": 30000, "X0Z6Q2W8": 30000, "M5N1B7V3": 30000,
             "B7X2N9K1": 20000, "M4V8L5P0": 20000, "R1Q6J3T8": 20000, "C9Z4W7S2": 20000, "G5H0F2D6": 20000,
@@ -2150,7 +2150,8 @@
         };
 
         function checkPromo() {
-            const input = document.getElementById("promoInput").value.trim();
+            const promoInput = document.getElementById("promoInput");
+            const input = promoInput.value.trim();
             const status = document.getElementById("promoStatus");
             
             // 1. Get used codes from storage (empty array if none)
@@ -2160,6 +2161,10 @@
             if (!promoDatabase[input]) {
                 status.innerText = "Invalid code!";
                 status.style.color = "red";
+                setTimeout(() => {
+                    status.innerText = "";
+                    status.style.color = "";
+                }, 2000);
                 return;
             }
 
@@ -2167,6 +2172,10 @@
             if (myUsedCodes.includes(input)) {
                 status.innerText = "You have already used this code!";
                 status.style.color = "orange";
+                setTimeout(() => {
+                    status.innerText = "";
+                    status.style.color = "";
+                }, 2000);
                 return;
             }
 
@@ -2181,8 +2190,13 @@
 
             status.innerText = `Congratulations! +${reward.toLocaleString()} ORVEX earned!`;
             status.style.color = "green";
+            promoInput.value = ""; // Clear input field after success
             showRewardPopup(reward);
             showNotification("🎉 Promo code redeemed!", 2000, 'success');
+            setTimeout(() => {
+                status.innerText = "";
+                status.style.color = "";
+            }, 2000);
         }
 
         // --- PREMIUM NAVIGATION SYSTEM ---
