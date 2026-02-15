@@ -1330,46 +1330,9 @@
             opacity: 0;
             transform: scale(1.05);
         }
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  body {
-    position: relative;
-    top: -96px; /* Telegram header hündürlüyü */
-  }
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 120px;
-    background: #0a0f2c;
-    z-index: 9999;
-  }
     </style>
 </head>
 <body id="body">
-  <script>
-  const tg = window.Telegram.WebApp;
-
-  tg.ready();
-
-  // Tam fullscreen
-  tg.expand();
-
-  // Header və fonu eyni et (başlıq görünməz)
-  tg.setHeaderColor('#0a0f2c');
-  tg.setBackgroundColor('#0a0f2c');
-
-  // Yuxarı swipe + bağlama jestlərini söndür
-  tg.disableVerticalSwipes();
-  tg.disableClosingConfirmation();
-</script>
 
     <div id="splashScreen">
         <div class="splash-title">ORVEX CITY</div>
