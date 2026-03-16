@@ -596,13 +596,11 @@
                 return;
             }
 
-            const confirmSave = confirm("Are you sure this is your correct TON Wallet address?\n\nYou CANNOT change this later!");
-            if (confirmSave) {
-                safeSet('tonWallet', walletVal);
-                savedTonWallet = walletVal;
-                showNotification("✅ Wallet address saved successfully!", 3000, 'success');
-                renderAirdropPage(); // Re-render to lock the UI
-            }
+            // Dərhal yadda saxlanılır, "confirm" mesajı ləğv edildi
+            safeSet('tonWallet', walletVal);
+            savedTonWallet = walletVal;
+            showNotification("✅ Wallet address saved successfully!", 3000, 'success');
+            renderAirdropPage(); // Re-render to lock the UI
         };
 
         // --- INITIALIZATION ---
