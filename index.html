@@ -56,6 +56,7 @@
             --progress-fill: linear-gradient(90deg, #00d4ff, #7c3aed);
             --notification-success: linear-gradient(135deg, #10b981, #059669);
             --notification-info: linear-gradient(135deg, #00d4ff, #0099cc);
+            --notification-error: linear-gradient(135deg, #ef4444, #dc2626);
             --star-color: rgba(255, 255, 255, 0.8);
             --nebula-color: rgba(124, 58, 237, 0.1);
         }
@@ -306,16 +307,6 @@
             transition: none;
         }
 
-        .main-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-primary), var(--accent-secondary), transparent);
-        }
-
         .main-card h2 { 
             font-family: 'Orbitron', monospace;
             font-size: 20px; 
@@ -326,6 +317,21 @@
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        .reward-badge {
+            display: inline-block;
+            background: var(--btn-primary);
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow-glow);
+            position: relative;
+            z-index: 1;
+            font-size: 14px;
+            transition: none;
         }
 
         /* Stats Grid */
@@ -391,145 +397,116 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        .premium-btn:hover { 
-            transform: translateY(-3px) scale(1.02); 
-            box-shadow: 0 25px 50px rgba(0, 212, 255, 0.3);
+        .premium-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+            z-index: -1;
         }
 
-        .premium-btn:active { 
-            transform: scale(0.98); 
+        .premium-btn:hover::before { left: 100%; }
+        .premium-btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 25px 50px rgba(0, 212, 255, 0.3); }
+        .premium-btn:active { transform: scale(0.98); }
+
+        /* Progress Bar */
+        .progress-container {
+            height: 10px; background: var(--progress-bg); border-radius: 10px;
+            margin: 20px 0; overflow: hidden; position: relative; border: 1px solid var(--glass-border);
+        }
+        .progress-fill {
+            height: 100%; background: var(--progress-fill); width: 0%;
+            transition: 1s width cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; border-radius: 8px;
         }
 
-        .back-btn {
-            width: 100%;
-            height: 60px;
-            font-size: 18px;
-            font-weight: 800;
-            border: none;
-            border-radius: 20px;
-            color: white;
-            background: var(--btn-secondary);
-            cursor: pointer;
-            box-shadow: var(--shadow-primary);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            font-family: 'Orbitron', monospace;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            z-index: 1;
+        /* City Section */
+        .city-section { text-align: center; margin-bottom: 25px; }
+        .city-title {
+            font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 900; margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
+        .city-description { font-size: 13px; opacity: 0.8; margin-bottom: 20px; color: var(--text-muted); line-height: 1.5; }
+        
         /* Navigation */
         .navigation {
-            position: fixed;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 95%;
-            max-width: 400px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            display: flex;
-            padding: 10px;
-            border-radius: 25px;
-            box-shadow: var(--shadow-card);
-            z-index: 1000;
-            border: 1px solid var(--glass-border);
-            gap: 6px;
+            position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 400px;
+            background: var(--glass-bg); backdrop-filter: blur(25px); display: flex; padding: 10px;
+            border-radius: 25px; box-shadow: var(--shadow-card); z-index: 1000; border: 1px solid var(--glass-border); gap: 6px;
         }
+        .nav-item {
+            flex: 1; border: none; background: transparent; color: var(--text-muted); display: flex; flex-direction: column;
+            align-items: center; font-size: 10px; font-weight: 700; cursor: pointer; transition: all 0.3s ease;
+            padding: 8px; border-radius: 15px; position: relative; overflow: hidden;
+        }
+        .nav-item:hover { color: var(--accent-primary); transform: translateY(-3px); }
+        .nav-item.active { color: var(--accent-primary); background: rgba(0, 212, 255, 0.1); }
+        .nav-icon { font-size: 22px; margin-bottom: 4px; transition: transform 0.3s ease; }
 
         /* Notification */
         #notification {
-            position: fixed;
-            top: 60px; 
-            left: 50%; 
-            transform: translateX(-50%) translateY(-100px);
-            background: var(--notification-info);
-            color: white; 
-            padding: 12px 30px; 
-            border-radius: 40px;
-            font-weight: 700; 
-            z-index: 10001; 
-            transition: all 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-            box-shadow: var(--shadow-primary);
-            max-width: 85%;
-            text-align: center;
-            font-family: 'Orbitron', monospace;
-            font-size: 13px;
-            border: 1px solid rgba(255,255,255,0.2);
+            position: fixed; top: 60px; left: 50%; transform: translateX(-50%) translateY(-100px);
+            background: var(--notification-info); color: white; padding: 12px 30px; border-radius: 40px;
+            font-weight: 700; z-index: 10001; transition: all 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            box-shadow: var(--shadow-primary); max-width: 85%; text-align: center; font-family: 'Orbitron', monospace;
+            font-size: 13px; border: 1px solid rgba(255,255,255,0.2);
         }
-
-        .notification-show { 
-            transform: translateX(-50%) translateY(0) !important; 
-            animation: notificationPop 0.3s ease;
-        }
-
+        .notification-show { transform: translateX(-50%) translateY(0) !important; animation: notificationPop 0.3s ease; }
+        .notification-hide { transform: translateX(-50%) translateY(-100px) !important; opacity: 0; }
         @keyframes notificationPop {
             0% { transform: translateX(-50%) translateY(-100px) scale(0.8); opacity: 0; }
             100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
         }
 
-        .notification-hide {
-            transform: translateX(-50%) translateY(-100px) !important;
-            opacity: 0;
-        }
-
         /* Splash Screen */
         #splashScreen {
-            position: fixed; 
-            inset: 0; 
-            background: var(--primary-bg);
-            z-index: 99999; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center;
+            position: fixed; inset: 0; background: var(--primary-bg); z-index: 99999; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 0.8s ease, transform 0.8s ease;
         }
-
         .splash-title { 
-            font-family: 'Orbitron', monospace;
-            font-size: 50px; 
-            font-weight: 900; 
-            color: var(--accent-primary);
-            margin-bottom: 25px;
-            animation: epicEntrance 2s ease-out;
-            text-shadow: 0 0 30px var(--accent-glow);
-            letter-spacing: 4px;
+            font-family: 'Orbitron', monospace; font-size: 50px; font-weight: 900; color: var(--accent-primary);
+            margin-bottom: 25px; animation: epicEntrance 2s ease-out; text-shadow: 0 0 30px var(--accent-glow); letter-spacing: 4px;
         }
+        .splash-loader {
+            width: 200px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 8px; 
+            overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); position: relative;
+        }
+        .splash-fill { 
+            height: 100%; width: 0%; background: var(--progress-fill);
+            animation: loadProgress 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; position: relative; border-radius: 6px;
+        }
+        #splashScreen.fade-out { opacity: 0; transform: scale(1.05); }
 
         @keyframes epicEntrance {
             0% { opacity: 0; transform: scale(0.5) rotateX(90deg) translateY(100px); }
             50% { opacity: 1; transform: scale(1.1) rotateX(0deg) translateY(0); }
             100% { opacity: 1; transform: scale(1) rotateX(0deg) translateY(0); }
         }
-
-        .splash-loader {
-            width: 200px; height: 6px; 
-            background: rgba(255,255,255,0.1); 
-            border-radius: 8px; overflow: hidden; 
-            position: relative;
-        }
-
-        .splash-fill { 
-            height: 100%; width: 0%; 
-            background: var(--progress-fill);
-            animation: loadProgress 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-            position: relative; border-radius: 6px;
-        }
-
         @keyframes loadProgress { to { width: 100%; } }
 
-        #splashScreen.fade-out { opacity: 0; transform: scale(1.05); }
-
+        /* Other classes ignored to save space, but kept intact for the original logic */
+        .upgrade-box { width: 140px; height: 140px; background: var(--btn-primary); margin: 15px auto; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 70px; }
+        .roadmap-header { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 900; margin: 0 0 20px 0; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .task-card { background: var(--card-bg); backdrop-filter: blur(15px); border-radius: 15px; padding: 20px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--card-border); }
+        .task-action-btn { padding: 10px 15px; border-radius: 12px; border: none; font-weight: 700; background: var(--btn-primary); color: white; cursor: pointer; min-width: 90px; }
+        .status-message { margin-top: 12px; padding: 15px; border-radius: 12px; font-size: 14px; font-weight: 700; text-align: center; }
+        .status-message.error { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .status-message.success { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
     </style>
 </head>
 <body id="body">
 
     <div id="splashScreen">
         <div class="splash-title">ORVEX CITY</div>
-        <div class="splash-subtitle" style="color:var(--text-muted); margin-top:15px;">Tap to Earn Adventure</div>
+        <div class="splash-subtitle" style="color:var(--text-muted); font-family:'Orbitron', monospace;">Season 1 Concluded</div>
         <div class="splash-loader" style="margin-top:20px;">
             <div class="splash-fill"></div>
         </div>
@@ -543,7 +520,7 @@
         <div class="header">
             <div class="status-indicator">
                 <i class="fas fa-signal"></i>
-                <span>Season 1 Ended</span>
+                <span>Airdrop Phase</span>
             </div>
             <div class="header-right">
                 <button class="theme-toggle-btn" onclick="toggleTheme()">
@@ -556,94 +533,174 @@
         </div>
 
         <div id="airdropPage" class="page active">
-            <div class="main-card">
-                <h1 style="font-family: 'Orbitron', monospace; color: var(--accent-primary); text-align: center; font-size: 26px; margin-bottom: 10px;">🌟 AIRDROP SEASON 1 🌟</h1>
-                <p style="text-align: center; color: var(--text-muted); margin-bottom: 20px; font-size:13px;">The snapshot has been successfully taken.</p>
+            <div class="splash-title" style="font-size: 28px; text-align: center; margin-bottom: 20px; text-shadow: 0 0 20px var(--accent-glow);">AIRDROP PHASE 1</div>
 
-                <div id="eligibilityContainer"></div>
+            <div id="ineligibleView" style="display: none;">
+                <div class="main-card" style="border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1);">
+                    <h2 style="background: none; -webkit-text-fill-color: #ef4444; color: #ef4444;">
+                        <i class="fas fa-times-circle"></i> Not Eligible
+                    </h2>
+                    <p class="city-description" style="font-size: 14px;">You need to reach at least <strong>City Level 50</strong> to participate in the Airdrop phase.</p>
+                    
+                    <div class="stat-item" style="margin-top: 25px; border-color: rgba(239, 68, 68, 0.3);">
+                        <span id="currentLevelFailDisplay" style="color: #ef4444;">1</span>
+                        <label>Your Current Level</label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="eligibleView" style="display: none;">
+                <div class="balance-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1)); border-color: rgba(16, 185, 129, 0.5); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: #34d399;">Eligible Airdrop Allocation</h3>
+                    <div class="amount" style="background: linear-gradient(135deg, #10b981, #34d399); -webkit-background-clip: text;">
+                        <span id="airdropBalance">0</span> ORVEX
+                    </div>
+                    <p style="font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 10px; font-weight: 500;">(Calculated as Total Game Balance ÷ 100)</p>
+                </div>
+
+                <div class="main-card">
+                    <h2><i class="fas fa-wallet"></i> Wallet Submission</h2>
+                    <p class="city-description">Enter your valid <strong>TON network</strong> wallet address to claim your tokens. <br><span style="color:#f59e0b;">Warning: This action can only be done once.</span></p>
+
+                    <input type="text" id="tonWalletInput" placeholder="Enter TON Address (UQ... or EQ...)" style="width:100%; padding:18px; margin-bottom:20px; border-radius:15px; border:2px solid var(--glass-border); background:rgba(0,0,0,0.2); color:white; font-family: 'Orbitron', monospace; text-align: center; font-size: 13px; outline: none;">
+
+                    <button id="saveWalletBtn" class="premium-btn" onclick="saveWallet()">
+                        <i class="fas fa-save"></i> Save Wallet Address
+                    </button>
+
+                    <div id="walletSavedView" style="display: none; margin-top: 5px;">
+                        <div class="status-message success" style="margin-bottom: 20px;">
+                            <i class="fas fa-check-circle" style="font-size: 20px; display: block; margin-bottom: 8px;"></i>
+                            Address Successfully Saved!
+                        </div>
+                        
+                        <div class="stat-item" style="margin-bottom: 20px; text-align: left; padding: 15px;">
+                            <label style="color: var(--accent-primary);"><i class="fas fa-exclamation-circle"></i> Final Step to Receive Airdrop:</label>
+                            <p style="font-size: 12px; margin-top: 8px; color: var(--text-secondary); line-height: 1.6;">
+                                Please take a <strong>screenshot</strong> of this screen (showing your balance and saved wallet address) and send it directly to our official support team.
+                            </p>
+                        </div>
+
+                        <button class="premium-btn" style="background: linear-gradient(135deg, #0088cc 0%, #005580 100%);" onclick="window.open('https://t.me/orvex_support', '_blank')">
+                            <i class="fab fa-telegram" style="font-size: 22px;"></i> Contact @orvex_support
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div id="homePage" class="page">...</div>
-        <div id="cityPage" class="page">...</div>
-        <div id="tasksPage" class="page">...</div>
-        <div id="codePage" class="page">...</div>
-        <div id="listingPage" class="page">...</div>
+        <div id="homePage" class="page">
+            <div class="balance-card">
+                <h3>Total Balance</h3>
+                <div class="amount"><span id="balance">0</span> ORVEX</div>
+            </div>
+            <div class="main-card">
+                <h2><i class="fas fa-play-circle"></i>Daily Earnings</h2>
+                <div class="reward-badge">+<span id="currentAdReward">105</span> ORVEX per Ad</div>
+            </div>
+        </div>
+
+        <div id="cityPage" class="page">
+            <div class="balance-card">
+                <h3>Total Balance</h3>
+                <div class="amount"><span id="balanceCity">0</span> ORVEX</div>
+            </div>
+            <div class="main-card">
+                <div class="city-section">
+                    <h2 class="city-title"><span id="cityNameDisplay">Village</span></h2>
+                    <div class="upgrade-container">
+                        <div class="upgrade-box" id="upgradeBox"><span id="cityEmojiDisplay">🏘️</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tasksPage" class="page">
+            <h2 class="tasks-header"><i class="fas fa-trophy"></i> Global Missions</h2>
+            <div class="task-list">
+                </div>
+        </div>
+
+        <div id="codePage" class="page">
+            <div class="main-card">
+                <h2><i class="fas fa-key"></i> Promo Code</h2>
+            </div>
+        </div>
+
+        <div id="listingPage" class="page">
+            <h2 class="roadmap-header"><i class="fas fa-rocket"></i> Orvex Roadmap</h2>
+        </div>
 
         <div id="infoPage" class="page">
-            <div class="main-card" style="text-align:left;">
-                <h2 style="font-size:20px; text-align:center; margin-bottom:20px;"><i class="fas fa-info-circle"></i> Info</h2>
-                <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px;">
-                    Season 1 of Orvex has officially ended. Airdrop eligibility depends on reaching at least City Level 50. 
-                    <br><br>Wait for Season 2 to continue your adventure!
-                </p>
-                <button class="back-btn" onclick="showPage('airdropPage', null)">Back to Airdrop</button>
-            </div>
+            <h2 class="info-header"><i class="fas fa-info-circle"></i> Important Disclaimers</h2>
+            <button class="premium-btn" style="background: var(--btn-secondary);" onclick="goBack()">Back</button>
         </div>
     </div>
 
-    <div class="navigation" style="display: none !important;">
-        </div>
+    <div class="navigation" id="mainNav">
+        <button onclick="showPage('homePage', this)" class="nav-item">
+            <span class="nav-icon"><i class="fas fa-home"></i></span><span>Home</span>
+        </button>
+        <button onclick="showPage('cityPage', this)" class="nav-item">
+            <span class="nav-icon"><i class="fas fa-city"></i></span><span>City</span>
+        </button>
+        <button onclick="showPage('tasksPage', this)" class="nav-item">
+            <span class="nav-icon"><i class="fas fa-tasks"></i></span><span>Missions</span>
+        </button>
+        <button onclick="showPage('listingPage', this)" class="nav-item">
+            <span class="nav-icon"><i class="fas fa-chart-line"></i></span><span>Roadmap</span>
+        </button>
+    </div>
 
     <script>
         // --- SECURITY & ANTI-COPY SYSTEM ---
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('selectstart', event => event.preventDefault());
         document.addEventListener('dragstart', event => event.preventDefault());
-        
         document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 'c' || e.key === 'C')) {
-                e.preventDefault();
-            }
+            if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 'c' || e.key === 'C')) { e.preventDefault(); }
         });
 
-        // --- ADVANCED DATA STORAGE ---
+        // --- GLOBAL GAME STATE ---
+        const IS_AIRDROP_PHASE = true; // <--- Set to false when Season 2 begins
+
         function safeGet(k, d = 0) { 
-            try { 
-                const item = localStorage.getItem(k);
-                return item ? JSON.parse(item) : d; 
-            } catch(e) { return d; } 
+            try { const item = localStorage.getItem(k); return item ? JSON.parse(item) : d; } catch(e) { return d; } 
         }
-
         function safeSet(k, v) { 
-            try { localStorage.setItem(k, JSON.stringify(v)); return true; } 
-            catch(e) { return false; } 
+            try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch(e) { return false; } 
         }
 
-        // --- GLOBAL GAME STATE (Mövcud Məlumatlar Çəkilir) ---
         let coins = parseFloat(safeGet('coins', 0)) || 0;
         let upgradeLevel = Math.max(1, parseInt(safeGet('upgradeLevel', 1)) || 1);
-        
-        // Airdrop Dəyişənləri
-        let airdropConverted = safeGet('airdropConverted', false);
-        let savedTonWallet = safeGet('savedTonWallet', '');
+        let previousPage = 'airdropPage';
 
-        function formatNumber(num) {
-            return num.toLocaleString('en-US');
-        }
-
-        // --- THEME SYSTEM ---
+        // --- PREMIUM THEME SYSTEM ---
         function toggleTheme() {
             const isDark = document.body.classList.toggle('dark-theme');
             const icon = document.getElementById('themeIcon');
             icon.textContent = isDark ? '🔆' : '🌙';
             safeSet('theme', isDark ? 'dark' : 'light');
-            
-            document.body.style.transition = 'all 0.6s ease';
-            setTimeout(() => { document.body.style.transition = ''; }, 600);
+            showNotification(isDark ? '🔆 Light Mode Activated' : '🌙 Dark Mode Activated');
         }
 
-        // --- NOTIFICATION SYSTEM ---
+        function formatNumber(num) {
+            if (num >= 1e6) return (num / 1e6).toFixed(1) + 'M';
+            if (num >= 1e3) return (num / 1e3).toFixed(1) + 'K';
+            return num.toLocaleString();
+        }
+
         function showNotification(msg, duration = 2000, type = 'info') { 
             const notificationEl = document.getElementById('notification');
             const textEl = document.getElementById('notificationText');
-            
             if (!notificationEl || !textEl) return;
-            if (window.notificationTimeout) clearTimeout(window.notificationTimeout);
 
+            if (window.notificationTimeout) { clearTimeout(window.notificationTimeout); }
             textEl.textContent = msg;
-            notificationEl.style.background = type === 'success' ? 'var(--notification-success)' : 
-                                              type === 'error' ? 'rgba(239, 68, 68, 0.9)' : 'var(--notification-info)';
+            
+            if(type === 'success') notificationEl.style.background = 'var(--notification-success)';
+            else if(type === 'error') notificationEl.style.background = 'var(--notification-error)';
+            else notificationEl.style.background = 'var(--notification-info)';
             
             notificationEl.classList.remove('notification-hide');
             notificationEl.classList.add('notification-show');
@@ -654,107 +711,106 @@
             }, duration);
         }
 
-        // --- YENİ: AIRDROP SİSTEMİ BAŞLADILMASI ---
+        // --- AIRDROP PHASE LOGIC ---
         function initAirdrop() {
-            // Səhifələri yox edirik və yalnız Airdrop səhifəsini aktiv edirik
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            // Hide bottom navigation
+            const nav = document.getElementById('mainNav');
+            if(nav) nav.style.display = 'none';
+
+            // Ensure only airdrop page is visible
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById('airdropPage').classList.add('active');
+            previousPage = 'airdropPage';
 
-            // Balansın 100-ə bölünərək (2 sıfır silinərək) hesablanması (Yalnız 1 dəfə!)
-            if (!airdropConverted) {
-                coins = Math.floor(coins / 100);
-                safeSet('coins', coins);
-                safeSet('airdropConverted', true);
-            }
+            // Calculate formatted tokens (Balance / 100)
+            const airdropTokens = Math.floor(coins / 100);
+            const balanceEl = document.getElementById('airdropBalance');
+            if(balanceEl) balanceEl.textContent = formatNumber(airdropTokens);
 
-            const container = document.getElementById('eligibilityContainer');
-
-            // Şərt: Level 50 və üzəri
+            // Eligibility check
             if (upgradeLevel >= 50) {
-                let html = `
-                    <div class="balance-card" style="margin-bottom: 20px;">
-                        <h3>Season 1 Airdrop Allocation</h3>
-                        <div class="amount">${formatNumber(coins)} <span style="font-size: 14px;">$ORVEX</span></div>
-                    </div>
-                    
-                    <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 20px;">
-                        <h3 style="color: #10b981; margin-bottom: 10px; font-family: 'Orbitron', monospace;">🎉 Congratulations!</h3>
-                        <p style="font-size: 13px; color: var(--text-secondary);">You reached Level ${upgradeLevel} and successfully qualified for the Season 1 Airdrop!</p>
-                    </div>
-                `;
+                document.getElementById('eligibleView').style.display = 'block';
+                document.getElementById('ineligibleView').style.display = 'none';
 
-                if (savedTonWallet) {
-                    // Cüzdan artıq yadda saxlanılıb
-                    html += `
-                        <div style="background: var(--glass-bg); padding: 15px; border-radius: 15px; border: 1px solid var(--glass-border); text-align: center; margin-bottom: 20px;">
-                            <span style="display:block; margin-bottom: 8px; color: var(--text-muted); font-size: 12px; text-transform: uppercase; font-weight: bold;">Saved TON Wallet:</span>
-                            <strong style="color: var(--accent-primary); font-family: monospace; font-size: 14px; word-break: break-all;">${savedTonWallet}</strong>
-                        </div>
-                        
-                        <a href="https://t.me/orvex_support" target="_blank" class="premium-btn" style="display:flex; align-items:center; justify-content:center; text-decoration:none; margin-top: 15px; background: var(--btn-primary);">
-                            <i class="fab fa-telegram" style="margin-right: 8px; font-size: 20px;"></i> Contact Support
-                        </a>
-                        
-                        <div style="margin-top: 15px; font-size: 12px; color: var(--text-muted); text-align: center; line-height: 1.5;">
-                            ⚠️ <strong style="color: white;">CRITICAL STEP:</strong> Take a screenshot of this page and send it along with your TON Wallet Address to <strong>@orvex_support</strong> on Telegram to claim your tokens.
-                        </div>
-                    `;
-                } else {
-                    // Cüzdan tələb olunur
-                    html += `
-                        <div style="margin-top: 20px; text-align: left;">
-                            <label style="font-size: 12px; color: var(--accent-primary); font-weight: bold; margin-bottom: 8px; display: block; text-transform: uppercase;">TON Network Wallet Address</label>
-                            <input type="text" id="tonInput" placeholder="UQ... Enter TON address" style="width:100%; padding:15px; margin-bottom:10px; border-radius:15px; border:1px solid var(--accent-primary); background:var(--glass-bg); color:white; font-family: monospace; font-size: 14px; outline: none;">
-                            <p style="font-size: 11px; color: #ef4444; margin-bottom: 15px; text-align: center; font-weight: bold;">⚠️ Make sure it's a valid TON address. This cannot be changed later!</p>
-                            <button onclick="saveWalletAddress()" class="premium-btn">Save Wallet</button>
-                        </div>
-                    `;
+                let savedWallet = safeGet('tonWallet', '');
+                const inputEl = document.getElementById('tonWalletInput');
+                const saveBtn = document.getElementById('saveWalletBtn');
+                const savedView = document.getElementById('walletSavedView');
+
+                if (savedWallet) {
+                    inputEl.value = savedWallet;
+                    inputEl.disabled = true;
+                    inputEl.style.opacity = '0.7';
+                    inputEl.style.borderColor = '#10b981';
+                    saveBtn.style.display = 'none';
+                    savedView.style.display = 'block';
                 }
-                container.innerHTML = html;
-
             } else {
-                // Şərt ödənməyibsə (Level 50-dən aşağı)
-                container.innerHTML = `
-                    <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; padding: 25px 20px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(239, 68, 68, 0.2);">
-                        <i class="fas fa-lock" style="font-size: 45px; color: #ef4444; margin-bottom: 15px;"></i>
-                        <h3 style="color: #ef4444; margin-bottom: 12px; font-family: 'Orbitron', monospace; font-size: 20px;">Not Eligible</h3>
-                        <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 15px; line-height: 1.5;">You reached <strong>Level ${upgradeLevel}</strong>. City Level 50 was required to qualify for the Season 1 Airdrop.</p>
-                        <p style="font-size: 15px; color: var(--accent-primary); font-weight: bold; font-family: 'Orbitron', monospace;">Get ready for Season 2!</p>
-                    </div>
-                `;
+                document.getElementById('eligibleView').style.display = 'none';
+                document.getElementById('ineligibleView').style.display = 'block';
+                document.getElementById('currentLevelFailDisplay').textContent = upgradeLevel;
             }
         }
 
-        function saveWalletAddress() {
-            const input = document.getElementById('tonInput').value.trim();
-            if(input.length < 15) { 
-                showNotification("❌ Please enter a valid TON wallet address!", 3000, 'error');
+        function saveWallet() {
+            const inputEl = document.getElementById('tonWalletInput');
+            const val = inputEl.value.trim();
+            
+            // Basic length check for TON wallets
+            if(val.length < 15) { 
+                showNotification("❌ Please enter a valid TON address!", 3000, "error");
+                inputEl.style.borderColor = '#ef4444';
+                setTimeout(() => inputEl.style.borderColor = 'var(--glass-border)', 3000);
                 return;
             }
-            safeSet('savedTonWallet', input);
-            savedTonWallet = input;
-            showNotification("✅ Wallet address saved successfully!", 2000, 'success');
-            initAirdrop(); // Ekrani yeniləyir
+
+            safeSet('tonWallet', val);
+            initAirdrop();
+            showNotification("✅ Wallet address successfully saved!", 3000, "success");
         }
 
-        // Naviqasiya idarəetməsi (sadəcə İnfo və Airdrop səhifələri arasında)
+        // --- NAVIGATION LOGIC ---
         function showPage(pageId, btnElement) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) targetPage.classList.add('active');
-        }
-        function showInfoPage() { showPage('infoPage', null); }
+            // Disabled normal navigation during Airdrop Phase
+            if(IS_AIRDROP_PHASE && pageId !== 'infoPage') {
+                return;
+            }
 
-        // --- İLKİN YÜKLƏNMƏ ---
-        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            if(document.getElementById(pageId)) {
+                document.getElementById(pageId).classList.add('active');
+            }
+        }
+
+        function showInfoPage() {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById('infoPage').classList.add('active');
+        }
+
+        function goBack() {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(previousPage).classList.add('active');
+        }
+
+        // --- INITIALIZATION ---
+        function initializeApp() {
             const savedTheme = safeGet('theme', 'light');
             if (savedTheme === 'dark') { toggleTheme(); }
-            
-            // Bütün sistemi dayandırıb yalnız Airdrop-u aktiv edirik
-            initAirdrop();
+
+            if(IS_AIRDROP_PHASE) {
+                initAirdrop();
+            } else {
+                // Future season 2 initialization...
+                document.getElementById('mainNav').style.display = 'flex';
+                showPage('homePage', document.querySelector('.nav-item'));
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
         });
 
-        // Splash Screen (Giriş Ekranı) Cizgi Film Effekti
+        // Splash screen handling
         setTimeout(() => {
             const splashScreen = document.getElementById('splashScreen');
             if (splashScreen) {
@@ -763,7 +819,7 @@
                     splashScreen.style.display = 'none';
                 }, 800);
             }
-        }, 3800);
+        }, 3500);
 
     </script>
 </body>
