@@ -83,6 +83,7 @@
             background: var(--primary-bg);
             color: var(--text-primary);
             min-height: 100vh;
+            width: 100vw;
             overflow-x: hidden;
             position: relative;
             transition: all 0.5s ease;
@@ -137,70 +138,10 @@
         .container { 
             max-width: 420px; 
             margin: auto; 
-            padding: 50px 10px 100px 10px; 
+            padding: 20px 15px 100px 15px; 
             position: relative;
             z-index: 1;
         } 
-
-        /* Header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
-            padding: 10px 15px;
-        }
-
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--btn-primary);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            color: white;
-            box-shadow: var(--shadow-glow);
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .theme-toggle-btn,
-        .info-btn {
-            width: 40px; 
-            height: 40px; 
-            border-radius: 50%;
-            border: 2px solid var(--glass-border);
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-card);
-        }
-
-        .theme-toggle-btn:hover,
-        .info-btn:hover { 
-            transform: scale(1.1); 
-            box-shadow: var(--shadow-glow);
-            border-color: var(--accent-primary);
-        }
-
-        .info-btn i {
-            color: var(--text-primary);
-        }
 
         /* Page Transitions */
         .page { 
@@ -210,74 +151,13 @@
         .page.active { display: block; }
         
         @keyframes slideInUp {
-            from { 
-                opacity: 0; 
-                transform: translateY(50px) scale(0.95); 
-            } 
-            to { 
-                opacity: 1; 
-                transform: translateY(0) scale(1); 
-            } 
+            from { opacity: 0; transform: translateY(50px) scale(0.95); } 
+            to { opacity: 1; transform: translateY(0) scale(1); } 
         }
 
-        /* Premium Balance Card */
-        .balance-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 20px 15px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-card);
-            text-align: center;
-            border: 1px solid var(--card-border);
-            position: relative;
-            overflow: hidden;
-            transition: none;
-        }
-
-        .balance-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: var(--progress-fill);
-            border-radius: 20px 20px 0 0;
-        }
-
-        .balance-card::after {
-            content: '';
-            position: absolute;
-            bottom: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(0, 212, 255, 0.05) 0%, transparent 70%);
-            animation: orbit 8s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes orbit {
-            0% { transform: rotate(0deg) translateX(50px) rotate(0deg); }
-            100% { transform: rotate(360deg) translateX(50px) rotate(-360deg); }
-        }
-
-        .balance-card:hover {
-            transform: none;
-            box-shadow: var(--shadow-card);
-        }
-
-        .balance-card h3 { 
-            font-family: 'Orbitron', monospace;
-            font-size: 12px; 
-            text-transform: uppercase; 
-            letter-spacing: 1.5px; 
-            opacity: 0.8; 
-            margin-bottom: 10px; 
-            font-weight: 700;
-            color: var(--text-accent);
-        }
-
-        .balance-card .amount { 
+        /* Balance & Typography */
+        h3 { font-family: 'Orbitron', monospace; text-transform: uppercase; }
+        .amount { 
             font-family: 'Orbitron', monospace;
             font-size: 36px; 
             font-weight: 900; 
@@ -285,804 +165,242 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            position: relative;
-            z-index: 1;
-            text-shadow: none;
-            animation: coinGlow 2s ease-in-out infinite alternate;
         }
 
-        @keyframes coinGlow {
-            from { filter: drop-shadow(0 0 10px var(--accent-glow)); }
-            to { filter: drop-shadow(0 0 20px var(--accent-glow)); }
-        }
-
-        /* Main Cards */
-        .main-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 25px 20px;
-            border: 1px solid var(--card-border);
-            box-shadow: var(--shadow-card);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 20px;
-            transition: none;
-        }
-
-        .main-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-primary), var(--accent-secondary), transparent);
-        }
-
-        .main-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-primary), var(--accent-secondary), transparent);
-        }
-
-        .main-card:hover {
-            transform: none;
-            box-shadow: var(--shadow-card);
-        }
-
-        .main-card h2 { 
-            font-family: 'Orbitron', monospace;
-            font-size: 20px; 
-            font-weight: 900; 
-            margin-bottom: 15px; 
-            position: relative;
-            z-index: 1;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .reward-badge {
-            display: inline-block;
-            background: var(--btn-primary);
-            padding: 10px 20px;
-            border-radius: 40px;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 25px;
-            box-shadow: var(--shadow-glow);
-            position: relative;
-            z-index: 1;
-            font-size: 14px;
-            transition: none;
-        }
-
-        .reward-badge::before {
-            content: '💎';
-            margin-right: 6px;
-            font-size: 16px;
-        }
-
-        .reward-badge:hover {
-            transform: none;
-            box-shadow: var(--shadow-glow);
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-item {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            padding: 15px 10px;
-            border-radius: 15px;
-            border: 1px solid var(--glass-border);
-            transition: none;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--progress-fill);
-        }
-
-        .stat-item:hover { 
-            transform: none;
-            box-shadow: var(--shadow-card);
-            border-color: var(--glass-border);
-        }
-
-        .stat-item span { 
-            display: block; 
-            font-family: 'Orbitron', monospace;
-            font-size: 24px; 
-            font-weight: 900; 
-            color: var(--accent-primary);
-            margin-bottom: 5px;
-        }
-
-        .stat-item label { 
-            font-size: 11px; 
-            opacity: 0.7; 
-            font-weight: 600; 
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Premium Buttons */
-        .premium-btn {
-            width: 100%;
-            height: 60px;
-            font-size: 18px;
-            font-weight: 800;
-            border: none;
-            border-radius: 20px;
-            color: white;
-            background: var(--btn-primary);
-            cursor: pointer;
-            box-shadow: var(--shadow-primary);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-            font-family: 'Orbitron', monospace;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            z-index: 1;
-        }
-
-        .premium-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; 
-            left: -100%;
-            width: 100%; 
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.6s;
-            z-index: -1;
-        }
-
-        .premium-btn:hover::before { 
-            left: 100%; 
-        }
-
-        .premium-btn:hover { 
-            transform: translateY(-3px) scale(1.02); 
-            box-shadow: 0 25px 50px rgba(0, 212, 255, 0.3);
-        }
-
-        .premium-btn:active { 
-            transform: scale(0.98); 
-        }
-
-        .premium-btn.loading { 
-            background: var(--btn-secondary); 
-            opacity: 0.8; 
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .premium-btn.loading::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            top: 50%;
-            left: 50%;
-            margin-left: -10px;
-            margin-top: -10px;
-            border: 2px solid transparent;
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            height: 10px;
-            background: var(--progress-bg);
-            border-radius: 10px;
-            margin: 20px 0;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid var(--glass-border);
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--progress-fill);
-            width: 0%;
-            transition: 1s width cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            border-radius: 8px;
-        }
-
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0; 
-            left: 0;
-            bottom: 0; 
-            right: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        .progress-fill::before {
-            content: attr(data-label);
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 9px;
-            font-weight: 700;
-            color: white;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-            z-index: 2;
-        }
-
-        /* City Section */
-        .city-section {
+        /* --- AIRDROP SPECIFIC STYLES --- */
+        .airdrop-header {
             text-align: center;
             margin-bottom: 25px;
+            animation: pulseGlow 2s infinite;
         }
 
-        .city-title {
+        .airdrop-header h1 {
             font-family: 'Orbitron', monospace;
-            font-size: 20px;
+            font-size: 28px;
             font-weight: 900;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .city-description {
-            font-size: 13px;
-            opacity: 0.8;
-            margin-bottom: 20px;
-            color: var(--text-muted);
-        }
-
-        .upgrade-container {
-            position: relative;
-            display: inline-block;
-            margin: 15px 0;
-        }
-
-        .upgrade-box {
-            width: 140px; 
-            height: 140px; 
-            background: var(--btn-primary);
-            margin: 15px auto;
-            border-radius: 50%;
-            border: 3px solid var(--accent-primary);
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 70px;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-glow), inset 0 0 20px rgba(255,255,255,0.1);
-        }
-
-        .upgrade-box::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 90px;
-            height: 90px;
-            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .upgrade-box:hover::before {
-            opacity: 1;
-        }
-
-        .upgrade-box:hover { 
-            transform: none;
-            box-shadow: var(--shadow-glow), inset 0 0 20px rgba(255,255,255,0.1);
-            border-color: var(--accent-primary);
-        }
-
-        .upgrade-box.upgraded { 
-            animation: upgradeSuccess 1s cubic-bezier(0.68, -0.55, 0.265, 1.55); 
-            background: var(--btn-success);
-            border-color: #10b981;
-        }
-
-        @keyframes upgradeSuccess {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.3) rotate(180deg); }
-            100% { transform: scale(1) rotate(360deg); }
-        }
-
-        .upgrade-info {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px solid var(--glass-border);
-            margin-bottom: 15px;
-            font-weight: 700;
-            font-size: 13px;
-        }
-
-        .upgrade-info span {
-            color: var(--accent-primary);
-            font-family: 'Orbitron', monospace;
-        }
-
-        /* Tasks Section */
-        .tasks-header {
-            font-family: 'Orbitron', monospace;
-            font-size: 20px;
-            font-weight: 900;
-            margin: 0 0 20px 0;
-            text-align: left;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .task-list { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 15px; 
-        }
-
-        .task-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            border-radius: 15px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 1px solid var(--card-border);
-            transition: none;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .task-card::before {
-            content: '';
-            position: absolute;
-            left: 0; 
-            top: 0; 
-            bottom: 0;
-            width: 5px;
-            background: var(--progress-fill);
-            border-radius: 15px 0 0 15px;
-        }
-
-        .task-card:hover { 
-            transform: none;
-            box-shadow: var(--shadow-card);
-            border-color: var(--card-border);
-        }
-
-        .task-info { 
-            text-align: left; 
-            flex: 1; 
-            position: relative; 
-            z-index: 1; 
-        }
-
-        .task-info h3 { 
-            font-size: 16px; 
-            margin-bottom: 6px; 
-            font-weight: 700; 
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .task-info .reward { 
-            color: var(--accent-primary); 
-            font-weight: 800; 
-            font-size: 14px; 
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin-top: 5px;
-        }
-
-        .task-action-btn {
-            padding: 10px 15px;
-            border-radius: 12px;
-            border: none;
-            font-weight: 700;
-            background: var(--btn-primary);
-            color: white;
-            cursor: pointer;
-            min-width: 90px;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-primary);
-            position: relative;
-            overflow: hidden;
-            font-family: 'Orbitron', monospace;
-            font-size: 13px;
-            text-transform: uppercase;
-        }
-
-        .task-action-btn:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
-        }
-
-        .task-action-btn:active { 
-            transform: scale(0.98); 
-        }
-
-        /* COMPLETED STATE - Applied strictly to overrides */
-        .task-action-btn.completed { 
-            background: var(--btn-success) !important; 
-            cursor: default !important; 
-            transform: none !important;
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3) !important;
-            color: white !important;
-            opacity: 1 !important;
-        }
-
-        .task-action-btn.completed:hover { 
-            transform: none !important; 
-        }
-
-        .task-action-btn.disabled { 
-            opacity: 0.5; 
-            cursor: not-allowed; 
-            background: var(--btn-warning);
-            transform: none;
-        }
-
-        .task-action-btn.disabled:hover { 
-            transform: none; 
-        }
-
-        /* Daily Bonus Premium Design */
-        .daily-bonus-section {
-            margin-bottom: 30px;
-        }
-
-        .daily-bonus-card {
-            background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%); /* Gold premium theme */
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border: 2px solid rgba(255, 215, 0, 0.5);
-            box-shadow: 0 0 40px rgba(255, 215, 0, 0.4), var(--shadow-primary);
-            transition: none;
-            position: relative;
-            overflow: hidden;
-            color: #000; /* Dark text for gold bg */
-            text-align: center;
-        }
-
-        .daily-bonus-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #fff, #ffd700, #fff);
-        }
-
-        .daily-bonus-card::after {
-            content: '⭐';
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 30px;
-            animation: sparkle 2s infinite;
-        }
-
-        .daily-bonus-card:hover {
-            transform: none;
-            box-shadow: 0 0 40px rgba(255, 215, 0, 0.4), var(--shadow-primary);
-        }
-
-        .daily-bonus-card h3 {
-            font-family: 'Orbitron', monospace;
-            font-size: 22px;
-            font-weight: 900;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
             margin-bottom: 10px;
-            color: #000;
-            text-shadow: 0 1px 2px rgba(255,255,255,0.5);
+        }
+
+        .airdrop-header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3)); }
+            50% { filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.7)); }
+        }
+
+        .airdrop-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 30px 20px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .airdrop-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            animation: orbit 10s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .airdrop-card > * { position: relative; z-index: 1; }
+
+        .airdrop-balance {
+            font-size: 42px;
+            font-weight: 900;
+            font-family: 'Orbitron', monospace;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            margin: 15px 0;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
         }
 
-        .daily-bonus-card .reward {
-            font-size: 18px;
-            font-weight: 800;
-            color: #d97706;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .wallet-section {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--glass-border);
         }
 
-        .daily-bonus-btn {
-            width: 80%;
-            height: 50px;
-            font-size: 16px;
-            font-weight: 800;
-            border: none;
-            border-radius: 15px;
-            color: #fff;
-            background: linear-gradient(135deg, #ff6b00 0%, #d97706 100%);
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(217, 119, 6, 0.3);
-            transition: all 0.3s ease;
-            font-family: 'Orbitron', monospace;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .daily-bonus-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(217, 119, 6, 0.4);
-        }
-
-        .daily-bonus-btn.completed {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-            cursor: default !important;
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3) !important;
-        }
-
-        /* Roadmap Section */
-        .roadmap-header {
-            font-family: 'Orbitron', monospace;
-            font-size: 20px;
-            font-weight: 900;
-            margin: 0 0 20px 0;
-            text-align: left;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .roadmap-item {
-            background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 15px;
-            border-left: 5px solid var(--accent-primary);
-            transition: none;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid var(--card-border);
-        }
-
-        .roadmap-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 0;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1));
-            transition: width 0.5s ease;
-        }
-
-        .roadmap-item:hover::before {
-            width: 0;
-        }
-
-        .roadmap-item:hover { 
-            transform: none;
-            box-shadow: var(--shadow-card);
-            border-left-color: var(--accent-primary);
-        }
-
-        .roadmap-date {
-            font-family: 'Orbitron', monospace;
-            font-weight: 900; 
-            color: var(--accent-primary);
-            font-size: 14px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .roadmap-item h3 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
-
-        .roadmap-item p {
-            font-size: 13px; 
-            opacity: 0.8; 
-            line-height: 1.5;
-            color: var(--text-secondary);
-        }
-
-        /* Info Section */
-        .info-header {
-            font-family: 'Orbitron', monospace;
-            font-size: 20px;
-            font-weight: 900;
-            margin: 0 0 20px 0;
-            text-align: center;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .info-list {
-            list-style-type: decimal;
-            padding-left: 20px;
-            margin-bottom: 30px;
-        }
-
-        .info-list li {
-            margin-bottom: 20px;
-            font-size: 14px;
-            line-height: 1.6;
-            color: var(--text-secondary);
-        }
-
-        .info-list li strong {
-            color: var(--text-primary);
-            font-weight: 700;
-        }
-
-        .back-btn {
-            width: 100%;
-            height: 60px;
-            font-size: 18px;
-            font-weight: 800;
-            border: none;
-            border-radius: 20px;
-            color: white;
-            background: var(--btn-secondary);
-            cursor: pointer;
-            box-shadow: var(--shadow-primary);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-            font-family: 'Orbitron', monospace;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            z-index: 1;
-        }
-
-        .back-btn:hover {
-            transform: translateY(-3px) scale(1.02); 
-            box-shadow: 0 25px 50px rgba(124, 58, 237, 0.3);
-        }
-
-        .back-btn:active { 
-            transform: scale(0.98); 
-        }
-
-        /* Navigation */
-        .navigation {
-            position: fixed;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 95%;
-            max-width: 400px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            display: flex;
-            padding: 10px;
-            border-radius: 25px;
-            box-shadow: var(--shadow-card);
-            z-index: 1000;
-            border: 1px solid var(--glass-border);
-            gap: 6px;
-        }
-
-        .nav-item {
-            flex: 1;
-            border: none;
-            background: transparent;
-            color: var(--text-muted);
+        .wallet-input-group {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            font-size: 10px;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .wallet-input-group label {
+            font-size: 13px;
             font-weight: 700;
+            color: var(--text-secondary);
+            text-align: left;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .wallet-input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--accent-primary);
+            color: #fff;
+            font-family: 'Inter', monospace;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .wallet-input:focus {
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            border-color: #fff;
+        }
+
+        .wallet-input:disabled {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: #10b981;
+            color: #10b981;
+            cursor: not-allowed;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 16px;
+            border-radius: 15px;
+            border: none;
+            font-family: 'Orbitron', monospace;
+            font-weight: 800;
+            font-size: 15px;
+            text-transform: uppercase;
             cursor: pointer;
             transition: all 0.3s ease;
-            padding: 8px;
-            border-radius: 15px;
-            position: relative;
+            color: #fff;
+            box-shadow: var(--shadow-primary);
+        }
+
+        .btn-save { background: var(--btn-success); margin-bottom: 15px; }
+        .btn-save:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(16, 185, 129, 0.4); }
+        .btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .btn-telegram { background: linear-gradient(135deg, #0088cc 0%, #005580 100%); display: flex; align-items: center; justify-content: center; gap: 10px;}
+        .btn-telegram:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0, 136, 204, 0.4); }
+
+        .ineligible-card {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid rgba(239, 68, 68, 0.5);
+            padding: 40px 20px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.2);
+        }
+
+        .ineligible-icon {
+            font-size: 60px;
+            color: #ef4444;
+            margin-bottom: 20px;
+        }
+
+        .ineligible-card h2 {
+            font-family: 'Orbitron', monospace;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .ineligible-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Advanced Splash Screen Fixes */
+        #splashScreen {
+            position: fixed; 
+            inset: 0; 
+            width: 100vw;
+            height: 100vh;
+            background: var(--primary-bg);
+            z-index: 99999; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            box-sizing: border-box;
             overflow: hidden;
         }
 
-        .nav-item::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+        .splash-title { 
+            font-family: 'Orbitron', monospace;
+            font-size: 45px; 
+            font-weight: 900; 
+            color: var(--accent-primary);
+            margin-bottom: 25px;
+            animation: epicEntrance 2s ease-out;
+            text-shadow: 0 0 30px var(--accent-glow);
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        @keyframes epicEntrance {
+            0% { opacity: 0; transform: scale(0.5) rotateX(90deg) translateY(50px); }
+            50% { opacity: 1; transform: scale(1.1) rotateX(0deg) translateY(0); }
+            100% { opacity: 1; transform: scale(1) rotateX(0deg) translateY(0); }
+        }
+
+        .splash-loader {
+            width: 200px; 
+            height: 6px; 
+            background: rgba(255,255,255,0.1); 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .splash-fill { 
+            height: 100%; 
+            width: 0%; 
             background: var(--progress-fill);
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: -1;
-            border-radius: 15px;
+            animation: loadProgress 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            border-radius: 6px;
         }
 
-        .nav-item:hover::before { 
-            opacity: 0.2; 
+        @keyframes loadProgress { to { width: 100%; } }
+
+        .splash-subtitle {
+            margin-top: 15px;
+            font-size: 14px;
+            color: var(--text-muted);
+            animation: fadeInUp 1s ease-out 1s both;
         }
 
-        .nav-item:hover { 
-            color: var(--accent-primary); 
-            transform: translateY(-3px);
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .nav-item.active { 
-            color: var(--accent-primary); 
-            background: rgba(0, 212, 255, 0.1);
-        }
+        /* Hide Navigation Menu Entirely for Airdrop Phase */
+        .navigation { display: none !important; }
 
-        .nav-item.active::before { 
-            opacity: 0.3; 
-        }
-
-        .nav-icon { 
-            font-size: 22px; 
-            margin-bottom: 4px; 
-            transition: transform 0.3s ease;
-        }
-
-        .nav-item:hover .nav-icon {
-            transform: scale(1.2);
-        }
-
-        .nav-item.active .nav-icon {
-            transform: scale(1.1);
-        }
-
-        /* Notification */
         #notification {
             position: fixed;
-            top: 60px; /* Moved down to avoid header clash */
+            top: 30px; 
             left: 50%; 
             transform: translateX(-50%) translateY(-100px);
             background: var(--notification-info);
@@ -1097,238 +415,13 @@
             text-align: center;
             font-family: 'Orbitron', monospace;
             font-size: 13px;
-            border: 1px solid rgba(255,255,255,0.2);
         }
+        .notification-show { transform: translateX(-50%) translateY(0) !important; }
+        .notification-hide { transform: translateX(-50%) translateY(-100px) !important; opacity: 0; }
 
-        .notification-show { 
-            transform: translateX(-50%) translateY(0) !important; 
-            animation: notificationPop 0.3s ease;
-        }
-
-        @keyframes notificationPop {
-            0% { transform: translateX(-50%) translateY(-100px) scale(0.8); opacity: 0; }
-            100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
-        }
-
-        .notification-hide {
-            transform: translateX(-50%) translateY(-100px) !important;
-            opacity: 0;
-        }
-
-        /* Reward Popup */
-        .reward-popup {
-            position: fixed;
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%) scale(0);
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            color: white; 
-            padding: 20px 40px;
-            border-radius: 20px; 
-            font-weight: 900; 
-            font-size: 24px;
-            opacity: 0; 
-            z-index: 10002; 
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: var(--shadow-primary);
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            border: 2px solid rgba(255,255,255,0.2);
-            font-family: 'Orbitron', monospace;
-        }
-
-        .reward-popup.show { 
-            opacity: 1; 
-            transform: translate(-50%, -50%) scale(1); 
-            animation: rewardExplode 0.6s ease;
-        }
-
-        @keyframes rewardExplode {
-            0% { 
-                transform: translate(-50%, -50%) scale(0) rotate(0deg); 
-                opacity: 0; 
-            }
-            50% { 
-                transform: translate(-50%, -50%) scale(1.2) rotate(5deg); 
-                opacity: 1; 
-            }
-            100% { 
-                transform: translate(-50%, -50%) scale(1) rotate(0deg); 
-                opacity: 1; 
-            }
-        }
-
-        .reward-popup::before {
-            content: '✨';
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 35px;
-            animation: sparkle 1.5s ease-out;
-        }
-
-        .reward-popup::after {
-            content: '🎉';
-            position: absolute;
-            bottom: -12px;
-            right: 15px;
-            font-size: 25px;
-            animation: celebrate 2s ease-in-out infinite;
-        }
-
-        @keyframes celebrate {
-            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.7; }
-            50% { transform: scale(1.2) rotate(10deg); opacity: 1; }
-        }
-
-        @keyframes sparkle {
-            0% { opacity: 0; transform: translateX(-50%) translateY(-30px) scale(0) rotate(0deg); }
-            50% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1.5) rotate(180deg); }
-            100% { opacity: 0; transform: translateX(-50%) translateY(30px) scale(0) rotate(360deg); }
-        }
-
-        /* Splash Screen */
-        #splashScreen {
-            position: fixed; 
-            inset: 0; 
-            background: var(--primary-bg);
-            z-index: 99999; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center;
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .splash-title { 
-            font-family: 'Orbitron', monospace;
-            font-size: 50px; 
-            font-weight: 900; 
-            color: var(--accent-primary);
-            margin-bottom: 25px;
-            animation: epicEntrance 2s ease-out;
-            text-shadow: 0 0 30px var(--accent-glow);
-            letter-spacing: 4px;
-        }
-
-        @keyframes epicEntrance {
-            0% { 
-                opacity: 0; 
-                transform: scale(0.5) rotateX(90deg) translateY(100px); 
-            }
-            50% { 
-                opacity: 1; 
-                transform: scale(1.1) rotateX(0deg) translateY(0); 
-            }
-            100% { 
-                opacity: 1; 
-                transform: scale(1) rotateX(0deg) translateY(0); 
-            }
-        }
-
-        .splash-loader {
-            width: 200px; 
-            height: 6px; 
-            background: rgba(255,255,255,0.1); 
-            border-radius: 8px; 
-            overflow: hidden; 
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
-            position: relative;
-        }
-
-        .splash-fill { 
-            height: 100%; 
-            width: 0%; 
-            background: var(--progress-fill);
-            animation: loadProgress 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-            position: relative;
-            border-radius: 6px;
-        }
-
-        .splash-fill::after {
-            content: '';
-            position: absolute;
-            top: 0; 
-            left: 0; 
-            bottom: 0;
-            width: 35px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
-            animation: shimmer 1.5s infinite;
-        }
-
-        @keyframes loadProgress { 
-            to { width: 100%; } 
-        }
-
-        .splash-subtitle {
-            margin-top: 15px;
-            font-size: 14px;
-            color: var(--text-muted);
-            animation: fadeInUp 1s ease-out 1s both;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Status Messages */
-        .status-message {
-            margin-top: 12px;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .status-message.error {
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .status-message.success {
-            background: rgba(16, 185, 129, 0.1);
-            color: #10b981;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        /* Responsive Design */
         @media (max-width: 480px) {
-            .container { padding: 50px 8px 100px 8px; }
-            .navigation { width: 95%; bottom: 10px; padding: 8px; }
-            .splash-title { font-size: 40px; letter-spacing: 2px; }
-            .stats-grid { gap: 12px; }
-            .main-card { padding: 20px 15px; }
-            .task-card { padding: 15px; }
-        }
-
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.05);
-            border-radius: 8px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent-primary);
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-secondary);
-        }
-
-        /* Improved Splash Transition */
-        #splashScreen.fade-out {
-            opacity: 0;
-            transform: scale(1.05);
+            .splash-title { font-size: 36px; }
+            .airdrop-balance { font-size: 34px; }
         }
     </style>
 </head>
@@ -1336,277 +429,27 @@
 
     <div id="splashScreen">
         <div class="splash-title">ORVEX CITY</div>
-        <div class="splash-subtitle">Tap to Earn Adventure</div>
+        <div class="splash-subtitle">Season 1 Conclusion</div>
         <div class="splash-loader">
             <div class="splash-fill"></div>
         </div>
     </div>
 
-    <div id="notification">
-        <span id="notificationText"></span>
-    </div>
-
-    <div id="rewardMsg" class="reward-popup"></div>
+    <div id="notification"><span id="notificationText"></span></div>
 
     <div class="container">
-        <div class="header">
-            <div class="status-indicator">
-                <i class="fas fa-signal"></i>
-                <span>Online</span>
-            </div>
-            <div class="header-right">
-                <button class="theme-toggle-btn" onclick="toggleTheme()">
-                    <span id="themeIcon">🌙</span>
-                </button>
-                <button class="info-btn" onclick="showInfoPage()">
-                    <i class="fas fa-info-circle"></i>
-                </button>
-            </div>
-        </div>
+        <div id="homePage" class="page" style="display:none;"></div>
+        <div id="cityPage" class="page" style="display:none;"></div>
+        <div id="tasksPage" class="page" style="display:none;"></div>
+        <div id="codePage" class="page" style="display:none;"></div>
+        <div id="listingPage" class="page" style="display:none;"></div>
+        <div id="infoPage" class="page" style="display:none;"></div>
 
-        <div id="homePage" class="page active">
-            <div class="balance-card">
-                <h3>Total Balance</h3>
-                <div class="amount"><span id="balance">0</span> ORVEX</div>
-            </div>
+        <div id="airdropPage" class="page active">
             
-            <div class="main-card">
-                <h2><i class="fas fa-play-circle"></i>Daily Earnings</h2>
-                <div class="reward-badge">+<span id="currentAdReward">105</span> ORVEX per Ad</div>
-                
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <span id="adsCount">0</span>
-                        <label>Ads Watched</label>
-                    </div>
-                    <div class="stat-item">
-                        <span id="maxAds">100</span>
-                        <label>Daily Limit</label>
-                    </div>
-                </div>
+            <div id="airdropContent"></div>
 
-                <div class="progress-container">
-                    <div class="progress-fill" id="progress"></div>
-                </div>
-
-                <button id="adBtn" class="premium-btn">
-                    <span id="adBtnText">Watch Ad</span>
-                </button>
-            </div>
         </div>
-
-        <div id="cityPage" class="page">
-            <div class="balance-card">
-                <h3>Total Balance</h3>
-                <div class="amount"><span id="balanceCity">0</span> ORVEX</div>
-            </div>
-
-            <div class="main-card">
-                <div class="city-section">
-                    <h2 class="city-title"><span id="cityNameDisplay">Village</span></h2>
-                    <p class="city-description">Build your empire and boost earnings up to 6x globally. New levels coming soon! Levels and ad watches are crucial for airdrop rewards.</p>
-                    
-                    <div class="upgrade-container">
-                        <div class="upgrade-box" id="upgradeBox"><span id="cityEmojiDisplay">🏘️</span></div>
-                    </div>
-                    
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span id="levelDisplay">1</span>
-                            <label>Level</label>
-                        </div>
-                        <div class="stat-item">
-                            <span id="boostDisplay">1.05x</span>
-                            <label>Boost</label>
-                        </div>
-                    </div>
-
-                    <div class="upgrade-info">
-                        Upgrade Cost: <span id="upgradeCostDisplay">500 ORVEX</span>
-                    </div>
-
-                    <button id="upgradeBtn" class="premium-btn">Build City</button>
-                    <div id="upgradeStatusMessage" class="status-message"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="tasksPage" class="page">
-            <div class="balance-card">
-                <h3>Total Balance</h3>
-                <div class="amount"><span id="balanceTasks">0</span> ORVEX</div>
-            </div>
-
-            <div class="daily-bonus-section">
-                <div class="daily-bonus-card">
-                    <h3><i class="fas fa-gift" style="font-size: 28px;"></i> Daily Bonus</h3>
-                    <div class="reward"><i class="fas fa-coins" style="font-size: 20px;"></i> +5,000 ORVEX</div>
-                    <button id="claimDailyBtn" class="daily-bonus-btn">Claim Now</button>
-                </div>
-            </div>
-
-            <h2 class="tasks-header">
-                <i class="fas fa-trophy"></i> Global Missions
-            </h2>
-            
-            <div class="task-list">
-                <div class="task-card">
-                    <div class="task-info">
-                        <h3><i class="fab fa-telegram"></i> Join Community</h3>
-                        <div class="reward"><i class="fas fa-coins"></i> +5,000 ORVEX</div>
-                    </div>
-                    <button id="joinChannelBtn" class="task-action-btn">Start</button>
-                </div>
-
-                <div class="task-card">
-                    <div class="task-info">
-                        <h3><i class="fas fa-building"></i> City Level 5</h3>
-                        <div class="reward"><i class="fas fa-gem"></i> +2,500 ORVEX</div>
-                    </div>
-                    <button id="claimLevel5Btn" class="task-action-btn disabled">Locked</button>
-                </div>
-
-                <div class="task-card">
-                    <div class="task-info">
-                        <h3><i class="fas fa-building"></i> City Level 10</h3>
-                        <div class="reward"><i class="fas fa-gem"></i> +5,000 ORVEX</div>
-                    </div>
-                    <button id="claimLevel10Btn" class="task-action-btn disabled">Locked</button>
-                </div>
-
-                <div class="task-card">
-                    <div class="task-info">
-                        <h3><i class="fas fa-building"></i> City Level 25</h3>
-                        <div class="reward"><i class="fas fa-gem"></i> +10,000 ORVEX</div>
-                    </div>
-                    <button id="claimLevel25Btn" class="task-action-btn disabled">Locked</button>
-                </div>
-
-                <div class="task-card">
-                    <div class="task-info">
-                        <h3><i class="fas fa-building"></i> City Level 50</h3>
-                        <div class="reward"><i class="fas fa-gem"></i> +100,000 ORVEX</div>
-                    </div>
-                    <button id="claimLevel50Btn" class="task-action-btn disabled">Locked</button>
-                </div>
-
-                <div class="task-card">
-                    <div class="task-info">
-                        <h3><i class="fas fa-building"></i> City Level 100</h3>
-                        <div class="reward"><i class="fas fa-gem"></i> +1,000,000 ORVEX</div>
-                    </div>
-                    <button id="claimLevel100Btn" class="task-action-btn disabled">Locked</button>
-                </div>
-
-                <div class="task-card">
-                    <div class="task-info">
-                        <h3><i class="fas fa-eye"></i> Watch 100 Ads</h3>
-                        <div class="reward"><i class="fas fa-gem"></i> +20,000 ORVEX</div>
-                    </div>
-                    <button id="claimAds100Btn" class="task-action-btn disabled">Locked</button>
-                </div>
-
-                <div class="task-card">
-                    <div class="task-info">
-                        <h3><i class="fas fa-eye"></i> Watch 500 Ads</h3>
-                        <div class="reward"><i class="fas fa-gem"></i> +100,000 ORVEX</div>
-                    </div>
-                    <button id="claimAds500Btn" class="task-action-btn disabled">Locked</button>
-                </div>
-
-                <div class="task-card">
-                    <div class="task-info">
-                        <h3><i class="fas fa-eye"></i> Watch 1000 Ads</h3>
-                        <div class="reward"><i class="fas fa-gem"></i> +250,000 ORVEX</div>
-                    </div>
-                    <button id="claimAds1000Btn" class="task-action-btn disabled">Locked</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="codePage" class="page">
-            <div class="balance-card">
-                <h3>Total Balance</h3>
-                <div class="amount"><span id="balanceCode">0</span> ORVEX</div>
-            </div>
-
-            <div class="main-card">
-                <h2><i class="fas fa-key"></i> Promo Code</h2>
-                <div class="upgrade-info">Enter your promo code below:</div>
-                <input type="text" id="promoInput" placeholder="Enter code here" style="width:100%; padding:10px; margin-bottom:10px; border-radius:10px; border:1px solid var(--glass-border); background:var(--glass-bg); color:var(--text-primary);">
-                <button onclick="checkPromo()" class="premium-btn">Redeem</button>
-                <div id="promoStatus" class="status-message"></div>
-            </div>
-        </div>
-
-        <div id="listingPage" class="page">
-            <h2 class="roadmap-header">
-                <i class="fas fa-rocket"></i> Orvex Roadmap
-            </h2>
-            
-            <div class="roadmap-item">
-                <div class="roadmap-date">
-                    <i class="fas fa-calendar-alt"></i> Q2 2026
-                </div>
-                <h3>🌌 Token Generation Event</h3>
-                <p>Global airdrop distribution to active players based on achievements, balance, and community contribution. Multiple CEX listings worldwide.</p>
-            </div>
-
-            <div class="roadmap-item">
-                <div class="roadmap-date">
-                    <i class="fas fa-calendar-alt"></i> Q3 2026
-                </div>
-                <h3>🚀 Exchange Listing</h3>
-                <p>Strategic partnerships with Binance, OKX, Bybit, and major regional exchanges. Liquidity pools and staking programs launch globally.</p>
-            </div>
-
-            <div class="roadmap-item">
-                <div class="roadmap-date">
-                    <i class="fas fa-calendar-alt"></i> Q4 2026
-                </div>
-                <h3>🌍 Expansion</h3>
-                <p>Mobile app launch, NFT marketplace integration, and metaverse city development. Community governance and DAO implementation.</p>
-            </div>
-        </div>
-
-        <div id="infoPage" class="page">
-            <h2 class="info-header"><i class="fas fa-info-circle"></i> Important Disclaimers</h2>
-            
-            <ol class="info-list">
-                <li><strong>No Real-World Value</strong><br>The in-game currency and items are entirely virtual and have no real-world monetary value. All in-game items, rewards, and achievements are provided solely for entertainment purposes.</li>
-                <li><strong>No Guarantee of Earnings</strong><br>This game is intended purely for entertainment and simulation purposes. Any references to “earnings,” “income,” or similar terms are entirely fictional. There is no guarantee of financial gain or payment of any kind. Any rewards implied to be derived from company revenues are strictly for in-game enjoyment and progression only.</li>
-                <li><strong>Skill-Based Progression</strong><br>Progression and achievements within the game are based on player skill and in-game activities. Advancing levels or achieving success in the game does not provide any real-world monetary reward or benefit.</li>
-                <li><strong>Not Legal or Financial Advice</strong><br>This game and its content do not constitute legal, financial, or investment advice. All terms used within the game are fictional and should not be interpreted as financial guidance or encouragement to earn money in the real world.</li>
-                <li><strong>Age Restriction</strong><br>This game is intended for users aged 18 and over. By playing the game, you confirm that you meet the minimum age requirement and agree to the game’s terms and conditions.</li>
-                <li><strong>Non-Transferability of Accounts and Assets</strong><br>User accounts, in-game currencies, and items are non-transferable and may not be sold, traded, or exchanged. The sale, transfer, or exchange of accounts or in-game items for real-world value is strictly prohibited and may result in account suspension or termination.</li>
-                <li><strong>Risk of Game Changes</strong><br>This game may be updated or modified at the discretion of the developers. Gameplay, rules, and in-game assets may be changed without prior notice, and such changes may affect your in-game progress or assets.</li>
-            </ol>
-
-            <button class="back-btn" onclick="goBack()">Back</button>
-        </div>
-    </div>
-
-    <div class="navigation">
-        <button onclick="showPage('homePage', this)" class="nav-item active">
-            <span class="nav-icon"><i class="fas fa-home"></i></span>
-            <span>Home</span>
-        </button>
-        <button onclick="showPage('cityPage', this)" class="nav-item">
-            <span class="nav-icon"><i class="fas fa-city"></i></span>
-            <span>City</span>
-        </button>
-        <button onclick="showPage('tasksPage', this)" class="nav-item">
-            <span class="nav-icon"><i class="fas fa-tasks"></i></span>
-            <span>Missions</span>
-        </button>
-        <button onclick="showPage('codePage', this)" class="nav-item">
-            <span class="nav-icon"><i class="fas fa-key"></i></span>
-            <span>Code</span>
-        </button>
-        <button onclick="showPage('listingPage', this)" class="nav-item">
-            <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
-            <span>Roadmap</span>
-        </button>
     </div>
 
     <script>
@@ -1614,797 +457,175 @@
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('selectstart', event => event.preventDefault());
         document.addEventListener('dragstart', event => event.preventDefault());
-        
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 'c' || e.key === 'C')) {
                 e.preventDefault();
             }
         });
 
-        // --- ADVANCED DATA STORAGE ---
+        // --- DATA STORAGE FUNCTIONS ---
         function safeGet(k, d = 0) { 
             try { 
                 const item = localStorage.getItem(k);
                 return item ? JSON.parse(item) : d; 
-            } catch(e) { 
-                console.warn(`Failed to get ${k} from storage`);
-                return d; 
-            } 
+            } catch(e) { return d; } 
         }
 
         function safeSet(k, v) { 
             try { 
                 localStorage.setItem(k, JSON.stringify(v)); 
                 return true;
-            } catch(e) { 
-                console.warn(`Failed to set ${k} in storage`);
-                return false;
-            } 
-        }
-
-        // --- ADVANCED DAILY RESET SYSTEM AT 21:00 UTC ---
-        function getDayKey() {
-            const now = Date.now() / 1000; // seconds
-            const offset = 21 * 3600; // 21:00 in seconds
-            return Math.floor((now - offset) / 86400);
-        }
-
-        function resetDaily() {
-            const currentKey = getDayKey();
-            const lastKey = safeGet('lastDayKey', -1);
-            if (currentKey > lastKey) {
-                adCount = 0;
-                safeSet('adCount', 0);
-                safeSet('lastDayKey', currentKey);
-                updateUI();
-            }
-            setTimeout(resetDaily, 60000); // Check every minute
+            } catch(e) { return false; } 
         }
 
         // --- GLOBAL GAME STATE ---
-        let coins = parseFloat(safeGet('coins', 0)) || 0;
-        let adCount = parseInt(safeGet('adCount', 0)) || 0;
-        let totalAdsWatched = parseInt(safeGet('totalAdsWatched', 0)) || 0;
+        let rawCoins = parseFloat(safeGet('coins', 0)) || 0;
         let upgradeLevel = Math.max(1, parseInt(safeGet('upgradeLevel', 1)) || 1);
-        let channelJoined = safeGet('channelJoined', false);
-        let isInitialized = false;
-        let dailyClaimed = safeGet('dailyClaimed', false);
+        let season1Converted = safeGet('season1Converted', false);
+        let savedTonWallet = safeGet('tonWallet', '');
 
-        let milestones = {
-            5: safeGet('level5Claimed', false),
-            10: safeGet('level10Claimed', false),
-            25: safeGet('level25Claimed', false),
-            50: safeGet('level50Claimed', false),
-            100: safeGet('level100Claimed', false)
-        };
-
-        let adsMilestones = {
-            100: safeGet('ads100Claimed', false),
-            500: safeGet('ads500Claimed', false),
-            1000: safeGet('ads1000Claimed', false)
-        };
-
-        const BASE_REWARD = 100;
-        const CHANNEL_REWARD = 5000;
-        const DAILY_REWARD = 5000;
-        const MAX_ADS = 100;
-        const MAX_LEVEL = 100;
-        const BOOST_PER_LEVEL = 0.05; 
-        const MAX_BOOST = 6.0; 
-
-        // --- LEVEL NAMING AND EMOJI SYSTEM ---
-        const levelCategories = [
-            { min: 1, max: 10, name: 'Village', emoji: '🏘️' },
-            { min: 11, max: 20, name: 'District', emoji: '🏙️' },
-            { min: 21, max: 30, name: 'Town', emoji: '🌆' },
-            { min: 31, max: 40, name: 'Metro', emoji: '🌇' },
-            { min: 41, max: 50, name: 'City', emoji: '🏢' },
-            { min: 51, max: 60, name: 'Capital', emoji: '🏛️' },
-            { min: 61, max: 70, name: 'Megacity', emoji: '🏗️' },
-            { min: 71, max: 80, name: 'Empire', emoji: '🏰' },
-            { min: 81, max: 90, name: 'Titan City', emoji: '🏯' },
-            { min: 91, max: 100, name: 'Global Hub', emoji: '🏦' }
-        ];
-
-        function getLevelCategory(level) {
-            return levelCategories.find(cat => level >= cat.min && level <= cat.max) || levelCategories[0];
+        // --- AIRDROP CONVERSION LOGIC (Silinecek 2 sıfır) ---
+        if (!season1Converted) {
+            // Balansın son 2 rəqəmini silmək üçün 100-ə bölürük və tam hissəni götürürük
+            rawCoins = Math.floor(rawCoins / 100);
+            safeSet('coins', rawCoins);
+            safeSet('season1Converted', true);
         }
 
-        // --- ADVANCED CALCULATION FUNCTIONS ---
-        function getBoost() { 
-            return Math.min(1 + (upgradeLevel * BOOST_PER_LEVEL), MAX_BOOST); 
-        }
-
-        function getNextCost() { 
-            return Math.floor(500 * Math.pow(1.05, upgradeLevel - 1)); 
-        }
+        let airdropCoins = rawCoins;
 
         function formatNumber(num) {
-            if (num >= 1e6) return (num / 1e6).toFixed(1) + 'M';
-            if (num >= 1e3) return (num / 1e3).toFixed(1) + 'K';
             return num.toLocaleString();
         }
 
-        // --- PREMIUM THEME SYSTEM ---
-        function toggleTheme() {
-            const isDark = document.body.classList.toggle('dark-theme');
-            const icon = document.getElementById('themeIcon');
-            icon.textContent = isDark ? '🔆' : '🌙';
-            safeSet('theme', isDark ? 'dark' : 'light');
-            
-            document.body.style.transition = 'all 0.6s ease';
-            setTimeout(() => {
-                document.body.style.transition = '';
-            }, 600);
-            
-            showNotification(isDark ? '🔆 Light Mode Activated' : '🌙 Dark Mode Activated');
-        }
-
-        // --- ENHANCED UI UPDATE SYSTEM ---
-        function updateUI() {
-            const currentBoost = getBoost();
-            const rewardPerAd = BASE_REWARD + upgradeLevel * 5;
-
-            // Update all balance displays uniformly
-            const balanceElements = ['balance', 'balanceCity', 'balanceTasks', 'balanceCode'];
-            balanceElements.forEach(id => {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.textContent = formatNumber(Math.floor(coins));
-                }
-            });
-
-            const adsCountEl = document.getElementById('adsCount');
-            const progressEl = document.getElementById('progress');
-            const rewardEl = document.getElementById('currentAdReward');
-            
-            if (adsCountEl) adsCountEl.textContent = adCount;
-            if (progressEl) {
-                const percentage = Math.min((adCount / MAX_ADS) * 100, 100);
-                progressEl.style.width = percentage + '%';
-                progressEl.setAttribute('data-label', Math.floor(percentage) + '%');
-            }
-            if (rewardEl) rewardEl.textContent = formatNumber(rewardPerAd);
-
-            const levelEl = document.getElementById('levelDisplay');
-            const boostEl = document.getElementById('boostDisplay');
-            const costEl = document.getElementById('upgradeCostDisplay');
-            const cityNameEl = document.getElementById('cityNameDisplay');
-            const cityEmojiEl = document.getElementById('cityEmojiDisplay');
-            const upgradeBtn = document.getElementById('upgradeBtn');
-            const upgradeInfo = document.querySelector('#cityPage .upgrade-info');
-            const upgradeStatusMessage = document.getElementById('upgradeStatusMessage');
-            
-            if (levelEl) levelEl.textContent = upgradeLevel;
-            if (boostEl) boostEl.textContent = currentBoost.toFixed(2) + 'x';
-            if (cityNameEl && cityEmojiEl) {
-                const category = getLevelCategory(upgradeLevel);
-                cityNameEl.textContent = category.name;
-                cityEmojiEl.textContent = category.emoji;
-            }
-
-            if (upgradeLevel >= MAX_LEVEL) {
-                if (upgradeBtn) {
-                    upgradeBtn.disabled = true;
-                    upgradeBtn.textContent = "Max Level";
-                }
-                if (upgradeInfo) {
-                    upgradeInfo.style.display = 'none';
-                }
-                if (upgradeStatusMessage) {
-                    upgradeStatusMessage.textContent = "You have reached the maximum level for your city.";
-                    upgradeStatusMessage.className = 'status-message success';
-                }
-            } else {
-                if (upgradeBtn) {
-                    upgradeBtn.disabled = false;
-                    upgradeBtn.textContent = "Build City";
-                }
-                if (upgradeInfo) {
-                    upgradeInfo.style.display = 'block';
-                    costEl.textContent = formatNumber(getNextCost()) + ' ORVEX';
-                }
-                if (upgradeStatusMessage) {
-                    upgradeStatusMessage.textContent = "";
-                    upgradeStatusMessage.className = "";
-                }
-            }
-
-            updateTaskButtons();
-
-            safeSet('coins', coins);
-            safeSet('adCount', adCount);
-            safeSet('totalAdsWatched', totalAdsWatched);
-            safeSet('upgradeLevel', upgradeLevel);
-            safeSet('channelJoined', channelJoined);
-            safeSet('dailyClaimed', dailyClaimed);
-            
-            Object.keys(milestones).forEach(lvl => {
-                safeSet(`level${lvl}Claimed`, milestones[lvl]);
-            });
-
-            Object.keys(adsMilestones).forEach(lvl => {
-                safeSet(`ads${lvl}Claimed`, adsMilestones[lvl]);
-            });
-
-            isInitialized = true;
-        }
-
-        function updateTaskButtons() {
-            const joinBtn = document.getElementById('joinChannelBtn');
-            if (joinBtn) {
-                if (channelJoined) {
-                    joinBtn.textContent = 'Claimed ✓';
-                    joinBtn.className = 'task-action-btn completed'; // Reset classes to ensure consistency
-                    joinBtn.disabled = true;
-                }
-            }
-
-            const claimDailyBtn = document.getElementById('claimDailyBtn');
-            if (claimDailyBtn) {
-                if (dailyClaimed) {
-                    claimDailyBtn.textContent = 'Claimed ✓';
-                    claimDailyBtn.className = 'daily-bonus-btn completed';
-                    claimDailyBtn.disabled = true;
-                } else {
-                    claimDailyBtn.textContent = 'Claim Now';
-                    claimDailyBtn.className = 'daily-bonus-btn';
-                    claimDailyBtn.disabled = false;
-                }
-            }
-
-            const milestoneRewards = {5: 2500, 10: 5000, 25: 10000, 50: 100000, 100: 1000000};
-            Object.keys(milestoneRewards).forEach(lvl => {
-                const btn = document.getElementById(`claimLevel${lvl}Btn`);
-                if (!btn) return;
-
-                if (milestones[lvl]) {
-                    btn.textContent = 'Claimed ✓';
-                    btn.className = 'task-action-btn completed'; // Ensure identical class string
-                    btn.disabled = true;
-                } else if (upgradeLevel >= parseInt(lvl)) {
-                    btn.textContent = 'Claim Now';
-                    btn.className = 'task-action-btn'; // Clean class for active state
-                    btn.disabled = false;
-                } else {
-                    btn.textContent = 'LOCKED';
-                    btn.className = 'task-action-btn disabled';
-                    btn.disabled = true;
-                }
-            });
-
-            const adsRewards = {100: 20000, 500: 100000, 1000: 250000};
-            Object.keys(adsRewards).forEach(lvl => {
-                const btn = document.getElementById(`claimAds${lvl}Btn`);
-                if (!btn) return;
-
-                if (adsMilestones[lvl]) {
-                    btn.textContent = 'Claimed ✓';
-                    btn.className = 'task-action-btn completed';
-                    btn.disabled = true;
-                } else if (totalAdsWatched >= parseInt(lvl)) {
-                    btn.textContent = 'Claim Now';
-                    btn.className = 'task-action-btn';
-                    btn.disabled = false;
-                } else {
-                    btn.textContent = 'LOCKED';
-                    btn.className = 'task-action-btn disabled';
-                    btn.disabled = true;
-                }
-            });
-        }
-
-        // --- NOTIFICATION SYSTEM (Used only for errors/alerts now) ---
-        function showNotification(msg, duration = 2000, type = 'info') { 
+        function showNotification(msg, duration = 2500, type = 'info') { 
             const notificationEl = document.getElementById('notification');
             const textEl = document.getElementById('notificationText');
-            
             if (!notificationEl || !textEl) return;
 
-            if (window.notificationTimeout) {
-                clearTimeout(window.notificationTimeout);
-                window.notificationTimeout = null;
-            }
-
             textEl.textContent = msg;
-            notificationEl.style.background = type === 'success' ? 'var(--notification-success)' : 'var(--notification-info)';
+            notificationEl.style.background = type === 'success' ? 'var(--notification-success)' : (type === 'error' ? 'rgba(239, 68, 68, 0.9)' : 'var(--notification-info)');
             
             notificationEl.classList.remove('notification-hide');
             notificationEl.classList.add('notification-show');
 
-            window.notificationTimeout = setTimeout(() => {
+            setTimeout(() => {
                 notificationEl.classList.remove('notification-show');
                 notificationEl.classList.add('notification-hide');
             }, duration);
         }
 
-        // --- ENHANCED REWARD SYSTEM (CENTER POPUP) ---
-        function showRewardPopup(amount) {
-            const popupEl = document.getElementById('rewardMsg');
-            if (!popupEl) return;
-
-            const formattedAmount = formatNumber(amount);
-            popupEl.textContent = `+${formattedAmount} ORVEX`;
-
-            if (window.rewardTimeout) {
-                clearTimeout(window.rewardTimeout);
-            }
-
-            popupEl.classList.add('show');
+        // --- RENDER AIRDROP PAGE ---
+        function renderAirdropPage() {
+            const contentDiv = document.getElementById('airdropContent');
             
-            window.rewardTimeout = setTimeout(() => {
-                popupEl.classList.remove('show');
-            }, 2000); 
-
-            if (window.Notification && Notification.permission === 'granted') {
-                new Notification('ORVEX Reward', {
-                    body: `You earned ${formattedAmount} ORVEX!`,
-                    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%2300d4ff"/></svg>'
-                });
+            // Şərt: Level 50-ni keçməyənlər
+            if (upgradeLevel <= 50) {
+                contentDiv.innerHTML = `
+                    <div class="ineligible-card">
+                        <div class="ineligible-icon"><i class="fas fa-times-circle"></i></div>
+                        <h2>NOT ELIGIBLE</h2>
+                        <p>Season 1 has concluded. Unfortunately, you did not reach <b>City Level 50</b> to qualify for the Airdrop phase.</p>
+                        <p>Don't worry! Prepare yourself for <b>Season 2</b> coming soon.</p>
+                    </div>
+                `;
+                return;
             }
+
+            // Şərt: Level 50-ni keçənlər (Uğurlu)
+            const isWalletSaved = savedTonWallet.length > 5;
+            
+            let walletHTML = '';
+            if (isWalletSaved) {
+                walletHTML = `
+                    <div class="wallet-input-group">
+                        <label>Your TON Wallet Address</label>
+                        <input type="text" class="wallet-input" value="${savedTonWallet}" disabled>
+                    </div>
+                    <button class="btn-action btn-save" disabled><i class="fas fa-check-circle"></i> Wallet Saved</button>
+                    
+                    <button class="btn-action btn-telegram" onclick="window.open('https://t.me/orvex_support', '_blank')">
+                        <i class="fab fa-telegram-plane"></i> Send Screenshot to Support
+                    </button>
+                `;
+            } else {
+                walletHTML = `
+                    <div class="wallet-input-group">
+                        <label>Enter TON Network Wallet Address</label>
+                        <input type="text" id="tonWalletInput" class="wallet-input" placeholder="e.g. UQ... or EQ..." autocomplete="off">
+                        <p style="font-size: 11px; color: #ef4444; margin-top: 5px; text-align:left;">* Caution: Address cannot be changed once saved!</p>
+                    </div>
+                    <button id="saveWalletBtn" class="btn-action btn-save" onclick="saveWallet()">Save Wallet Address</button>
+                `;
+            }
+
+            contentDiv.innerHTML = `
+                <div class="airdrop-header">
+                    <h1>SEASON 1 ENDED</h1>
+                    <p>Congratulations! You have successfully completed Season 1. Your balance has been converted to your final Airdrop allocation.</p>
+                </div>
+
+                <div class="airdrop-card">
+                    <h3>Final Airdrop Balance</h3>
+                    <div class="airdrop-balance">
+                        <i class="fas fa-gem" style="color: #00d4ff; font-size: 30px;"></i> 
+                        ${formatNumber(airdropCoins)}
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 10px;">Converted & Verified</p>
+                    
+                    <div class="wallet-section" id="walletSectionContainer">
+                        ${walletHTML}
+                    </div>
+                </div>
+                
+                ${!isWalletSaved ? `
+                <div style="background: rgba(0,212,255,0.1); padding: 15px; border-radius: 15px; text-align: center; font-size: 13px; color: #fff; border: 1px solid rgba(0,212,255,0.2);">
+                    <i class="fas fa-info-circle" style="color: #00d4ff;"></i> To claim your airdrop, save your TON wallet address above, take a screenshot of this entire page, and send it to <b>@orvex_support</b>.
+                </div>
+                ` : ''}
+            `;
         }
 
-        // --- MONETAG SDK INTEGRATION ---
-        let isWatchingAd = false;
-        
-        function showMonetagAd() {
-            return new Promise((resolve) => {
-                if (typeof show_10476542 === 'function') {
-                    show_10476542().then(() => {
-                        resolve(true); 
-                    }).catch(e => {
-                        console.error('Ad Error (Silent):', e);
-                        resolve(false); 
-                    });
-                } else {
-                    console.warn("SDK not loaded");
-                    resolve(false); 
-                }
-            });
-        }
+        // --- WALLET SAVE LOGIC ---
+        window.saveWallet = function() {
+            const inputEl = document.getElementById('tonWalletInput');
+            const walletVal = inputEl.value.trim();
 
-        // --- PREMIUM AD WATCHING SYSTEM ---
-        document.addEventListener('DOMContentLoaded', function() {
-            const adBtn = document.getElementById('adBtn');
-            if (adBtn) {
-                adBtn.onclick = async function() {
-                    const btn = this;
-                    const btnText = document.getElementById('adBtnText');
-                    
-                    if (adCount >= MAX_ADS) {
-                        showNotification("🎯 Daily limit reached! Check back tomorrow.", 2000);
-                        btnText.textContent = 'Daily Limit';
-                        return;
-                    }
-                    
-                    if (isWatchingAd) return;
-
-                    try {
-                        isWatchingAd = true;
-                        
-                        btnText.textContent = 'Watching...';
-                        btn.disabled = true; 
-
-                        const adCompleted = await showMonetagAd();
-                        
-                        if (adCompleted) {
-                            const reward = BASE_REWARD + upgradeLevel * 5;
-                            coins += reward;
-                            adCount = Math.min(adCount + 1, MAX_ADS);
-                            totalAdsWatched++;
-                            safeSet('totalAdsWatched', totalAdsWatched);
-                            
-                            updateUI();
-                            
-                            showRewardPopup(reward);
-                            
-                            if (adCount >= MAX_ADS) {
-                                setTimeout(() => {
-                                    showNotification("🏆 Daily goal achieved!", 3000, 'success');
-                                    setTimeout(() => {
-                                        showNotification("⭐ Daily ad limit reset at 21:00 UTC!", 3000);
-                                    }, 3500);
-                                    btnText.textContent = 'Goal Achieved! 🎉';
-                                }, 1000);
-                            }
-                            
-                            checkMilestoneUnlocks();
-                            checkAdsMilestones();
-                            
-                        }
-                        
-                    } catch (error) {
-                        console.error('Ad session error:', error);
-                    } finally {
-                        isWatchingAd = false;
-                        if (adCount < MAX_ADS) {
-                            btnText.textContent = 'Watch Ad';
-                            btn.disabled = false;
-                        }
-                    }
-                };
+            if (walletVal.length < 15) {
+                showNotification("❌ Please enter a valid TON Wallet address!", 3000, 'error');
+                return;
             }
-        });
 
-        // --- ADVANCED CITY UPGRADE SYSTEM ---
-        document.addEventListener('DOMContentLoaded', function() {
-            const upgradeBtn = document.getElementById('upgradeBtn');
-            if (upgradeBtn) {
-                upgradeBtn.onclick = function() {
-                    if (upgradeLevel >= MAX_LEVEL) return;
-
-                    const cost = getNextCost();
-                    const statusMsg = document.getElementById('upgradeStatusMessage');
-                    
-                    if (coins < cost) {
-                        if (statusMsg) {
-                            statusMsg.textContent = `Insufficient funds. Need ${formatNumber(cost)} ORVEX`;
-                            statusMsg.className = 'status-message error';
-                        }
-                        showNotification("💰 Not enough ORVEX!", 2000);
-                        return;
-                    }
-                    
-                    coins -= cost;
-                    upgradeLevel = Math.min(upgradeLevel + 1, MAX_LEVEL);
-                    
-                    const upgradeBox = document.getElementById('upgradeBox');
-                    if (upgradeBox) {
-                        upgradeBox.classList.add('upgraded');
-                        setTimeout(() => upgradeBox.classList.remove('upgraded'), 1000);
-                    }
-                    
-                    updateUI();
-                    
-                    if (statusMsg) {
-                        statusMsg.textContent = `City upgraded to Level ${upgradeLevel}!`;
-                        statusMsg.className = 'status-message success';
-                        setTimeout(() => {
-                            statusMsg.textContent = '';
-                            statusMsg.className = '';
-                        }, 2000);
-                    }
-                    
-                    showNotification(`🏙️ City upgraded to Level ${upgradeLevel}!`, 2000, 'success');
-                    
-                    checkMilestoneUnlocks();
-                };
+            const confirmSave = confirm("Are you sure this is your correct TON Wallet address?\n\nYou CANNOT change this later!");
+            if (confirmSave) {
+                safeSet('tonWallet', walletVal);
+                savedTonWallet = walletVal;
+                showNotification("✅ Wallet address saved successfully!", 3000, 'success');
+                renderAirdropPage(); // Re-render to lock the UI
             }
-        });
-
-        // --- GLOBAL COMMUNITY TASK ---
-        document.addEventListener('DOMContentLoaded', function() {
-            const joinBtn = document.getElementById('joinChannelBtn');
-            if (joinBtn) {
-                joinBtn.onclick = function() {
-                    if (channelJoined) return;
-                    
-                    const btn = this;
-                    btn.textContent = 'Verifying...';
-                    btn.disabled = true;
-                    
-                    window.open('https://t.me/orvexapp', '_blank');
-                    
-                    setTimeout(() => {
-                        coins += CHANNEL_REWARD;
-                        channelJoined = true;
-                        
-                        updateUI(); // This calls updateTaskButtons which handles the class change
-                        
-                        showRewardPopup(CHANNEL_REWARD);
-                        
-                    }, 5000); 
-                };
-            }
-        });
-
-        // --- DAILY BONUS SYSTEM ---
-        document.addEventListener('DOMContentLoaded', function() {
-            const claimDailyBtn = document.getElementById('claimDailyBtn');
-            if (claimDailyBtn) {
-                claimDailyBtn.onclick = function() {
-                    if (dailyClaimed) return;
-
-                    const currentKey = getDayKey();
-                    const lastDailyKey = safeGet('lastDailyClaimKey', -1);
-
-                    if (currentKey === lastDailyKey) {
-                        showNotification("❌ Already claimed today!", 2000);
-                        return;
-                    }
-
-                    coins += DAILY_REWARD;
-                    dailyClaimed = true;
-                    safeSet('dailyClaimed', true);
-                    safeSet('lastDailyClaimKey', currentKey);
-
-                    updateUI();
-                    showRewardPopup(DAILY_REWARD);
-                    showNotification("🎁 Daily bonus claimed!", 2000, 'success');
-                };
-            }
-        });
-
-        function resetDailyBonus() {
-            const currentKey = getDayKey();
-            const lastDailyKey = safeGet('lastDailyClaimKey', -1);
-            if (currentKey > lastDailyKey) {
-                dailyClaimed = false;
-                safeSet('dailyClaimed', false);
-                updateUI();
-            }
-            setTimeout(resetDailyBonus, 60000); // Check every minute
-        }
-
-        // --- ADVANCED MILESTONE SYSTEM ---
-        const milestoneRewards = {5: 2500, 10: 5000, 25: 10000, 50: 100000, 100: 1000000};
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            Object.keys(milestoneRewards).forEach(lvl => {
-                const btn = document.getElementById(`claimLevel${lvl}Btn`);
-                if (btn) {
-                    btn.onclick = function() {
-                        const level = parseInt(lvl);
-                        if (milestones[lvl] || upgradeLevel < level) {
-                            showNotification("❌ Milestone not yet available.", 2000);
-                            return;
-                        }
-                        
-                        const reward = milestoneRewards[lvl];
-                        coins += reward;
-                        milestones[lvl] = true;
-                        
-                        updateUI(); // This handles the visual update
-                        
-                        showRewardPopup(reward);
-                    };
-                }
-            });
-
-            const adsRewards = {100: 20000, 500: 100000, 1000: 250000};
-            Object.keys(adsRewards).forEach(lvl => {
-                const btn = document.getElementById(`claimAds${lvl}Btn`);
-                if (btn) {
-                    btn.onclick = function() {
-                        const level = parseInt(lvl);
-                        if (adsMilestones[lvl] || totalAdsWatched < level) {
-                            showNotification("❌ Milestone not yet available.", 2000);
-                            return;
-                        }
-                        
-                        const reward = adsRewards[lvl];
-                        coins += reward;
-                        adsMilestones[lvl] = true;
-                        
-                        updateUI();
-                        
-                        showRewardPopup(reward);
-                    };
-                }
-            });
-        });
-
-        function checkMilestoneUnlocks() {
-            Object.keys(milestoneRewards).forEach(lvl => {
-                if (upgradeLevel >= parseInt(lvl) && !milestones[lvl]) {
-                    showNotification(`🏆 One Task Completed: Level ${lvl}!`, 2000);
-                }
-            });
-        }
-
-        function checkAdsMilestones() {
-            const adsRewards = {100: 20000, 500: 100000, 1000: 250000};
-            Object.keys(adsRewards).forEach(lvl => {
-                if (totalAdsWatched >= parseInt(lvl) && !adsMilestones[lvl]) {
-                    showNotification(`🏆 One Task Completed: Watch ${lvl} Ads!`, 2000);
-                }
-            });
-        }
-
-        // --- PROMO CODE SYSTEM ---
-        const promoDatabase = {
-            "K9X1V7L0": 50000, "M4N8P2W6": 50000, "R0Q5Z1B9": 50000, "D7F2G8H4": 50000, "S3A9D1F5": 50000,
-            "J0K6L2M8": 50000, "T1Y7U3I9": 50000, "O4P0L6K2": 50000, "V9B5N1M7": 50000, "G2H8J4K0": 50000,
-            "X1Z7Q3W9": 50000, "L5K1M7N3": 50000, "A8S4D0F6": 50000, "P3O9I5U1": 50000, "E7R1T5Y9": 50000,
-            "B2N6M0V4": 50000, "W8Q2E4R0": 50000, "U1I7O3P9": 50000, "F6G0H4J8": 50000, "S2D8F4G0": 50000,
-            "H7N2K8V4": 30000, "L1M9P5B0": 30000, "X4Z0R6W2": 30000, "S9D3F7G1": 30000, "J5K1L9M3": 30000,
-            "T8Y2U6I0": 30000, "O4P0L7K1": 30000, "V3C9X5B1": 30000, "N8M2Q4W0": 30000, "G6F0D4S8": 30000,
-            "A2S8D4F0": 30000, "K1L7M3N9": 30000, "P5O1I7U3": 30000, "R9E3W7Q1": 30000, "Z4X0V6C2": 30000,
-            "B8N2M4K0": 30000, "T7Y1U5I9": 30000, "O3P9L1K7": 30000, "G4H0J6K2": 30000, "S5D1F7G3": 30000,
-            "X2Z8Q4W0": 30000, "M9N3B7V1": 30000, "L6K0J4H8": 30000, "C1V7B3N9": 30000, "P2O8I4U0": 30000,
-            "A9S3D7F1": 30000, "K6L2M8N4": 30000, "H1G7F3D9": 30000, "T0Y6U2I8": 30000, "O5P1L7K3": 30000,
-            "V4C0X6B2": 30000, "N9M3Q7W1": 30000, "G2F8D4S0": 30000, "S3D9F5G1": 30000, "X0Z6Q2W8": 30000,
-            "M5N1B7V3": 30000, "L4K0J6H2": 30000, "C9V3B7N1": 30000, "P6O2I8U4": 30000, "A3S9D5F1": 30000,
-            "K8L4M0N6": 30000, "H3G9F5D1": 30000, "T2Y8U4I0": 30000, "O7P1L9K5": 30000, "V0C6X2B8": 30000,
-            "N5M1Q7W3": 30000, "G8F2D6S0": 30000, "S3D9F5G1": 30000, "X0Z6Q2W8": 30000, "M5N1B7V3": 30000,
-            "B7X2N9K1": 20000, "M4V8L5P0": 20000, "R1Q6J3T8": 20000, "C9Z4W7S2": 20000, "G5H0F2D6": 20000,
-            "K3L8Y1X9": 20000, "N7M2B4V0": 20000, "P6O1I9U3": 20000, "T5R0E4W8": 20000, "Y2U7I1O9": 20000,
-            "A4S8D3F6": 20000, "G1H5J9K0": 20000, "L3K7M2N8": 20000, "B0V4C9X5": 20000, "X1Z6Q2W8": 20000,
-            "D7F3G9H4": 20000, "J2K5L0P8": 20000, "S1A4D7F9": 20000, "W3E6R9T1": 20000, "Y0U4I8O2": 20000,
-            "N5M1B7V3": 20000, "P9O4I0U6": 20000, "G2H8J4K1": 20000, "L7K1M3N9": 20000, "B4V0C6X2": 20000,
-            "Q8W2E5R0": 20000, "T3Y7U1I9": 20000, "O4P0L6K2": 20000, "M5N1B9V3": 20000, "Z8X2C4V0": 20000,
-            "A1S7D3F9": 20000, "G4H0J6K2": 20000, "L9K3M7N1": 20000, "B2V8C4X0": 20000, "Q5W1E7R3": 20000,
-            "T0Y6U2I8": 20000, "O3P9L5K1": 20000, "M8N4B0V6": 20000, "Z1X7C3V9": 20000, "A6S2D8F4": 20000,
-            "G9H3J7K1": 20000, "L2K8M4N0": 20000, "B5V1C7X3": 20000, "Q0W6E2R8": 20000, "T9Y3U7I1": 20000,
-            "O2P8L4K0": 20000, "M1N7B3V9": 20000, "Z6X0C2V8": 20000, "A3S9D5F1": 20000, "G0H6J2K8": 20000,
-            "L5K1M9N3": 20000, "B8V4C0X6": 20000, "Q3W9E5R1": 20000, "T2Y8U4I0": 20000, "O7P1L9K5": 20000,
-            "M0N6B2V8": 20000, "Z5X1C7V3": 20000, "A8S4D0F6": 20000, "G3H9J5K1": 20000, "L0K6M2N8": 20000,
-            "B7V3C9X5": 20000, "Q2W8E4R0": 20000, "T1Y7U3I9": 20000, "O6P2L0K4": 20000, "M9N5B1V7": 20000,
-            "Z4X0C6V2": 20000, "A7S3D9F5": 20000, "G2H8J4K0": 20000, "L1K7M3N9": 20000, "B6V2C8X4": 20000,
-            "Q1W7E3R9": 20000, "T0Y6U2I8": 20000, "O5P1L7K3": 20000, "M4N0B6V2": 20000, "Z9X5C1V7": 20000,
-            "A2S8D4F0": 20000, "G7H1J5K9": 20000, "L6K2M8N4": 20000, "B1V7C3X9": 20000, "Q6W2E8R4": 20000,
-            "T5Y1U7I3": 20000, "O0P6L2K8": 20000, "M3N9B5V1": 20000, "Z8X4C0V6": 20000, "A1S7D3F9": 20000,
-            "G6H2J8K4": 20000, "L1K7M3N9": 20000, "B0V6C2X8": 20000, "Q5W1E7R3": 20000, "T4Y0U6I2": 20000,
-            "O9P5L1K7": 20000, "M2N8B4V0": 20000, "Z7X3C9V5": 20000, "A0S6D2F8": 20000, "G5H1J7K3": 20000,
-            "L4K0M6N2": 20000, "B9V5C1X7": 20000, "Q4W0E6R2": 20000, "T3Y9U5I1": 20000, "O8P4L0K6": 20000
         };
 
-        function checkPromo() {
-            const promoInput = document.getElementById("promoInput");
-            const input = promoInput.value.trim();
-            const status = document.getElementById("promoStatus");
-            
-            // 1. Get used codes from storage (empty array if none)
-            let myUsedCodes = JSON.parse(localStorage.getItem("myUsedCodes")) || [];
-
-            // 2. Check if code exists
-            if (!promoDatabase[input]) {
-                status.innerText = "Invalid code!";
-                status.style.color = "red";
-                setTimeout(() => {
-                    status.innerText = "";
-                    status.style.color = "";
-                }, 2000);
-                return;
-            }
-
-            // 3. Check if user already used this code
-            if (myUsedCodes.includes(input)) {
-                status.innerText = "You have already used this code!";
-                status.style.color = "orange";
-                setTimeout(() => {
-                    status.innerText = "";
-                    status.style.color = "";
-                }, 2000);
-                return;
-            }
-
-            // 4. Successful redemption
-            let reward = promoDatabase[input];
-            coins += reward; // Add to main balance
-            myUsedCodes.push(input); // Add to used list
-            
-            // 5. Update storage
-            localStorage.setItem("myUsedCodes", JSON.stringify(myUsedCodes));
-            updateUI(); // Refresh balance display
-
-            status.innerText = `Congratulations! +${reward.toLocaleString()} ORVEX earned!`;
-            status.style.color = "green";
-            promoInput.value = ""; // Clear input field after success
-            showRewardPopup(reward);
-            showNotification("🎉 Promo code redeemed!", 2000, 'success');
-            setTimeout(() => {
-                status.innerText = "";
-                status.style.color = "";
-            }, 2000);
-        }
-
-        // --- PREMIUM NAVIGATION SYSTEM ---
-        let previousPage = 'homePage';
-        function showPage(pageId, btnElement) {
-            const notification = document.getElementById('notification');
-            if (notification && notification.classList.contains('notification-show')) {
-                notification.classList.remove('notification-show');
-                notification.classList.add('notification-hide');
-            }
-            
-            const currentActivePage = document.querySelector('.page.active');
-            if (currentActivePage && currentActivePage.id === pageId) {
-                return;
-            }
-            
-            if (currentActivePage) {
-                previousPage = currentActivePage.id;
-            }
-
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            document.querySelectorAll('.nav-item').forEach(nav => {
-                nav.classList.remove('active');
-            });
-            
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
-            
-            if (btnElement) {
-                btnElement.classList.add('active');
-            }
-            
-            if (pageId === 'homePage') {
-                updateUI();
-            } else if (pageId === 'tasksPage') {
-                updateTaskButtons();
-            }
-        }
-
-        function showInfoPage() {
-            showPage('infoPage', null);
-        }
-
-        function goBack() {
-            const navItem = document.querySelector(`.nav-item[onclick*="\'${previousPage}\'"]`);
-            showPage(previousPage, navItem);
-        }
-
-        // --- INITIALIZATION & LIFE CYCLE ---
-        function initializeApp() {
-            resetDaily();
-            resetDailyBonus();
-            updateUI();
-            console.log('🌟 ORVEX Global App Initialized Successfully');
-        }
-
+        // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', function() {
-            // Preload data and UI immediately after DOM loads
-            const savedTheme = safeGet('theme', 'light');
-            if (savedTheme === 'dark') {
-                toggleTheme();
-            }
-            resetDaily();
-            resetDailyBonus();
-            updateUI(); // Update UI early so values are set before splash hides
-
-            const promoInput = document.getElementById('promoInput');
-            if (promoInput) {
-                promoInput.addEventListener('focus', () => {
-                    setTimeout(() => window.scrollTo(0, 0), 100);
-                });
-            }
+            // Render the Airdrop Screen
+            renderAirdropPage();
         });
 
-        // Improved splash screen handling
+        // Splash screen handling
         setTimeout(() => {
             const splashScreen = document.getElementById('splashScreen');
             if (splashScreen) {
-                splashScreen.classList.add('fade-out');
+                splashScreen.style.opacity = '0';
+                splashScreen.style.transform = 'scale(1.05)';
                 setTimeout(() => {
                     splashScreen.style.display = 'none';
-                    showNotification("⭐ Daily ad limit reset at 21:00 UTC!", 2000);
+                    if (upgradeLevel > 50 && !savedTonWallet) {
+                        showNotification("🎉 Congratulations! Please submit your wallet.", 3000, 'success');
+                    }
                 }, 800);
             }
-        }, 4000);
+        }, 3500);
 
-        setInterval(() => {
-            if (isInitialized) {
-                safeSet('coins', coins);
-                safeSet('adCount', adCount);
-                safeSet('upgradeLevel', upgradeLevel);
-            }
-        }, 30000);
-
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden && isInitialized) {
-                resetDaily();
-                resetDailyBonus();
-                updateUI();
-            }
-        });
-
-        window.addEventListener('error', function(e) {
-            console.error('Global error:', e.error);
-        });
-
-        window.addEventListener('beforeunload', function(e) {
-            safeSet('coins', coins);
-            safeSet('adCount', adCount);
-            safeSet('upgradeLevel', upgradeLevel);
-        });
-
-        console.log('🌟 ORVEX Global - Premium Edition Loaded');
     </script>
 </body>
 </html>
